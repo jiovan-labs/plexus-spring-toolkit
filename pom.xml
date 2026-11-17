@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- * Copyright (c) 2016 Unikue Ltd. All rights reserved.
+ * Copyright (c) 2016 Jiovan Ltd. All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,18 +20,18 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>cn.unikue.commonplexus</groupId>
-    <artifactId>plexus-spring-util</artifactId>
-    <version>3.5.15</version>
+    <groupId>com.jiovan.plexus</groupId>
+    <artifactId>plexus-spring-toolkit</artifactId>
+    <version>4.1.0</version>
 
     <name>${project.artifactId}</name>
-    <description>Unikue Plexus Spring Util provides many easy-to-use utilities for Spring</description>
-    <url>https://github.com/unikueltd/plexus-spring-util</url>
+    <description>Jiovan Plexus Spring Toolkit provides many easy-to-use utilities</description>
+    <url>https://github.com/jiovan-labs/plexus-spring-toolkit</url>
     <inceptionYear>2016</inceptionYear>
 
     <organization>
-        <name>Unikue Ltd</name>
-        <url>https://unikue.cn</url>
+        <name>Jiovan Ltd</name>
+        <url>https://jiovan.com</url>
     </organization>
 
     <properties>
@@ -47,29 +47,28 @@
         <project.build.resourceEncoding>${file.encoding}</project.build.resourceEncoding>
         <project.reporting.outputEncoding>${file.encoding}</project.reporting.outputEncoding>
 
-        <spring-boot.version>3.5.15</spring-boot.version>
+        <spring-boot.version>4.1.0</spring-boot.version>
 
         <commons-beanutils2.version>2.0.0-M2</commons-beanutils2.version>
         <commons-fileupload2.version>2.0.0-M1</commons-fileupload2.version>
-        <javapoet.version>0.16.0</javapoet.version>
-        <java-jwt.version>4.5.1</java-jwt.version>
-        <joda-time.version>2.14.2</joda-time.version>
-        <minio.version>9.0.3</minio.version>
-        <mybatis.version>3.5.19</mybatis.version>
+        <javapoet.version>0.20.0</javapoet.version>
+        <java-jwt.version>4.6.1</java-jwt.version>
+        <joda-time.version>2.14.4</joda-time.version>
+        <minio.version>9.0.4</minio.version>
+        <mybatis.version>3.6.0</mybatis.version>
         <pagehelper.version>6.1.1</pagehelper.version>
-        <plexus-javase-util.version>2.3.2</plexus-javase-util.version>
+        <plexus-common-tolkit.version>4.0.0</plexus-common-tolkit.version>
 
-        <javadoc-docent-maven-plugin.version>2.1.2</javadoc-docent-maven-plugin.version>
-        <maven-compiler-plugin.version>3.14.1</maven-compiler-plugin.version>
+        <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
-        <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
-        <maven-javadoc-plugin.version>3.11.3</maven-javadoc-plugin.version>
-        <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
-        <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+        <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
+        <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
+        <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+        <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
-        <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
-        <versions-maven-plugin.version>2.21.0</versions-maven-plugin.version>
+        <central-publishing-maven-plugin.version>0.12.0</central-publishing-maven-plugin.version>
+        <versions-maven-plugin.version>2.25.1</versions-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -153,17 +152,17 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.core</groupId>
+            <groupId>tools.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <groupId>tools.jackson.datatype</groupId>
             <artifactId>jackson-datatype-joda</artifactId>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <groupId>tools.jackson.core</groupId>
                     <artifactId>jackson-databind</artifactId>
                 </exclusion>
                 <exclusion>
@@ -173,15 +172,9 @@
             </exclusions>
         </dependency>
         <dependency>
-            <groupId>com.fasterxml.jackson.datatype</groupId>
-            <artifactId>jackson-datatype-jsr310</artifactId>
+            <groupId>tools.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-xml</artifactId>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
-                    <artifactId>jackson-databind</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>jakarta.annotation</groupId>
@@ -212,6 +205,11 @@
         <dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.jspecify</groupId>
+            <artifactId>jspecify</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>com.palantir.javapoet</groupId>
@@ -292,9 +290,9 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>cn.unikue.commonplexus</groupId>
-            <artifactId>plexus-javase-util</artifactId>
-            <version>${plexus-javase-util.version}</version>
+            <groupId>com.jiovan.plexus</groupId>
+            <artifactId>plexus-common-tolkit</artifactId>
+            <version>${plexus-common-tolkit.version}</version>
             <exclusions>
                 <exclusion>
                     <groupId>jakarta.annotation</groupId>
@@ -325,6 +323,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-web-server</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-webflux</artifactId>
             <optional>true</optional>
         </dependency>
         <dependency>
@@ -372,7 +380,7 @@
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
+            <artifactId>spring-boot-starter-aspectj</artifactId>
             <optional>true</optional>
             <exclusions>
                 <exclusion>
@@ -584,7 +592,7 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-aop</artifactId>
+                    <artifactId>spring-boot-starter-aspectj</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -882,6 +890,7 @@
                     <compilerArgs>
                         <arg>-parameters</arg>
                         <arg>-Xlint:unchecked</arg>
+                        <arg>-proc:full</arg>
                     </compilerArgs>
                     <excludes>
                         <exclude>**/._*</exclude>
@@ -963,16 +972,6 @@
                         <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/latest</link>
                         -->
                     </links>
-                    <taglets>
-                        <taglet>
-                            <tagletClass>cn.unikue.mavenplugin.javadocdocent.taglet.ReferenceTaglet</tagletClass>
-                        </taglet>
-                    </taglets>
-                    <tagletArtifact>
-                        <groupId>cn.unikue.mavenplugin</groupId>
-                        <artifactId>javadoc-docent-maven-plugin</artifactId>
-                        <version>${javadoc-docent-maven-plugin.version}</version>
-                    </tagletArtifact>
                 </configuration>
                 <executions>
                     <execution>
@@ -1066,19 +1065,23 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>versions-maven-plugin</artifactId>
                 <version>${versions-maven-plugin.version}</version>
+                <configuration>
+                    <allowSnapshots>false</allowSnapshots>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
             </plugin>
         </plugins>
     </build>
 
     <scm>
-        <url>https://github.com/unikueltd/plexus-spring-util</url>
-        <connection>scm:git:https://github.com/unikueltd/plexus-spring-util.git</connection>
-        <developerConnection>scm:git:https://github.com/unikueltd/plexus-spring-util.git</developerConnection>
+        <url>https://github.com/jiovan-labs/plexus-spring-toolkit</url>
+        <connection>scm:git:https://github.com/jiovan-labs/plexus-spring-toolkit.git</connection>
+        <developerConnection>scm:git:https://github.com/jiovan-labs/plexus-spring-toolkit.git</developerConnection>
     </scm>
 
     <issueManagement>
         <system>Github</system>
-        <url>https://github.com/unikueltd/plexus-spring-util/issues</url>
+        <url>https://github.com/jiovan-labs/plexus-spring-toolkit/issues</url>
     </issueManagement>
 
     <licenses>
@@ -1091,7 +1094,7 @@
 
     <developers>
         <developer>
-            <name>Unikue Ltd</name>
+            <name>Jiovan Ltd</name>
         </developer>
         <developer>
             <id>davidhsing</id>
@@ -1103,8 +1106,8 @@
             <roles>
                 <role>developer</role>
             </roles>
-            <organization>Unikue Ltd</organization>
-            <organizationUrl>https://unikue.cn</organizationUrl>
+            <organization>Jiovan Ltd</organization>
+            <organizationUrl>https://jiovan.com</organizationUrl>
             <timezone>China/Beijing</timezone>
         </developer>
     </developers>

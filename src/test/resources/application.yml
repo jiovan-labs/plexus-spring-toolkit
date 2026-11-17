@@ -1,47 +1,47 @@
-# Plexus Spring Util
-# Copyright (c) 2016 Unikue Ltd. All rights reserved.
-# https://unikue.cn
+# Plexus Spring Toolkit
+# Copyright (c) 2016 Jiovan Ltd. All rights reserved.
+# https://jiovan.com
 
 
 spring:
     autoconfigure:
         exclude:
-            - org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration
-            - org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration
+            - org.springframework.boot.amqp.autoconfigure.RabbitAutoConfiguration
+            - org.springframework.boot.cache.autoconfigure.CacheAutoConfiguration
             - org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.jdbc.JdbcRepositoriesAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.jpa.JpaRepositoriesAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveDataAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.mongo.MongoReactiveRepositoriesAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.mongo.MongoRepositoriesAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.redis.RedisAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.redis.RedisReactiveAutoConfiguration
-            - org.springframework.boot.autoconfigure.data.redis.RedisRepositoriesAutoConfiguration
-            - org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
-            - org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
-            - org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
-            - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-            - org.springframework.boot.autoconfigure.jdbc.DataSourceTransactionManagerAutoConfiguration
-            - org.springframework.boot.autoconfigure.jdbc.JdbcTemplateAutoConfiguration
-            - org.springframework.boot.autoconfigure.jsonb.JsonbAutoConfiguration
-            - org.springframework.boot.autoconfigure.mail.MailSenderAutoConfiguration
-            - org.springframework.boot.autoconfigure.mail.MailSenderValidatorAutoConfiguration
-            - org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration
-            - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
-            - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-            - org.springframework.boot.autoconfigure.security.servlet.SecurityFilterAutoConfiguration
-            - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
+            - org.springframework.boot.data.jdbc.autoconfigure.DataJdbcRepositoriesAutoConfiguration
+            - org.springframework.boot.data.jpa.autoconfigure.DataJpaRepositoriesAutoConfiguration
+            - org.springframework.boot.data.mongodb.autoconfigure.DataMongoAutoConfiguration
+            - org.springframework.boot.data.mongodb.autoconfigure.DataMongoReactiveAutoConfiguration
+            - org.springframework.boot.data.mongodb.autoconfigure.DataMongoReactiveRepositoriesAutoConfiguration
+            - org.springframework.boot.data.mongodb.autoconfigure.DataMongoRepositoriesAutoConfiguration
+            - org.springframework.boot.data.redis.autoconfigure.DataRedisAutoConfiguration
+            - org.springframework.boot.data.redis.autoconfigure.DataRedisReactiveAutoConfiguration
+            - org.springframework.boot.data.redis.autoconfigure.DataRedisRepositoriesAutoConfiguration
+            - org.springframework.boot.gson.autoconfigure.GsonAutoConfiguration
+            - org.springframework.boot.http.converter.autoconfigure.HttpMessageConvertersAutoConfiguration
+            - org.springframework.boot.jackson.autoconfigure.JacksonAutoConfiguration
+            - org.springframework.boot.jdbc.autoconfigure.DataSourceAutoConfiguration
+            - org.springframework.boot.jdbc.autoconfigure.DataSourceTransactionManagerAutoConfiguration
+            - org.springframework.boot.jdbc.autoconfigure.JdbcTemplateAutoConfiguration
+            - org.springframework.boot.jsonb.autoconfigure.JsonbAutoConfiguration
+            - org.springframework.boot.mail.autoconfigure.MailSenderAutoConfiguration
+            - org.springframework.boot.mail.autoconfigure.MailSenderValidatorAutoConfiguration
+            - org.springframework.boot.mongodb.autoconfigure.MongoAutoConfiguration
+            - org.springframework.boot.hibernate.autoconfigure.HibernateJpaAutoConfiguration
+            - org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration
+            - org.springframework.boot.security.autoconfigure.web.servlet.SecurityFilterAutoConfiguration
+            - org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
             - org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
-            - org.springframework.boot.autoconfigure.thymeleaf.ThymeleafAutoConfiguration
-            - org.springframework.boot.autoconfigure.transaction.TransactionAutoConfiguration
-            - org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration
-            - org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration
-            - org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
-            - org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
-            - org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
-            - org.springframework.boot.autoconfigure.webservices.client.WebServiceTemplateAutoConfiguration
-            - org.springframework.boot.autoconfigure.webservices.WebServicesAutoConfiguration
+            - org.springframework.boot.thymeleaf.autoconfigure.ThymeleafAutoConfiguration
+            - org.springframework.boot.transaction.autoconfigure.TransactionAutoConfiguration
+            - org.springframework.boot.validation.autoconfigure.ValidationAutoConfiguration
+            - org.springframework.boot.webclient.autoconfigure.WebClientAutoConfiguration
+            - org.springframework.boot.servlet.autoconfigure.HttpEncodingAutoConfiguration
+            - org.springframework.boot.webmvc.autoconfigure.WebMvcAutoConfiguration
+            - org.springframework.boot.webmvc.autoconfigure.error.ErrorMvcAutoConfiguration
+            - org.springframework.boot.webservices.autoconfigure.client.WebServiceTemplateAutoConfiguration
+            - org.springframework.boot.webservices.autoconfigure.WebServicesAutoConfiguration
     cache:
         type: redis
     data:

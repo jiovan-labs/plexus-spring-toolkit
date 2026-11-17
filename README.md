@@ -1,6 +1,6 @@
-# Plexus Spring Util
+# Plexus Spring Toolkit
 
-Unikue plexus-spring-util is a packages of utility classes for Spring's hierarchy, or are considered to enhance its abilities.
+Jiovan plexus-spring-toolkit is a packages of utility classes for Spring's hierarchy, or are considered to enhance its abilities.
 
 ## Quickstart
 
@@ -8,8 +8,8 @@ Unikue plexus-spring-util is a packages of utility classes for Spring's hierarch
 
 ```xml
     <dependency>
-        <groupId>cn.unikue.commonplexus</groupId>
-        <artifactId>plexus-spring-util</artifactId>
+        <groupId>com.jiovan.plexus</groupId>
+        <artifactId>plexus-spring-toolkit</artifactId>
         <version>LATEST</version>
     </dependency>
 ```
@@ -44,7 +44,7 @@ Unikue plexus-spring-util is a packages of utility classes for Spring's hierarch
 
 ## Document
 
-- Github: https://github.com/unikueltd/plexus-spring-util
+- Github: https://github.com/jiovan-labs/plexus-spring-toolkit
 
 ## Requirement
 
@@ -58,12 +58,12 @@ See the `NOTICE.txt` file for required notices and attributions.
 
 ## Donation
 
-You like this package? Then [donate to us](https://unikue.cn/donation) to support the development.
+You like this package? Then [donate to us](https://jiovan.com/donation) to support the development.
 
 ## Copyright
 
-Beijing Unikue Network Technology Ltd.
+Beijing Jiovan Technology Ltd.
 
 ## Website
 
-- Unikue: https://unikue.cn
+- Jiovan: https://jiovan.com
