@@ -36,19 +36,41 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesLogoutSuccessEvent extends AbstractPropertiesAuthenticationEvent {
+    /**
+     * Create a PropertiesLogoutSuccessEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesLogoutSuccessEvent(@Nonnull LogoutSuccessEvent event) {
         super(event.getAuthentication());
     }
 
+    /**
+     * Create a PropertiesLogoutSuccessEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesLogoutSuccessEvent(@Nonnull LogoutSuccessEvent event, @Nullable Properties properties) {
         super(event.getAuthentication());
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesLogoutSuccessEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     */
     public PropertiesLogoutSuccessEvent(@Nonnull Authentication authentication) {
         super(authentication);
     }
 
+    /**
+     * Create a PropertiesLogoutSuccessEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesLogoutSuccessEvent(@Nonnull Authentication authentication, @Nullable Properties properties) {
         super(authentication);
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);

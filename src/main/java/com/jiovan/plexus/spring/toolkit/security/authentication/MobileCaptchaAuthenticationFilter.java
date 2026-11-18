@@ -66,38 +66,82 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationProcessingFilter implements BeanFactoryAware {
+    /**
+     * The default request parameter name for the captcha.
+     */
     public static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";    // $NON-NLS-1$
+    /**
+     * The default request parameter name for the mobile number.
+     */
     public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";    // $NON-NLS-1$
+    /**
+     * The default request parameter name for the dial code.
+     */
     public static final String SPRING_SECURITY_FORM_DIAL_KEY = "dial";    // $NON-NLS-1$
+    /**
+     * The request matcher for the login endpoint.
+     */
     private static final PathPatternRequestMatcher PATH_PATTERN_REQUEST_MATCHER = PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/login");    // $NON-NLS-1$
 
+    /**
+     * The request parameter name for the captcha.
+     */
     @Getter
     private String captchaParameter = SPRING_SECURITY_FORM_CAPTCHA_KEY;
 
+    /**
+     * The request parameter name for the mobile number.
+     */
     @Getter
     private String mobileParameter = SPRING_SECURITY_FORM_MOBILE_KEY;
 
+    /**
+     * The request parameter name for the dial code.
+     */
     @Getter
     private String dialParameter = SPRING_SECURITY_FORM_DIAL_KEY;
 
+    /**
+     * Whether only POST requests are accepted.
+     */
     @Getter
     private boolean postOnly = true;
 
+    /**
+     * Whether REST-compatible request bodies are supported.
+     */
     @Getter
     private boolean restCompatible = false;
 
+    /**
+     * Whether remember-me services are enabled.
+     */
     @Getter
     private boolean rememberMe = false;
 
+    /**
+     * Optional transition transforming the success authentication event.
+     */
     @Getter
     private Function<AbstractAuthenticationEvent, AbstractAuthenticationEvent> authenticationSuccessTransition;
 
+    /**
+     * The bean factory used for resolving beans.
+     */
     protected BeanFactory beanFactory;
 
+    /**
+     * Create a MobileCaptchaAuthenticationFilter.
+     */
     public MobileCaptchaAuthenticationFilter() {
         super(PATH_PATTERN_REQUEST_MATCHER);
     }
 
+    /**
+     * Create a MobileCaptchaAuthenticationFilter using the given authentication manager.
+     *
+     * @param manager The authentication manager
+     */
     public MobileCaptchaAuthenticationFilter(@Nonnull AuthenticationManager manager) {
         super(PATH_PATTERN_REQUEST_MATCHER, manager);
     }
@@ -140,6 +184,13 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
         return super.getAuthenticationManager().authenticate(token);
     }
 
+    /**
+     * Extract the mobile number from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The result of the operation
+     */
     @SuppressWarnings("DuplicatedCode")
     protected String obtainMobile(@Nonnull HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, mobileParameter);
@@ -152,6 +203,13 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
         return result;
     }
 
+    /**
+     * Extract the captcha from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The result of the operation
+     */
     @SuppressWarnings("DuplicatedCode")
     protected String obtainCaptcha(@Nonnull HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, captchaParameter);
@@ -164,6 +222,13 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
         return result;
     }
 
+    /**
+     * Extract the dial code from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The result of the operation
+     */
     protected String obtainDial(@Nonnull HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, dialParameter);
         if (StringUtils.isEmpty(result) && restCompatible) {
@@ -182,6 +247,12 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
     protected void preAuthentication(@Nonnull HttpServletRequest request, @Nonnull String captcha, @Nonnull String mobile, @Nullable String dial) throws AuthenticationException {
     }
 
+    /**
+     * Attach authentication details built from the request to the given token.
+     *
+     * @param request The current HTTP request
+     * @param token The given token
+     */
     protected void setDetails(@Nonnull HttpServletRequest request, @Nonnull MobileCaptchaAuthenticationToken token) {
         token.setDetails(super.authenticationDetailsSource.buildDetails(request));
     }

@@ -51,24 +51,64 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class AnnotationUtilsWraps {
+    /**
+     * Return whether all the given annotations are present on the element.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether all annotations are present
+     */
     @SafeVarargs
     public static boolean allPresent(@Nullable AnnotatedElement element, @Nullable Class<? extends Annotation>... annotations) {
         return allPresent(element, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return whether all the given annotations are present on the element.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether all annotations are present
+     */
     public static boolean allPresent(@Nullable AnnotatedElement element, @Nullable Collection<Class<? extends Annotation>> annotations) {
         return element != null && !CollectionUtils.isEmpty(annotations) && annotations.stream().allMatch(annotation -> annotation != null && AnnotatedElementUtils.hasAnnotation(element, annotation));
     }
 
+    /**
+     * Return whether any of the given annotations is present on the element.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether any annotation is present
+     */
     @SafeVarargs
     public static boolean anyPresent(@Nullable AnnotatedElement element, @Nullable Class<? extends Annotation>... annotations) {
         return anyPresent(element, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return whether any of the given annotations is present on the element.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether any annotation is present
+     */
     public static boolean anyPresent(@Nullable AnnotatedElement element, @Nullable Collection<Class<? extends Annotation>> annotations) {
         return element != null && !CollectionUtils.isEmpty(annotations) && annotations.stream().filter(Objects::nonNull).anyMatch(annotation -> AnnotatedElementUtils.hasAnnotation(element, annotation));
     }
 
+    /**
+     * Return whether all the given annotations are present on the method or its declaring class.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether all annotations are present on the method or its declaring class
+     */
     @SafeVarargs
     public static boolean allPresentAnywhere(@Nullable Method method, @Nullable Class<? extends Annotation>... annotations) {
         return allPresentAnywhere(method, ArrayUtilsWraps.asList(annotations));
@@ -86,6 +126,14 @@ public abstract class AnnotationUtilsWraps {
         return allPresentAnywhereEx(method, annotations).isSuccess();
     }
 
+    /**
+     * Return a detailed result of which annotations are present on the method or its declaring class.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return A struct carrying the matched annotations and success flag
+     */
     @Nonnull
     @SafeVarargs
     public static BooleanDataStruct<MultiValueMap<Class<? extends Annotation>, ElementType>> allPresentAnywhereEx(@Nullable Method method, @Nullable Class<? extends Annotation>... annotations) {
@@ -113,6 +161,14 @@ public abstract class AnnotationUtilsWraps {
         return result;
     }
 
+    /**
+     * Return whether any of the given annotations is present on the method or its declaring class.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return Whether any annotation is present on the method or its declaring class
+     */
     @SafeVarargs
     public static boolean anyPresentAnywhere(@Nullable Method method, @Nullable Class<? extends Annotation>... annotations) {
         return anyPresentAnywhere(method, ArrayUtilsWraps.asList(annotations));
@@ -130,6 +186,14 @@ public abstract class AnnotationUtilsWraps {
         return anyPresentAnywhereEx(method, annotations).isSuccess();
     }
 
+    /**
+     * Return a detailed result of which annotations are present on the method or its declaring class.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return A struct carrying the matched annotations and success flag
+     */
     @Nonnull
     @SafeVarargs
     public static BooleanDataStruct<MultiValueMap<Class<? extends Annotation>, ElementType>> anyPresentAnywhereEx(@Nullable Method method, @Nullable Class<? extends Annotation>... annotations) {
@@ -157,11 +221,28 @@ public abstract class AnnotationUtilsWraps {
         return result;
     }
 
+    /**
+     * Find the annotation on the class with the given name, including inherited and meta annotations.
+     *
+     * @param className The fully qualified class name, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The found annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A findAnnotation(@Nullable String className, @Nullable Class<A> annotation) {
         return findAnnotation(className, null, annotation);
     }
 
+    /**
+     * Find the annotation on the class with the given name, including inherited and meta annotations.
+     *
+     * @param className The fully qualified class name, may be {@code null}
+     * @param classLoader The class loader to use, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The found annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A findAnnotation(@Nullable String className, @Nullable ClassLoader classLoader, @Nullable Class<A> annotation) {
         if (StringUtils.isBlank(className) || annotation == null) {
@@ -171,6 +252,14 @@ public abstract class AnnotationUtilsWraps {
         return (clazz == null) ? null : AnnotationUtils.findAnnotation(clazz, annotation);
     }
 
+    /**
+     * Find the annotation on the method or its declaring class, including inherited and meta annotations.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The found annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A findAnnotationAnywhere(@Nullable Method method, @Nullable Class<A> annotation) {
         if (ObjectUtils.anyNull(method, annotation)) {
@@ -183,11 +272,28 @@ public abstract class AnnotationUtilsWraps {
         return result;
     }
 
+    /**
+     * Return the annotation declared on the class with the given name.
+     *
+     * @param className The fully qualified class name, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The declared annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A getAnnotation(@Nullable String className, @Nullable Class<A> annotation) {
         return getAnnotation(className, null, annotation);
     }
 
+    /**
+     * Return the annotation declared on the class with the given name.
+     *
+     * @param className The fully qualified class name, may be {@code null}
+     * @param classLoader The class loader to use, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The declared annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A getAnnotation(@Nullable String className, @Nullable ClassLoader classLoader, @Nullable Class<A> annotation) {
         if (StringUtils.isBlank(className) || annotation == null) {
@@ -197,6 +303,14 @@ public abstract class AnnotationUtilsWraps {
         return (clazz == null) ? null : AnnotationUtils.getAnnotation(clazz, annotation);
     }
 
+    /**
+     * Return the annotation declared on the method or its declaring class.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     *
+     * @return The declared annotation, or {@code null}
+     */
     @Nullable
     public static <A extends Annotation> A getAnnotationAnywhere(@Nullable Method method, @Nullable Class<A> annotation) {
         if (ObjectUtils.anyNull(method, annotation)) {
@@ -209,6 +323,14 @@ public abstract class AnnotationUtilsWraps {
         return result;
     }
 
+    /**
+     * Return a map of annotations present on the method or its declaring class keyed by element type.
+     *
+     * @param method The method to inspect, may be {@code null}
+     * @param annotations The annotation types to check, may be {@code null}
+     *
+     * @return The annotation-to-element-type map, or {@code null} when empty
+     */
     @Nullable
     @SafeVarargs
     public static MultiValueMap<Class<? extends Annotation>, ElementType> getAnnotationsAnywhereEx(@Nullable Method method, @Nullable Class<? extends Annotation>... annotations) {
@@ -240,6 +362,15 @@ public abstract class AnnotationUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the value of the named attribute of the annotation on the element.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     * @param attribute The annotation attribute name, may be {@code null}
+     *
+     * @return The attribute value, or {@code null}
+     */
     @Nullable
     public static Object getAnnotationAttribute(@Nullable AnnotatedElement element, @Nullable Class<? extends Annotation> annotation, @Nullable String attribute) {
         if (ObjectUtils.anyNull(element, annotation) || StringUtils.isBlank(attribute)) {
@@ -248,6 +379,16 @@ public abstract class AnnotationUtilsWraps {
         return AnnotationUtils.getValue(AnnotationUtils.getAnnotation(element, annotation), attribute);
     }
 
+    /**
+     * Return the named annotation attribute converted to the expected type.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     * @param attribute The annotation attribute name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted attribute value, or {@code null}
+     */
     @Nullable
     public static <T> T getAnnotationAttributeAs(@Nullable AnnotatedElement element, @Nullable Class<? extends Annotation> annotation, @Nullable String attribute, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(element, annotation, expectType) || StringUtils.isBlank(attribute)) {
@@ -256,6 +397,15 @@ public abstract class AnnotationUtilsWraps {
         return ObjectUtilsWraps.castAs(getAnnotationAttribute(element, annotation, attribute), expectType);
     }
 
+    /**
+     * Return the named annotation attribute as a string.
+     *
+     * @param element The annotated element, may be {@code null}
+     * @param annotation The annotation type to resolve, may be {@code null}
+     * @param attribute The annotation attribute name, may be {@code null}
+     *
+     * @return The attribute value as a string, or {@code null}
+     */
     public static String getAnnotationAttributeAsString(@Nullable AnnotatedElement element, @Nullable Class<? extends Annotation> annotation, @Nullable String attribute) {
         return getAnnotationAttributeAs(element, annotation, attribute, String.class);
     }

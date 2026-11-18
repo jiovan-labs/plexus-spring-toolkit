@@ -28,6 +28,11 @@ import com.jiovan.plexus.spring.toolkit.audit.MongoDataAuditProcessor;
  * @author David Hsing
  */
 public class MongoDataAuditRegistrar {
+    /**
+     * Create the MongoDB data audit processor bean.
+     *
+     * @return The audit processor bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public MongoDataAuditProcessor mongoDataAuditProcessor() {

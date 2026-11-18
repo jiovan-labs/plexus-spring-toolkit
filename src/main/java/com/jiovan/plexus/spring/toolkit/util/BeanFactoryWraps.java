@@ -67,34 +67,106 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class BeanFactoryWraps {
+    /**
+     * Return whether all the named beans match the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allBeansMatchType(@Nullable BeanFactory factory, @Nullable Class<?> expectType, @Nullable String... beanNames) {
         return allBeansMatchType(factory, expectType, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether all the named beans match the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allBeansMatchType(@Nullable BeanFactory factory, @Nullable Class<?> expectType, @Nullable Collection<String> beanNames) {
         return ObjectUtils.allNotNull(factory, expectType) && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().allMatch(IgnorableFailable.asPredicate(beanName -> StringUtils.isNotBlank(beanName) && factory.isTypeMatch(beanName, expectType)));
     }
 
+    /**
+     * Return whether all the named beans match the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allBeansMatchType(@Nullable BeanFactory factory, @Nullable ResolvableType expectType, @Nullable String... beanNames) {
         return allBeansMatchType(factory, expectType, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether all the named beans match the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allBeansMatchType(@Nullable BeanFactory factory, @Nullable ResolvableType expectType, @Nullable Collection<String> beanNames) {
         return ObjectUtils.allNotNull(factory, expectType) && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().allMatch(IgnorableFailable.asPredicate(beanName -> StringUtils.isNotBlank(beanName) && factory.isTypeMatch(beanName, expectType)));
     }
 
+    /**
+     * Return whether any of the named beans matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyBeansMatchType(@Nullable BeanFactory factory, @Nullable Class<?> expectType, @Nullable String... beanNames) {
         return anyBeansMatchType(factory, expectType, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether any of the named beans matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyBeansMatchType(@Nullable BeanFactory factory, @Nullable Class<?> expectType, @Nullable Collection<String> beanNames) {
         return ObjectUtils.allNotNull(factory, expectType) && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().filter(StringUtils::isNotBlank).anyMatch(IgnorableFailable.asPredicate(beanName -> factory.isTypeMatch(beanName, expectType)));
     }
 
+    /**
+     * Return whether any of the named beans matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyBeansMatchType(@Nullable BeanFactory factory, @Nullable ResolvableType expectType, @Nullable String... beanNames) {
         return anyBeansMatchType(factory, expectType, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether any of the named beans matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyBeansMatchType(@Nullable BeanFactory factory, @Nullable ResolvableType expectType, @Nullable Collection<String> beanNames) {
         return ObjectUtils.allNotNull(factory, expectType) && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().filter(StringUtils::isNotBlank).anyMatch(IgnorableFailable.asPredicate(beanName -> factory.isTypeMatch(beanName, expectType)));
     }
@@ -120,6 +192,16 @@ public abstract class BeanFactoryWraps {
         return alias.autowire(expectType, autowireMode, dependencyCheck);
     }
 
+    /**
+     * Autowire a bean of the expected type, returning {@code null} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param autowireMode The autowire mode, using constants from {@link AutowireCapableBeanFactory}
+     * @param dependencyCheck Whether to perform a dependency check
+     *
+     * @return The autowired bean, or {@code null}
+     */
     @Nullable
     public static Object autowireBeanTypeQuietly(@Nullable BeanFactory factory, @Nullable Class<?> expectType, int autowireMode, boolean dependencyCheck) {
         try {
@@ -129,6 +211,14 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Create a new bean instance of the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The newly created bean, or {@code null}
+     */
     @Nullable
     public static <T> T createBean(@Nullable BeanFactory factory, @Nullable Class<T> expectType) {
         if (!(factory instanceof AutowireCapableBeanFactory alias) || expectType == null) {
@@ -141,6 +231,13 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the factory as an autowire-capable bean factory when applicable.
+     *
+     * @param context The bean factory or invocation context, may be {@code null}
+     *
+     * @return The autowire-capable factory, or {@code null}
+     */
     @Nullable
     public static AutowireCapableBeanFactory castToAutowireBeanFactory(@Nullable ApplicationContext context) {
         try {
@@ -151,48 +248,137 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the factory as an autowire-capable bean factory when applicable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     *
+     * @return The autowire-capable factory, or {@code null}
+     */
     @Nullable
     public static AutowireCapableBeanFactory castToAutowireBeanFactory(@Nullable BeanFactory factory) {
         return (factory instanceof AutowireCapableBeanFactory alias) ? alias : null;
     }
 
+    /**
+     * Return the factory as a listable bean factory when applicable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     *
+     * @return The listable factory, or {@code null}
+     */
     @Nullable
     public static ListableBeanFactory castToListableBeanFactory(@Nullable BeanFactory factory) {
         return (factory instanceof ListableBeanFactory alias) ? alias : null;
     }
 
+    /**
+     * Return whether the factory contains all the named beans.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAllBeans(@Nullable BeanFactory factory, @Nullable String... beanNames) {
         return containsAllBeans(factory, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether the factory contains all the named beans.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAllBeans(@Nullable BeanFactory factory, @Nullable Collection<String> beanNames) {
         return factory != null && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().allMatch(beanName -> StringUtils.isNotBlank(beanName) && factory.containsBean(beanName));
     }
 
+    /**
+     * Return whether the factory contains any of the named beans.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAnyBeans(@Nullable BeanFactory factory, @Nullable String... beanNames) {
         return containsAnyBeans(factory, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return whether the factory contains any of the named beans.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAnyBeans(@Nullable BeanFactory factory, @Nullable Collection<String> beanNames) {
         return factory != null && !CollectionUtils.isEmpty(beanNames) && beanNames.stream().filter(StringUtils::isNotBlank).anyMatch(factory::containsBean);
     }
 
+    /**
+     * Return whether the factory contains a matching bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsBean(@Nullable BeanFactory factory, @Nullable String beanName) {
         return factory != null && StringUtils.isNotBlank(beanName) && factory.containsBean(beanName);
     }
 
+    /**
+     * Return whether the factory contains a matching bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <T> boolean containsBean(@Nullable BeanFactory factory, @Nullable Class<T> expectType) {
         return getBean(factory, expectType) != null;
     }
 
+    /**
+     * Return whether the factory contains a matching bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <T> boolean containsBean(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable Object... args) {
         return getBean(factory, expectType, args) != null;
     }
 
+    /**
+     * Return whether the factory contains a matching bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <T> boolean containsBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<T> expectType) {
         return getBean(factory, beanName, expectType) != null;
     }
 
+    /**
+     * Return whether the factory contains a matching bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Object... args) {
         return getBean(factory, beanName, args) != null;
     }
@@ -209,11 +395,27 @@ public abstract class BeanFactoryWraps {
         return StringUtils.isNotBlank(beanName) && (factory instanceof BeanDefinitionRegistry alias) && alias.containsBeanDefinition(beanName);
     }
 
+    /**
+     * Return the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean, or {@code null}
+     */
     @Nullable
     public static Object firstBeanOfName(@Nullable BeanFactory factory, @Nullable String... beanNames) {
         return firstBeanOfName(factory, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean, or {@code null}
+     */
     @Nullable
     public static Object firstBeanOfName(@Nullable BeanFactory factory, @Nullable Collection<String> beanNames) {
         if (factory == null || CollectionPlainWraps.isEmpty(beanNames)) {
@@ -228,11 +430,29 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean, or {@code null}
+     */
     @Nullable
     public static <T> T firstBeanOfName(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable String... beanNames) {
         return firstBeanOfName(factory, expectType, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean, or {@code null}
+     */
     @Nullable
     public static <T> T firstBeanOfName(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable Collection<String> beanNames) {
         if (factory == null || expectType == null || CollectionPlainWraps.isEmpty(beanNames)) {
@@ -247,11 +467,27 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the type of the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean type, or {@code null}
+     */
     @Nullable
     public static Class<?> firstBeanTypeOfName(@Nullable BeanFactory factory, @Nullable String... beanNames) {
         return firstBeanTypeOfName(factory, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return the type of the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean type, or {@code null}
+     */
     @Nullable
     public static Class<?> firstBeanTypeOfName(@Nullable BeanFactory factory, @Nullable Collection<String> beanNames) {
         if (factory == null || CollectionPlainWraps.isEmpty(beanNames)) {
@@ -266,11 +502,29 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the type of the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param allowFactoryBeanInit Whether a FactoryBean may be initialized to determine its type
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean type, or {@code null}
+     */
     @Nullable
     public static Class<?> firstBeanTypeOfName(@Nullable BeanFactory factory, boolean allowFactoryBeanInit, @Nullable String... beanNames) {
         return firstBeanTypeOfName(factory, allowFactoryBeanInit, ArrayUtilsWraps.asList(beanNames));
     }
 
+    /**
+     * Return the type of the first resolvable bean among the given names.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param allowFactoryBeanInit Whether a FactoryBean may be initialized to determine its type
+     * @param beanNames The bean names, may be {@code null}
+     *
+     * @return The first resolvable bean type, or {@code null}
+     */
     @Nullable
     public static Class<?> firstBeanTypeOfName(@Nullable BeanFactory factory, boolean allowFactoryBeanInit, @Nullable Collection<String> beanNames) {
         if (factory == null || CollectionPlainWraps.isEmpty(beanNames)) {
@@ -285,18 +539,43 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the first bean matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The first matching bean, or {@code null}
+     */
     @Nullable
     public static <T> T firstBeanOfType(@Nullable BeanFactory factory, @Nullable Class<T> expectType) {
         ObjectProvider<T> provider = getBeanProvider(factory, expectType);
         return (provider == null || !provider.iterator().hasNext()) ? null : provider.iterator().next();
     }
 
+    /**
+     * Return the first bean matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param typeGenerics The generic type arguments, may be {@code null}
+     *
+     * @return The first matching bean, or {@code null}
+     */
     @Nullable
     public static <T> T firstBeanOfType(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable Class<?>... typeGenerics) {
         ObjectProvider<T> provider = getBeanProvider(factory, expectType, typeGenerics);
         return (provider == null || !provider.iterator().hasNext()) ? null : provider.iterator().next();
     }
 
+    /**
+     * Return the first bean matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The first matching bean, or {@code null}
+     */
     @Nullable
     public static <T> T firstBeanOfType(@Nullable BeanFactory factory, @Nullable ResolvableType expectType) {
         ObjectProvider<T> provider = getBeanProvider(factory, expectType);
@@ -353,6 +632,15 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     public static <T> T getBean(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable Object... args) {
         if (ObjectUtils.anyNull(factory, expectType)) {
@@ -365,6 +653,14 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     public static Object getBean(@Nullable BeanFactory factory, @Nullable String beanName) {
         if (factory == null || StringUtils.isBlank(beanName)) {
@@ -377,6 +673,15 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     public static <T> T getBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(factory, expectType) || StringUtils.isBlank(beanName)) {
@@ -389,6 +694,16 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param typeGenerics The generic type arguments, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <T> T getBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<T> expectType, @Nullable Class<?>... typeGenerics) {
@@ -413,6 +728,15 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static Object getBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable ResolvableType expectType) {
@@ -434,6 +758,15 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return a bean from the factory, or {@code null} when not resolvable.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return The resolved bean, or {@code null}
+     */
     @Nullable
     public static Object getBean(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Object... args) {
         if (factory == null || StringUtils.isBlank(beanName)) {
@@ -446,6 +779,14 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return the aliases registered for the named bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return The registered aliases, or {@code null}
+     */
     @Nullable
     public static String[] getBeanAliases(@Nullable BeanFactory factory, @Nullable String beanName) {
         return (factory == null || StringUtils.isBlank(beanName)) ? null : factory.getAliases(beanName);
@@ -528,6 +869,14 @@ public abstract class BeanFactoryWraps {
         return null;
     }
 
+    /**
+     * Return bean names annotated with all the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static String[] getBeanNamesWithAllAnnotations(@Nullable BeanFactory factory, @Nullable Class<? extends Annotation>... annotations) {
@@ -535,12 +884,28 @@ public abstract class BeanFactoryWraps {
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return bean names annotated with all the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     public static String[] getBeanNamesWithAllAnnotations(@Nullable BeanFactory factory, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> result = getBeanNamesWithAllAnnotationsToSet(factory, annotations);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return a set of bean names annotated with all the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getBeanNamesWithAllAnnotationsToSet(@Nullable BeanFactory factory, @Nullable Class<? extends Annotation>... annotations) {
@@ -588,6 +953,14 @@ public abstract class BeanFactoryWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return bean names annotated with any of the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static String[] getBeanNamesWithAnyAnnotations(@Nullable BeanFactory factory, @Nullable Class<? extends Annotation>... annotations) {
@@ -595,12 +968,28 @@ public abstract class BeanFactoryWraps {
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return bean names annotated with any of the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     public static String[] getBeanNamesWithAnyAnnotations(@Nullable BeanFactory factory, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> result = getBeanNamesWithAnyAnnotationsToSet(factory, annotations);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return a set of bean names annotated with any of the given annotations.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The matching bean names, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getBeanNamesWithAnyAnnotationsToSet(@Nullable BeanFactory factory, @Nullable Class<? extends Annotation>... annotations) {
@@ -625,6 +1014,16 @@ public abstract class BeanFactoryWraps {
         return annotations.stream().filter(Objects::nonNull).map(annotation -> ArrayUtilsWraps.asSet(alias.getBeanNamesForAnnotation(annotation))).filter(item -> !CollectionUtils.isEmpty(item)).flatMap(Collection::stream).collect(Collectors.toSet());
     }
 
+    /**
+     * Return the bean definition with the given name.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return The bean definition, or {@code null}
+     *
+     * @throws NoSuchBeanDefinitionException If the operation fails
+     */
     public static BeanDefinition getBeanDefinition(@Nullable BeanFactory factory, @Nullable String beanName) throws NoSuchBeanDefinitionException {
         if (!(factory instanceof BeanDefinitionRegistry alias) || StringUtils.isBlank(beanName)) {
             return null;
@@ -632,6 +1031,14 @@ public abstract class BeanFactoryWraps {
         return alias.getBeanDefinition(beanName);
     }
 
+    /**
+     * Return the bean definition with the given name, or {@code null} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return The bean definition, or {@code null}
+     */
     @Nullable
     public static BeanDefinition getBeanDefinitionQuietly(@Nullable BeanFactory factory, @Nullable String beanName) {
         try {
@@ -668,11 +1075,28 @@ public abstract class BeanFactoryWraps {
         return ArrayUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return a lazy provider for beans matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The bean provider, or {@code null}
+     */
     @Nullable
     public static <T> ObjectProvider<T> getBeanProvider(@Nullable BeanFactory factory, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(factory, expectType) ? null : factory.getBeanProvider(expectType);
     }
 
+    /**
+     * Return a lazy provider for beans matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param typeGenerics The generic type arguments, may be {@code null}
+     *
+     * @return The bean provider, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <T> ObjectProvider<T> getBeanProvider(@Nullable BeanFactory factory, @Nullable Class<T> expectType, @Nullable Class<?>... typeGenerics) {
@@ -682,6 +1106,14 @@ public abstract class BeanFactoryWraps {
         return ArrayUtils.isEmpty(typeGenerics) ? factory.getBeanProvider(expectType) : factory.getBeanProvider(ResolvableType.forClassWithGenerics(expectType, typeGenerics));
     }
 
+    /**
+     * Return a lazy provider for beans matching the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The bean provider, or {@code null}
+     */
     @Nullable
     public static <T> ObjectProvider<T> getBeanProvider(@Nullable BeanFactory factory, @Nullable ResolvableType expectType) {
         return ObjectUtils.anyNull(factory, expectType) ? null : factory.getBeanProvider(expectType);
@@ -1033,14 +1465,38 @@ public abstract class BeanFactoryWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return whether the given name is a registered alias.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanAlias The alias to check, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isBeanAlias(@Nullable BeanFactory factory, @Nullable String beanAlias) {
         return StringUtils.isNotBlank(beanAlias) && (factory instanceof AliasRegistry alias) && alias.isAlias(beanAlias);
     }
 
+    /**
+     * Return whether the given bean name is already in use.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isBeanNameUsed(@Nullable BeanFactory factory, @Nullable String beanName) {
         return StringUtils.isNotBlank(beanName) && (factory instanceof BeanDefinitionRegistry alias) && alias.isBeanNameInUse(beanName);
     }
 
+    /**
+     * Return whether the named bean has prototype scope.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isBeanPrototype(@Nullable BeanFactory factory, @Nullable String beanName) {
         if (factory == null || StringUtils.isBlank(beanName)) {
             return false;
@@ -1052,6 +1508,15 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Return whether the named bean matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchBeanType(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<?> expectType) {
         if (ObjectUtils.anyNull(factory, expectType) || StringUtils.isBlank(beanName)) {
             return false;
@@ -1063,6 +1528,15 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Return whether the named bean matches the expected type.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchBeanType(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable ResolvableType expectType) {
         if (ObjectUtils.anyNull(factory, expectType) || StringUtils.isBlank(beanName)) {
             return false;
@@ -1074,6 +1548,14 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Return whether the named bean is a singleton.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isBeanSingleton(@Nullable BeanFactory factory, @Nullable String beanName) {
         if (factory == null || StringUtils.isBlank(beanName)) {
             return false;
@@ -1085,6 +1567,17 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Register an alias for the named bean.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param beanAlias The alias to check, may be {@code null}
+     *
+     * @return Whether the condition holds
+     *
+     * @throws IllegalStateException If the operation fails
+     */
     @SuppressWarnings("DataFlowIssue")
     public static boolean registerBeanAlias(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable String beanAlias) throws IllegalStateException {
         if (!(factory instanceof AliasRegistry alias) || StringUtils.isAnyBlank(beanName, beanAlias)) {
@@ -1094,6 +1587,15 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * Register an alias for the named bean, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param alias The alias to use, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean registerBeanAliasQuietly(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable String alias) {
         try {
             return registerBeanAlias(factory, beanName, alias);
@@ -1102,6 +1604,17 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Register a bean definition under the given name.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     *
+     * @throws BeanDefinitionStoreException If the operation fails
+     */
     public static boolean registerBeanDefinition(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<?> expectType) throws BeanDefinitionStoreException {
         return registerBeanDefinition(factory, beanName, expectType, null);
     }
@@ -1123,10 +1636,29 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * Register a bean definition, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean registerBeanDefinitionQuietly(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<?> expectType) {
         return registerBeanDefinitionQuietly(factory, beanName, expectType, null);
     }
 
+    /**
+     * Register a bean definition, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param parentName The parent bean definition name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean registerBeanDefinitionQuietly(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Class<?> expectType, @Nullable String parentName) {
         try {
             return registerBeanDefinition(factory, beanName, expectType, parentName);
@@ -1147,6 +1679,15 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * Register a bean definition, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param definition The bean definition, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean registerBeanDefinitionQuietly(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable BeanDefinition definition) {
         try {
             return registerBeanDefinition(factory, beanName, definition);
@@ -1166,6 +1707,15 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * registerSingletonBeanQuietly.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     * @param beanInstance The singleton bean instance, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean registerSingletonBeanQuietly(@Nullable BeanFactory factory, @Nullable String beanName, @Nullable Object beanInstance) {
         try {
             return registerSingletonBean(factory, beanName, beanInstance);
@@ -1174,6 +1724,16 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Remove the given bean alias.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param alias The alias to use, may be {@code null}
+     *
+     * @return Whether the condition holds
+     *
+     * @throws IllegalStateException If the operation fails
+     */
     public static boolean removeBeanAlias(@Nullable BeanFactory factory, @Nullable String alias) throws IllegalStateException {
         if (!(factory instanceof AliasRegistry instance) || StringUtils.isBlank(alias)) {
             return false;
@@ -1182,6 +1742,14 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * Remove the given bean alias, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param alias The alias to use, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean removeBeanAliasQuietly(@Nullable BeanFactory factory, @Nullable String alias) {
         try {
             return removeBeanAlias(factory, alias);
@@ -1190,6 +1758,16 @@ public abstract class BeanFactoryWraps {
         return false;
     }
 
+    /**
+     * Remove the bean definition with the given name.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     *
+     * @throws NoSuchBeanDefinitionException If the operation fails
+     */
     public static boolean removeBeanDefinition(@Nullable BeanFactory factory, @Nullable String beanName) throws NoSuchBeanDefinitionException {
         if (!(factory instanceof BeanDefinitionRegistry instance) || StringUtils.isBlank(beanName)) {
             return false;
@@ -1198,6 +1776,14 @@ public abstract class BeanFactoryWraps {
         return true;
     }
 
+    /**
+     * Remove the bean definition, returning {@code false} on failure.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param beanName The bean name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean removeBeanDefinitionQuietly(@Nullable BeanFactory factory, @Nullable String beanName) {
         try {
             return removeBeanDefinition(factory, beanName);

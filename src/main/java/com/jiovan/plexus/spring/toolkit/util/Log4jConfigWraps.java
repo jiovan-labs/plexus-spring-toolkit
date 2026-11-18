@@ -41,11 +41,30 @@ import org.springframework.util.ClassUtils;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class Log4jConfigWraps {
+    /**
+     * Initialize a Log4j context from an XML configuration on the class path.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByClassPath(@Nullable String xmlPath) throws IOException {
         return initContextByClassPath(xmlPath, null);
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration on the class path.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByClassPath(@Nullable String xmlPath, @Nullable ClassLoader loader) throws IOException {
         if (StringUtils.isBlank(xmlPath)) {
@@ -59,11 +78,26 @@ public abstract class Log4jConfigWraps {
         return null;
     }
 
+    /**
+     * Initialize a Log4j context from the class path, returning {@code null} on failure.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByClassPathQuietly(@Nullable String xmlPath) {
         return initContextByClassPathQuietly(xmlPath, null);
     }
 
+    /**
+     * Initialize a Log4j context from the class path, returning {@code null} on failure.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByClassPathQuietly(@Nullable String xmlPath, @Nullable ClassLoader loader) {
         try {
@@ -73,11 +107,30 @@ public abstract class Log4jConfigWraps {
         return null;
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration file.
+     *
+     * @param xmlFile The XML configuration file, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByFile(@Nullable File xmlFile) throws IOException {
         return initContextByFile(xmlFile, null);
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration file.
+     *
+     * @param xmlFile The XML configuration file, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByFile(@Nullable File xmlFile, @Nullable ClassLoader loader) throws IOException {
         if (xmlFile == null || !xmlFile.exists() || !xmlFile.isFile() || xmlFile.canRead()) {
@@ -88,6 +141,15 @@ public abstract class Log4jConfigWraps {
         }
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration file.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static LoggerContext initContextByFile(@Nullable String xmlPath) throws IOException {
         return initContextByFile(xmlPath, null);
     }
@@ -105,11 +167,26 @@ public abstract class Log4jConfigWraps {
         }
     }
 
+    /**
+     * Initialize a Log4j context from a file, returning {@code null} on failure.
+     *
+     * @param xmlFile The XML configuration file, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByFileQuietly(@Nullable File xmlFile) {
         return initContextByFileQuietly(xmlFile, null);
     }
 
+    /**
+     * Initialize a Log4j context from a file, returning {@code null} on failure.
+     *
+     * @param xmlFile The XML configuration file, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByFileQuietly(@Nullable File xmlFile, @Nullable ClassLoader loader) {
         try {
@@ -119,11 +196,26 @@ public abstract class Log4jConfigWraps {
         return null;
     }
 
+    /**
+     * Initialize a Log4j context from a file, returning {@code null} on failure.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByFileQuietly(@Nullable String xmlPath) {
         return initContextByFileQuietly(xmlPath, null);
     }
 
+    /**
+     * Initialize a Log4j context from a file, returning {@code null} on failure.
+     *
+     * @param xmlPath The path to the XML configuration, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByFileQuietly(@Nullable String xmlPath, @Nullable ClassLoader loader) {
         try {
@@ -133,11 +225,30 @@ public abstract class Log4jConfigWraps {
         return null;
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration stream.
+     *
+     * @param stream The XML configuration stream, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByStream(@Nullable InputStream stream) throws IOException {
         return initContextByStream(stream, null);
     }
 
+    /**
+     * Initialize a Log4j context from an XML configuration stream.
+     *
+     * @param stream The XML configuration stream, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static LoggerContext initContextByStream(@Nullable InputStream stream, @Nullable ClassLoader loader) throws IOException {
         if (stream == null) {
@@ -147,11 +258,26 @@ public abstract class Log4jConfigWraps {
         return Configurator.initialize(ObjectUtils.getIfNull(loader, ClassUtils.getDefaultClassLoader()), source);
     }
 
+    /**
+     * Initialize a Log4j context from a stream, returning {@code null} on failure.
+     *
+     * @param stream The XML configuration stream, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByStreamQuietly(@Nullable InputStream stream) {
         return initContextByStreamQuietly(stream, null);
     }
 
+    /**
+     * Initialize a Log4j context from a stream, returning {@code null} on failure.
+     *
+     * @param stream The XML configuration stream, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The initialized logger context, or {@code null}
+     */
     @Nullable
     public static LoggerContext initContextByStreamQuietly(@Nullable InputStream stream, @Nullable ClassLoader loader) {
         try {

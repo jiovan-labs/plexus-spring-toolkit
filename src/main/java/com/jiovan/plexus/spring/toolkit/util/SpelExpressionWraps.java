@@ -40,11 +40,34 @@ import org.springframework.expression.spel.support.StandardEvaluationContext;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SpelExpressionWraps {
+    /**
+     * Parse the given SpEL expression.
+     *
+     * @param template The given template
+     * @param params The parameters, may be {@code null}
+     *
+     * @return The parsed expression, or {@code null}
+     *
+     * @throws ParseException If the operation fails
+     * @throws EvaluationException If the operation fails
+     */
     @Nullable
     public static Object parseExpression(@Nullable String template, @Nullable Map<String, Object> params) throws ParseException, EvaluationException {
         return parseExpression(template, params, null);
     }
 
+    /**
+     * Parse the given SpEL expression.
+     *
+     * @param template The given template
+     * @param params The parameters, may be {@code null}
+     * @param context The context, may be {@code null}
+     *
+     * @return The parsed expression, or {@code null}
+     *
+     * @throws ParseException If the operation fails
+     * @throws EvaluationException If the operation fails
+     */
     @Nullable
     public static Object parseExpression(@Nullable String template, @Nullable Map<String, Object> params, @Nullable ParserContext context) throws ParseException, EvaluationException {
         if (StringUtils.isEmpty(template)) {
@@ -57,11 +80,28 @@ public abstract class SpelExpressionWraps {
         return expression.getValue(evaluation);
     }
 
+    /**
+     * Parse the SpEL expression, returning {@code null} on failure.
+     *
+     * @param template The given template
+     * @param params The parameters, may be {@code null}
+     *
+     * @return The parsed expression, or {@code null}
+     */
     @Nullable
     public static Object parseExpressionQuietly(@Nullable String template, @Nullable Map<String, Object> params) {
         return parseExpressionQuietly(template, params, null);
     }
 
+    /**
+     * Parse the SpEL expression, returning {@code null} on failure.
+     *
+     * @param template The given template
+     * @param params The parameters, may be {@code null}
+     * @param context The context, may be {@code null}
+     *
+     * @return The parsed expression, or {@code null}
+     */
     @Nullable
     public static Object parseExpressionQuietly(@Nullable String template, @Nullable Map<String, Object> params, @Nullable ParserContext context) {
         try {

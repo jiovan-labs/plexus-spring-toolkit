@@ -51,6 +51,15 @@ import io.minio.SetBucketPolicyArgs;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class MinioConfigWraps {
+    /**
+     * Build a configured MinIO client.
+     *
+     * @param properties The properties, may be {@code null}
+     *
+     * @return The configured MinIO client
+     *
+     * @throws Exception If the operation fails
+     */
     @Nonnull
     public static MinioClient minioClient(@Nonnull MinioProperties properties) throws Exception {
         MinioClient.Builder clientBuilder = MinioClient.builder();
@@ -90,6 +99,16 @@ public abstract class MinioConfigWraps {
         return minioClient;
     }
 
+    /**
+     * Return whether the configured bucket exists.
+     *
+     * @param minioClient The MinIO client, may be {@code null}
+     * @param bucketName The bucket name
+     *
+     * @return Whether the condition holds
+     *
+     * @throws Exception If the operation fails
+     */
     public static boolean isBucketExist(@Nonnull MinioClient minioClient, @Nonnull String bucketName) throws Exception {
         if (StringUtils.isBlank(bucketName)) {
             return false;
@@ -98,6 +117,14 @@ public abstract class MinioConfigWraps {
         return minioClient.bucketExists(existsArgs);
     }
 
+    /**
+     * Return whether the configured bucket is publicly accessible.
+     *
+     * @param minioClient The MinIO client, may be {@code null}
+     * @param bucketName The bucket name
+     *
+     * @return Whether the condition holds
+     */
     @SuppressWarnings("unchecked")
     public static boolean isBucketPublic(@Nonnull MinioClient minioClient, @Nonnull String bucketName) {
         if (StringUtils.isBlank(bucketName)) {
@@ -143,6 +170,15 @@ public abstract class MinioConfigWraps {
         return false;
     }
 
+    /**
+     * Create the configured bucket.
+     *
+     * @param minioClient The MinIO client, may be {@code null}
+     * @param bucketName The bucket name
+     * @param region The region, may be {@code null}
+     *
+     * @throws Exception If the operation fails
+     */
     public static void makeBucket(@Nonnull MinioClient minioClient, @Nonnull String bucketName, @Nullable String region) throws Exception {
         if (StringUtils.isBlank(bucketName)) {
             return;
@@ -152,6 +188,15 @@ public abstract class MinioConfigWraps {
             minioClient.makeBucket(argsBuilder.objectLock(true).build());
     }
 
+    /**
+     * Set the access policy of the configured bucket.
+     *
+     * @param minioClient The MinIO client, may be {@code null}
+     * @param bucketName The bucket name
+     * @param accessType The access type
+     *
+     * @throws Exception If the operation fails
+     */
     public static void setBucketAccess(@Nonnull MinioClient minioClient, @Nonnull String bucketName, @Nonnull MinioAccessType accessType) throws Exception {
         if (StringUtils.isBlank(bucketName)) {
             return;

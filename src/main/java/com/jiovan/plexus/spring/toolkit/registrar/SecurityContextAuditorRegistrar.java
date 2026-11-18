@@ -34,10 +34,26 @@ import com.jiovan.plexus.spring.toolkit.audit.SecurityContextAuditorAware;
  * @author David Hsing
  */
 public class SecurityContextAuditorRegistrar implements ImportAware {
+    /**
+     * The bean name of the security context auditor aware instance.
+     */
     public static final String AUDITOR_AWARE = "securityContextAuditorAware";    // $NON-NLS-1$
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableSecurityContextAuditor.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -46,6 +62,11 @@ public class SecurityContextAuditorRegistrar implements ImportAware {
         }
     }
 
+    /**
+     * Create the security-context based auditor aware bean with the configured default auditor.
+     *
+     * @return The configured auditor aware bean.
+     */
     @Bean(name = AUDITOR_AWARE)
     @ConditionalOnMissingBean(name = AUDITOR_AWARE)
     public SecurityContextAuditorAware securityContextAuditorAware() {

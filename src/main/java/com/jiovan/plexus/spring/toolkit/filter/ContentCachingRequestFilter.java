@@ -52,10 +52,31 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class ContentCachingRequestFilter extends AbstractExcludableRequestFilter {
+    /**
+     * Whether multipart requests should also be cached.
+     */
     private boolean cacheMultipart = false;
+
+    /**
+     * The maximum number of bytes to cache, or a non-positive value for no limit.
+     */
     private int cacheLimit = -1;
+
+    /**
+     * The request wrapper class used for caching.
+     */
     private Class<? extends ContentCachingRequestWrapper> requestWrapperClass = ContentCachingRequestWrapper.class;
 
+    /**
+     * Wrap eligible requests with a content caching wrapper before continuing the filter chain.
+     *
+     * @param request The current request
+     * @param response The current response
+     * @param chain The filter chain
+     *
+     * @throws ServletException If the filter fails
+     * @throws IOException If an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
         if (cacheMultipart || RegexUtilsWraps.findAnyIgnoreCase(request.getContentType(), RegexVariantConst.APPLICATION_JSON, RegexVariantConst.APPLICATION_XML)) {

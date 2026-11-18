@@ -37,6 +37,13 @@ import com.jiovan.plexus.spring.toolkit.jackson.serializer.SqlDateSerializer;
  * @author David Hsing
  */
 public abstract class JacksonJdkDateCustomizer {
+    /**
+     * Build a Jackson module with custom serializers and deserializers for util-date types.
+     *
+     * @param dateFormat The date pattern to use, or {@code null} for the ISO date pattern
+     *
+     * @return The configured Jackson module
+     */
     @Nonnull
     public static SimpleModule mapperModule(@Nullable String dateFormat) {
         dateFormat = StringUtils.defaultIfBlank(dateFormat, TemporalFormatConst.ISO_YYYYMMDD);
@@ -48,6 +55,14 @@ public abstract class JacksonJdkDateCustomizer {
         return result;
     }
 
+    /**
+     * Build a JSON mapper builder customizer that registers date handling and sets the default time zone.
+     *
+     * @param dateFormat The date pattern to use, or {@code null} for the default
+     * @param timeZone The time zone to apply, or {@code null} for the JVM default
+     *
+     * @return The configured mapper builder customizer
+     */
     @Nonnull
     public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable TimeZone timeZone) {
         return builder -> {

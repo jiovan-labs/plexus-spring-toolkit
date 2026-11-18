@@ -35,7 +35,14 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum SliderTriggerType implements ValueEnum<String> {
+    /**
+     * Puzzle-style slider captcha.
+     */
     PUZZLE("puzzle"),    // $NON-NLS-1$
+
+    /**
+     * Button-style slider captcha.
+     */
     BUTTON("button");    // $NON-NLS-1$
 
     private final String value;

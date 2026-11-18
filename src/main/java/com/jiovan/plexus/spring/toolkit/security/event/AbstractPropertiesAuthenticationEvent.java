@@ -35,8 +35,16 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public abstract class AbstractPropertiesAuthenticationEvent extends AbstractAuthenticationEvent implements PropertiesCapableEvent {
+    /**
+     * Additional properties carried by this event.
+     */
     protected final Properties properties = new Properties();
 
+    /**
+     * Create a AbstractPropertiesAuthenticationEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     */
     public AbstractPropertiesAuthenticationEvent(@Nonnull Authentication authentication) {
         super(authentication);
     }

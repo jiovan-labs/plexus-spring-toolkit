@@ -33,8 +33,19 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum CaptchaTriggerType implements ValueEnum<String> {
+    /**
+     * Image-based captcha trigger.
+     */
     IMAGE("image-captcha"),    // $NON-NLS-1$
+
+    /**
+     * Mobile-based captcha trigger.
+     */
     MOBILE("mobile-captcha"),    // $NON-NLS-1$
+
+    /**
+     * Slider-based captcha trigger.
+     */
     SLIDER("slider-captcha");    // $NON-NLS-1$
 
     private final String value;

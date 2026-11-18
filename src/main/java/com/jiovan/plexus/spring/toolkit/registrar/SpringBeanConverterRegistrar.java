@@ -34,6 +34,11 @@ import com.jiovan.plexus.spring.toolkit.converter.spring.StringToSqlDateConverte
  */
 @SuppressWarnings("unused")
 public class SpringBeanConverterRegistrar implements WebMvcConfigurer {
+    /**
+     * Register the string-to-temporal converters with the Spring formatter registry.
+     *
+     * @param registry The formatter registry
+     */
     @Override
     public void addFormatters(@Nonnull FormatterRegistry registry) {
         registry.addConverter(new StringToJdkDateConverter());

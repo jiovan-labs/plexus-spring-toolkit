@@ -19,10 +19,10 @@ package com.jiovan.plexus.spring.toolkit.jackson.serializer;
 
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import tools.jackson.core.JsonGenerator;
-import tools.jackson.databind.ValueSerializer;
-import tools.jackson.databind.SerializationContext;
 import com.jiovan.plexus.common.toolkit.util.BooleanUtilsWraps;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.ValueSerializer;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,8 +44,20 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class BooleanToOnOffSerializer extends ValueSerializer<Boolean> {
+    /**
+     * Whether to produce uppercase "ON"/"OFF" instead of lowercase "on"/"off".
+     */
     private boolean uppercase = false;
 
+    /**
+     * Serialize a boolean to an "on" or "off" string.
+     *
+     * @param value The boolean value to serialize, may be {@code null}
+     * @param generator The JSON generator used for output
+     * @param provider The serialization context, may be {@code null}
+     *
+     * @throws tools.jackson.core.JacksonException If write fails
+     */
     @Override
     public void serialize(@Nullable Boolean value, @Nonnull JsonGenerator generator, @Nullable SerializationContext provider) {
         generator.writeString(BooleanUtilsWraps.toStringOnOff(value, uppercase));

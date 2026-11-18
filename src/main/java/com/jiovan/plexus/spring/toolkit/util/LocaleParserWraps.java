@@ -29,10 +29,24 @@ import org.apache.commons.lang3.StringUtils;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class LocaleParserWraps {
+    /**
+     * Return whether the given text can be parsed into a locale.
+     *
+     * @param locale The locale text, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isParsable(@Nullable String locale) {
         return parse(locale) != null;
     }
 
+    /**
+     * Parse the given text into a locale, returning {@code null} when invalid.
+     *
+     * @param locale The locale text, may be {@code null}
+     *
+     * @return The parsed locale, or {@code null}
+     */
     @Nullable
     public static Locale parse(@Nullable String locale) {
         if (StringUtils.isBlank(locale)) {

@@ -33,9 +33,24 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public enum JwtAlgorithmType implements ValueEnum<String> {
+    /**
+     * No signature algorithm.
+     */
     NONE(null),    // $NON-NLS-1$
+
+    /**
+     * HMAC with SHA-256.
+     */
     HS256("HmacSHA256"),    // $NON-NLS-1$
+
+    /**
+     * HMAC with SHA-384.
+     */
     HS384("HmacSHA384"),    // $NON-NLS-1$
+
+    /**
+     * HMAC with SHA-512.
+     */
     HS512("HmacSHA512");    // $NON-NLS-1$
 
     private final String value;

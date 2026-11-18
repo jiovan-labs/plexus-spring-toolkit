@@ -46,27 +46,55 @@ import lombok.Getter;
 @MappedSuperclass
 @SuppressWarnings("unused")
 public abstract class AbstractBsonDocument implements Serializable {
+    /**
+     * The MongoDB {@link ObjectId} that serves as the document identifier.
+     */
     @Id
     @Column(name = "_id")
     @JsonIgnore
     private ObjectId objectId;
 
+    /**
+     * Set the document identifier.
+     *
+     * @param id The object ID, may be {@code null}
+     */
     public void setObjectId(@Nullable ObjectId id) {
         objectId = id;
     }
 
+    /**
+     * Set the document identifier from a date.
+     *
+     * @param date The date to derive the ID from, may be {@code null}
+     */
     public void setObjectId(@Nullable Date date) {
         objectId = (date == null) ? null : new ObjectId(date);
     }
 
+    /**
+     * Set the document identifier from a local date.
+     *
+     * @param date The date to derive the ID from, may be {@code null}
+     */
     public void setObjectId(@Nullable LocalDate date) {
         setObjectId(LocalDateWraps.toJdkDate(date));
     }
 
+    /**
+     * Set the document identifier from a local date and time.
+     *
+     * @param dateTime The date and time to derive the ID from, may be {@code null}
+     */
     public void setObjectId(@Nullable LocalDateTime dateTime) {
         setObjectId(LocalDateWraps.toJdkDate(dateTime));
     }
 
+    /**
+     * Set the document identifier from a timestamp in milliseconds.
+     *
+     * @param milliseconds The positive epoch timestamp
+     */
     public void setObjectId(long milliseconds) {
         Assert.isTrue(milliseconds > 0L, AssertMessageConst.IS_POSITIVE);
         objectId = new ObjectId(new Date(milliseconds));

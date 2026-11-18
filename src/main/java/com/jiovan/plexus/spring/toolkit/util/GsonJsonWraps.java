@@ -37,6 +37,15 @@ import com.google.gson.stream.JsonWriter;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class GsonJsonWraps {
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable JsonElement json, @Nullable Class<T> expectType) {
         if (instance == null || expectType == null) {
@@ -49,6 +58,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable String json, @Nullable Class<T> expectType) {
         if (instance == null || expectType == null) {
@@ -61,6 +79,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable String json, @Nullable Type expectType) {
         if (instance == null || StringUtils.isBlank(json) || expectType == null) {
@@ -73,6 +100,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable JsonElement json, @Nullable Type expectType) {
         if (instance == null || expectType == null) {
@@ -85,6 +121,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param reader The reader or JSON reader, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable JsonReader reader, @Nullable Type expectType) {
         if (instance == null || reader == null || expectType == null) {
@@ -97,6 +142,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable Reader json, @Nullable Type expectType) {
         if (instance == null || json == null || expectType == null) {
@@ -109,6 +163,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Deserialize the given JSON content into an instance of the expected type.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param json The JSON content, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The deserialized object, or {@code null} on failure
+     */
     @Nullable
     public static <T> T fromJson(@Nullable Gson instance, @Nullable Reader json, @Nullable Class<T> expectType) {
         if (instance == null || json == null || expectType == null) {
@@ -121,6 +184,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     * @param typeOfSrc The declared type of the source, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJson(@Nullable Gson instance, @Nullable Object src, @Nullable Type typeOfSrc) {
         if (instance == null || typeOfSrc == null) {
@@ -133,6 +205,14 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     * @param typeOfSrc The declared type of the source, may be {@code null}
+     * @param writer The output writer, may be {@code null}
+     */
     public static void toJson(@Nullable Gson instance, @Nullable Object src, @Nullable Type typeOfSrc, @Nullable JsonWriter writer) {
         if (instance == null || typeOfSrc == null || writer == null) {
             return;
@@ -143,6 +223,14 @@ public abstract class GsonJsonWraps {
         }
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     * @param typeOfSrc The declared type of the source, may be {@code null}
+     * @param writer The output writer, may be {@code null}
+     */
     public static void toJson(@Nullable Gson instance, @Nullable Object src, @Nullable Type typeOfSrc, @Nullable Appendable writer) {
         if (instance == null || typeOfSrc == null) {
             return;
@@ -153,6 +241,14 @@ public abstract class GsonJsonWraps {
         }
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param element The JSON element, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJson(@Nullable Gson instance, @Nullable JsonElement element) {
         if (instance == null || element == null) {
@@ -165,6 +261,13 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param element The JSON element, may be {@code null}
+     * @param writer The output writer, may be {@code null}
+     */
     public static void toJson(@Nullable Gson instance, @Nullable JsonElement element, @Nullable Appendable writer) {
         if (instance == null || element == null || writer == null) {
             return;
@@ -175,6 +278,13 @@ public abstract class GsonJsonWraps {
         }
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param element The JSON element, may be {@code null}
+     * @param writer The output writer, may be {@code null}
+     */
     public static void toJson(@Nullable Gson instance, @Nullable JsonElement element, @Nullable JsonWriter writer) {
         if (instance == null || writer == null) {
             return;
@@ -185,6 +295,13 @@ public abstract class GsonJsonWraps {
         }
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     * @param writer The output writer, may be {@code null}
+     */
     public static void toJson(@Nullable Gson instance, @Nullable Object src, @Nullable Appendable writer) {
         if (instance == null || writer == null) {
             return;
@@ -195,6 +312,14 @@ public abstract class GsonJsonWraps {
         }
     }
 
+    /**
+     * Serialize the given source into its JSON representation.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJson(@Nullable Gson instance, @Nullable Object src) {
         if (instance == null || src == null) {
@@ -207,6 +332,14 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Convert the given source into a JSON element tree.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     *
+     * @return The JSON element tree, or {@code null} on failure
+     */
     @Nullable
     public static JsonElement toJsonTree(@Nullable Gson instance, @Nullable Object src) {
         if (instance == null || src == null) {
@@ -219,6 +352,15 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Convert the given source into a JSON element tree.
+     *
+     * @param instance The Gson instance to use, may be {@code null}
+     * @param src The source object to serialize, may be {@code null}
+     * @param typeOfSrc The declared type of the source, may be {@code null}
+     *
+     * @return The JSON element tree, or {@code null} on failure
+     */
     @Nullable
     public static JsonElement toJsonTree(@Nullable Gson instance, @Nullable Object src, @Nullable Type typeOfSrc) {
         if (instance == null || typeOfSrc == null) {
@@ -231,6 +373,13 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Parse the given JSON string into a JSON element.
+     *
+     * @param json The JSON content, may be {@code null}
+     *
+     * @return The parsed JSON element, or {@code null} on failure
+     */
     @Nullable
     public static JsonElement parseString(@Nullable String json) {
         if (StringUtils.isBlank(json)) {
@@ -243,6 +392,13 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Parse JSON content read from the given reader into a JSON element.
+     *
+     * @param reader The reader or JSON reader, may be {@code null}
+     *
+     * @return The parsed JSON element, or {@code null} on failure
+     */
     @Nullable
     public static JsonElement parseReader(@Nullable Reader reader) {
         if (reader == null) {
@@ -255,6 +411,13 @@ public abstract class GsonJsonWraps {
         return null;
     }
 
+    /**
+     * Parse JSON content read from the given reader into a JSON element.
+     *
+     * @param reader The reader or JSON reader, may be {@code null}
+     *
+     * @return The parsed JSON element, or {@code null} on failure
+     */
     @Nullable
     public static JsonElement parseReader(@Nullable JsonReader reader) {
         if (reader == null) {

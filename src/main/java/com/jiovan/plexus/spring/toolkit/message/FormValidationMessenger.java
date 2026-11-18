@@ -41,28 +41,70 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class FormValidationMessenger {
+    /**
+     * The message source used for resolving localized messages.
+     */
     private final MessageSource messageSource;
 
+    /**
+     * Create a valid form validation response with no message.
+     *
+     * @return A valid form validation struct with an unset message
+     */
     @Nonnull
     public FormValidationStruct newValid() {
         return newValid(null, null, null, null);
     }
 
+    /**
+     * Create a valid form validation response using the given message code.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     *
+     * @return A valid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newValid(@Nullable String code) {
         return newValid(code, null, null, null);
     }
 
+    /**
+     * Create a valid form validation response with a message code and arguments.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     *
+     * @return A valid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newValid(@Nullable String code, @Nullable Object[] args) {
         return newValid(code, args, null, null);
     }
 
+    /**
+     * Create a valid form validation response with a fallback default message.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     * @param defaultMessage Fallback default message if lookup fails, may be {@code null}
+     *
+     * @return A valid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newValid(@Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage) {
         return newValid(code, args, defaultMessage, null);
     }
 
+    /**
+     * Create a valid form validation response with full customization.
+     *
+     * @param code The localized message code key to look up
+     * @param args Arguments for message formatting
+     * @param defaultMessage Fallback default message if lookup fails
+     * @param locale The locale for message resolution
+     *
+     * @return A valid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newValid(@Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage, @Nullable Locale locale) {
         FormValidationStruct struct = new FormValidationStruct();
@@ -70,26 +112,65 @@ public class FormValidationMessenger {
         return struct;
     }
 
+    /**
+     * Create an invalid form validation response with no message.
+     *
+     * @return An invalid form validation struct with an unset message
+     */
     @Nonnull
     public FormValidationStruct newInvalid() {
         return newInvalid(null, null, null, null);
     }
 
+    /**
+     * Create an invalid form validation response using the given message code.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     *
+     * @return An invalid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newInvalid(@Nullable String code) {
         return newInvalid(code, null, null, null);
     }
 
+    /**
+     * Create an invalid form validation response with a message code and arguments.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     *
+     * @return An invalid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newInvalid(@Nullable String code, @Nullable Object[] args) {
         return newInvalid(code, args, null, null);
     }
 
+    /**
+     * Create an invalid form validation response with a fallback default message.
+     *
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     * @param defaultMessage Fallback default message if lookup fails, may be {@code null}
+     *
+     * @return An invalid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newInvalid(@Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage) {
         return newInvalid(code, args, defaultMessage, null);
     }
 
+    /**
+     * Create an invalid form validation response with full customization.
+     *
+     * @param code The localized message code key to look up
+     * @param args Arguments for message formatting
+     * @param defaultMessage Fallback default message if lookup fails
+     * @param locale The locale for message resolution
+     *
+     * @return An invalid form validation struct containing the resolved message
+     */
     @Nonnull
     public FormValidationStruct newInvalid(@Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage, @Nullable Locale locale) {
         FormValidationStruct struct = new FormValidationStruct();
@@ -97,60 +178,160 @@ public class FormValidationMessenger {
         return struct;
     }
 
+    /**
+     * Set a form validation struct to valid state with no message resolution.
+     *
+     * @param struct The struct to update
+     */
     public void setValid(@Nonnull FormValidationStruct struct) {
         setValid(struct, null, null, null, null);
     }
 
+    /**
+     * Set a form validation struct to valid state using the given message code.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     */
     public void setValid(@Nonnull FormValidationStruct struct, @Nullable String code) {
         setValid(struct, code, null, null, null);
     }
 
+    /**
+     * Set a form validation struct to valid state with a message code and arguments.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     */
     public void setValid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args) {
         setValid(struct, code, args, null, null);
     }
 
+    /**
+     * Set a form validation struct to valid state with a fallback default message.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     * @param defaultMessage Fallback default message if lookup fails, may be {@code null}
+     */
     public void setValid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage) {
         setValid(struct, code, args, defaultMessage, null);
     }
 
+    /**
+     * Set a form validation struct to valid state and resolve its message.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up
+     * @param args Arguments for message formatting
+     * @param defaultMessage Fallback default message if lookup fails
+     * @param locale The locale for message resolution
+     */
     public void setValid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage, @Nullable Locale locale) {
         struct.setValid(true);
         setMessage(struct, code, args, defaultMessage, locale);
     }
 
+    /**
+     * Set a form validation struct to invalid state with no message resolution.
+     *
+     * @param struct The struct to update
+     */
     public void setInvalid(@Nonnull FormValidationStruct struct) {
         setInvalid(struct, null, null, null, null);
     }
 
+    /**
+     * Set a form validation struct to invalid state using the given message code.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     */
     public void setInvalid(@Nonnull FormValidationStruct struct, @Nullable String code) {
         setInvalid(struct, code, null, null, null);
     }
 
+    /**
+     * Set a form validation struct to invalid state with a message code and arguments.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     */
     public void setInvalid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args) {
         setInvalid(struct, code, args, null, null);
     }
 
+    /**
+     * Set a form validation struct to invalid state with a fallback default message.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     * @param defaultMessage Fallback default message if lookup fails, may be {@code null}
+     */
     public void setInvalid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage) {
         setInvalid(struct, code, args, defaultMessage, null);
     }
 
+    /**
+     * Set a form validation struct to invalid state and resolve its message.
+     *
+     * @param struct The struct to update
+     * @param code The localized message code key to look up
+     * @param args Arguments for message formatting
+     * @param defaultMessage Fallback default message if lookup fails
+     * @param locale The locale for message resolution
+     */
     public void setInvalid(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage, @Nullable Locale locale) {
         struct.setValid(false);
         setMessage(struct, code, args, defaultMessage, locale);
     }
 
+    /**
+     * Resolve and set the localized message using the given code.
+     *
+     * @param struct The struct whose message field will be updated
+     * @param code The localized message code key to look up, may be {@code null}
+     */
     public void setMessage(@Nonnull FormValidationStruct struct, @Nullable String code) {
         setMessage(struct, code, null, null);
     }
 
+    /**
+     * Resolve and set the localized message using the given code and arguments.
+     *
+     * @param struct The struct whose message field will be updated
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     */
     public void setMessage(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args) {
         setMessage(struct, code, args, null);
     }
 
+    /**
+     * Resolve and set the localized message with a fallback default message.
+     *
+     * @param struct The struct whose message field will be updated
+     * @param code The localized message code key to look up, may be {@code null}
+     * @param args Arguments for message formatting, may be {@code null}
+     * @param defaultMessage Fallback default message when code is blank, may be {@code null}
+     */
     public void setMessage(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage) {
         setMessage(struct, code, args, defaultMessage, null);
     }
 
+    /**
+     * Resolve and set the localized message into a form validation struct.
+     *
+     * @param struct The struct whose message field will be updated
+     * @param code The localized message code key to look up
+     * @param args Arguments for message formatting
+     * @param defaultMessage Fallback default message when code is blank or lookup fails
+     * @param locale The locale for message resolution
+     */
     public void setMessage(@Nonnull FormValidationStruct struct, @Nullable String code, @Nullable Object[] args, @Nullable String defaultMessage, @Nullable Locale locale) {
         if (StringUtils.isBlank(code)) {
             struct.setMessage(defaultMessage);

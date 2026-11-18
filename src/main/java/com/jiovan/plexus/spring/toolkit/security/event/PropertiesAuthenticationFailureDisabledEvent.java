@@ -37,19 +37,43 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesAuthenticationFailureDisabledEvent extends AbstractPropertiesAuthenticationFailureEvent {
+    /**
+     * Create a PropertiesAuthenticationFailureDisabledEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesAuthenticationFailureDisabledEvent(@Nonnull AuthenticationFailureDisabledEvent event) {
         super(event.getAuthentication(), event.getException());
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureDisabledEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureDisabledEvent(@Nonnull AuthenticationFailureDisabledEvent event, @Nullable Properties properties) {
         super(event.getAuthentication(), event.getException());
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureDisabledEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     */
     public PropertiesAuthenticationFailureDisabledEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception) {
         super(authentication, exception);
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureDisabledEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureDisabledEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception, @Nullable Properties properties) {
         super(authentication, exception);
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);

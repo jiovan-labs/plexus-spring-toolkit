@@ -63,27 +63,60 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public abstract class MobileCaptchaAuthenticationProvider implements AuthenticationProvider, ApplicationEventPublisherAware, MessageSourceAware {
+    /**
+     * Whether the principal should be represented as its string form.
+     */
     @Getter
     private boolean forcePrincipalAsString = false;
 
+    /**
+     * The cache used to look up user details.
+     */
     @Getter
     private MobileUserCache userCache = new NullMobileUserCache();
 
+    /**
+     * The service used to load user details.
+     */
     @Getter
     private MobileUserDetailsService userDetailsService;
 
+    /**
+     * The mapper for granted authorities.
+     */
     @Getter
     private GrantedAuthoritiesMapper authoritiesMapper = new NullAuthoritiesMapper();
 
+    /**
+     * The checker invoked before authentication.
+     */
     @Getter
     private UserDetailsChecker preAuthenticationChecker = new DefaultPreAuthenticationChecker();
 
+    /**
+     * The checker invoked after authentication.
+     */
     @Getter
     private UserDetailsChecker postAuthenticationChecker = new DefaultPostAuthenticationChecker();
 
+    /**
+     * The publisher for application events.
+     */
     protected ApplicationEventPublisher applicationEventPublisher;
+    /**
+     * The message source for resolving localized messages.
+     */
     protected MessageSource messageSource;
 
+    /**
+     * Perform authentication for the given request.
+     *
+     * @param authentication The authentication object
+     *
+     * @return The populated authentication token
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     @Override
     public Authentication authenticate(@Nonnull Authentication authentication) throws AuthenticationException {
         Assert.notNull(userDetailsService, "The user details service must be set");
@@ -128,15 +161,36 @@ public abstract class MobileCaptchaAuthenticationProvider implements Authenticat
         return createSuccessAuthentication(principal, authentication, details, dial);
     }
 
+    /**
+     * Returns whether this provider supports the given authentication type.
+     *
+     * @param authentication The authentication object
+     *
+     * @return Whether the given authentication type is supported
+     */
     @Override
     public boolean supports(@Nonnull Class<?> authentication) {
         return MobileCaptchaAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
+    /**
+     * Determine the mobile number from the given authentication.
+     *
+     * @param authentication The authentication object
+     *
+     * @return The mobile number, or {@code null}
+     */
     protected String determineMobile(@Nullable Authentication authentication) {
         return (authentication == null) ? null : authentication.getName();
     }
 
+    /**
+     * Determine the dial code from the given authentication.
+     *
+     * @param authentication The authentication object
+     *
+     * @return The dial code, or {@code null}
+     */
     protected String determineDial(@Nullable Authentication authentication) {
         if (authentication instanceof MobileCaptchaAuthenticationToken alias) {
             return ObjectUtilsWraps.castAs(alias.getAdditive(), String.class);
@@ -144,6 +198,17 @@ public abstract class MobileCaptchaAuthenticationProvider implements Authenticat
         return null;
     }
 
+    /**
+     * Load the user details for the given mobile and dial code.
+     *
+     * @param mobile The mobile number
+     * @param authentication The authentication object
+     * @param dial The dial code, may be {@code null}
+     *
+     * @return The loaded user details
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     protected UserDetails retrieveUser(@Nonnull String mobile, @Nonnull Authentication authentication, @Nullable String dial) throws AuthenticationException {
         try {
             return userDetailsService.loadUserByMobile(mobile, dial);
@@ -154,6 +219,16 @@ public abstract class MobileCaptchaAuthenticationProvider implements Authenticat
         }
     }
 
+    /**
+     * Create an authenticated token from the resolved user details.
+     *
+     * @param principal The given principal
+     * @param authentication The authentication object
+     * @param details The user details
+     * @param dial The dial code, may be {@code null}
+     *
+     * @return The authenticated token
+     */
     protected Authentication createSuccessAuthentication(@Nonnull Object principal, @Nonnull Authentication authentication, @Nonnull UserDetails details, @Nullable Object dial) {
         Assert.notNull(authoritiesMapper, "The authorities mapper must be set");
         MobileCaptchaAuthenticationToken result = new MobileCaptchaAuthenticationToken(principal, authentication.getCredentials(), authoritiesMapper.mapAuthorities(details.getAuthorities()));
@@ -163,6 +238,14 @@ public abstract class MobileCaptchaAuthenticationProvider implements Authenticat
         return result;
     }
 
+    /**
+     * Validate the submitted captcha against the stored value.
+     *
+     * @param details The user details
+     * @param authentication The authentication object
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     protected void additionalAuthenticationChecks(@Nonnull UserDetails details, @Nonnull Authentication authentication) throws AuthenticationException {
         String mobile = determineMobile(authentication), dial = determineDial(authentication);
         String income = SecurityUtilsWraps.getAuthenticationCredentialsAsString(authentication);
@@ -172,5 +255,8 @@ public abstract class MobileCaptchaAuthenticationProvider implements Authenticat
         }
     }
 
+    /**
+     * The value held by this provider.
+     */
     protected abstract String getStoredCaptcha(@Nonnull String mobile, @Nullable String dial);
 }

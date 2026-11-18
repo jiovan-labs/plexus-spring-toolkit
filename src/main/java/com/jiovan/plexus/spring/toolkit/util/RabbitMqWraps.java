@@ -51,11 +51,23 @@ import com.jiovan.plexus.spring.toolkit.identity.AlternativeUuidGenerator;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class RabbitMqWraps {
+    /**
+     * Build basic AMQP message properties.
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static BasicProperties buildBasicProperties() {
         return buildBasicProperties(null, null, null, null);
     }
 
+    /**
+     * Build basic AMQP message properties.
+     *
+     * @param headers The given headers
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static BasicProperties buildBasicProperties(@Nullable Map<String, Object> headers) {
         return buildBasicProperties(headers, null, null, null);
@@ -76,16 +88,45 @@ public abstract class RabbitMqWraps {
         return buildDelayProperties(Duration.ZERO, null, headers, contentType, charset, mode);
     }
 
+    /**
+     * Build AMQP message properties for a delayed message.
+     *
+     * @param delay The given delay
+     * @param delayedTimes The given delayedTimes
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static BasicProperties buildDelayProperties(@Nullable Duration delay, @Nullable Integer delayedTimes) {
         return buildDelayProperties(delay, delayedTimes, null, null, null, null);
     }
 
+    /**
+     * Build AMQP message properties for a delayed message.
+     *
+     * @param delay The given delay
+     * @param delayedTimes The given delayedTimes
+     * @param headers The given headers
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static BasicProperties buildDelayProperties(@Nullable Duration delay, @Nullable Integer delayedTimes, @Nullable Map<String, Object> headers) {
         return buildDelayProperties(delay, delayedTimes, headers, null, null, null);
     }
 
+    /**
+     * Build AMQP message properties for a delayed message.
+     *
+     * @param delay The given delay
+     * @param delayedTimes The given delayedTimes
+     * @param headers The given headers
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param mode The mode, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static BasicProperties buildDelayProperties(@Nullable Duration delay, @Nullable Integer delayedTimes, @Nullable Map<String, Object> headers, @Nullable String contentType, @Nullable Charset charset, @Nullable MessageDeliveryMode mode) {
         BasicProperties.Builder builder = new BasicProperties.Builder();
@@ -102,10 +143,24 @@ public abstract class RabbitMqWraps {
         return builder.build();
     }
 
+    /**
+     * Return AMQP simple acknowledge mode from the given value.
+     *
+     * @param properties The properties, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static AcknowledgeMode getSimpleAcknowledgeMode(@Nullable RabbitProperties properties) {
         return (properties == null) ? null : properties.getListener().getSimple().getAcknowledgeMode();
     }
 
+    /**
+     * Return the direct acknowledgment mode for the given value.
+     *
+     * @param properties The properties, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static AcknowledgeMode getDirectAcknowledgeMode(@Nullable RabbitProperties properties) {
         return (properties == null) ? null : properties.getListener().getDirect().getAcknowledgeMode();
     }

@@ -32,10 +32,20 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class JwtAuthenticationDestroyedEvent extends ApplicationEvent {
+    /**
+     * Create a JwtAuthenticationDestroyedEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     */
     public JwtAuthenticationDestroyedEvent(@Nonnull Authentication authentication) {
         super(authentication);
     }
 
+    /**
+     * Returns the authentication carried by this event.
+     *
+     * @return The authentication carried by this event
+     */
     @Nonnull
     public Authentication getAuthentication() {
         return ObjectUtilsWraps.castAs(super.getSource(), Authentication.class);

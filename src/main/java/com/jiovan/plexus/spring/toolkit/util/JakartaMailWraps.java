@@ -35,6 +35,15 @@ import com.jiovan.plexus.common.toolkit.constant.CharVariantConst;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class JakartaMailWraps {
+    /**
+     * Create an internet address from the given email.
+     *
+     * @param email The email address, may be {@code null}
+     *
+     * @return The internet address, or {@code null} when the email is blank
+     *
+     * @throws UnsupportedEncodingException If the operation fails
+     */
     @Nullable
     public static InternetAddress mailAddress(@Nullable String email) throws UnsupportedEncodingException {
         return mailAddress(email, null);
@@ -55,11 +64,32 @@ public abstract class JakartaMailWraps {
         return mailAddress(email, (personal ? StringUtils.substringBefore(email, CharVariantConst.AT) : null));
     }
 
+    /**
+     * Create an internet address from the given email.
+     *
+     * @param email The email address, may be {@code null}
+     * @param personal The personal name, may be {@code null}
+     *
+     * @return The internet address, or {@code null} when the email is blank
+     *
+     * @throws UnsupportedEncodingException If the operation fails
+     */
     @Nullable
     public static InternetAddress mailAddress(@Nullable String email, @Nullable String personal) throws UnsupportedEncodingException {
         return mailAddress(email, personal, null);
     }
 
+    /**
+     * Create an internet address from the given email.
+     *
+     * @param email The email address, may be {@code null}
+     * @param personal The personal name, may be {@code null}
+     * @param charset The charset for the personal name, may be {@code null}
+     *
+     * @return The internet address, or {@code null} when the email is blank
+     *
+     * @throws UnsupportedEncodingException If the operation fails
+     */
     @Nullable
     public static InternetAddress mailAddress(@Nullable String email, @Nullable String personal, @Nullable Charset charset) throws UnsupportedEncodingException {
         return StringUtils.isBlank(email) ? null : new InternetAddress(email, personal, Objects.toString(charset, null));

@@ -28,6 +28,11 @@ import com.jiovan.plexus.spring.toolkit.advice.TextualResponseBodyAdvice;
  * @author David Hsing
  */
 public class TextualResponseBodyRegistrar {
+    /**
+     * Create the textual response body advice bean.
+     *
+     * @return The advice bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public TextualResponseBodyAdvice textualResponseBodyAdvice() {

@@ -48,31 +48,49 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @SuppressWarnings("unused")
 public abstract class AbstractAuditableDocument extends AbstractBsonDocument {
+    /**
+     * The user who created this document.
+     */
     @Field(name = "created_by")
     @CreatedBy
     @JsonIgnore
     private String createdBy;
 
+    /**
+     * The time when this document was created.
+     */
     @Field(name = "created_at")
     @CreatedDate
     @JsonIgnore
     private LocalDateTime createdAt;
 
+    /**
+     * The user who last updated this document.
+     */
     @Field(name = "updated_by")
     @LastModifiedBy
     @JsonIgnore
     private String updatedBy;
 
+    /**
+     * The time when this document was last updated.
+     */
     @Field(name = "updated_at")
     @LastModifiedDate
     @JsonIgnore
     private LocalDateTime updatedAt;
 
+    /**
+     * Whether to apply auditing when creating this document.
+     */
     @Transient
     @JsonIgnore
     @BeanCopyIgnore
     private Boolean auditCreating = Boolean.TRUE;
 
+    /**
+     * Whether to apply auditing when updating this document.
+     */
     @Transient
     @JsonIgnore
     @BeanCopyIgnore

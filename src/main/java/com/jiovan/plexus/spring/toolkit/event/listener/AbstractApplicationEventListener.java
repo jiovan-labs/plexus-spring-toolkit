@@ -85,6 +85,11 @@ public abstract class AbstractApplicationEventListener<E extends ApplicationEven
     @Setter
     protected ApplicationContext applicationContext;
 
+    /**
+     * Handle an application event by detecting the environment and invoking the hooks.
+     *
+     * @param event The event to handle
+     */
     @Override
     public void onApplicationEvent(@Nonnull E event) {
         detectEnvironment(event);
@@ -93,6 +98,11 @@ public abstract class AbstractApplicationEventListener<E extends ApplicationEven
         postApplicationEvent(event);
     }
 
+    /**
+     * Detect and cache application and server environment information from the event.
+     *
+     * @param event The event being handled
+     */
     private void detectEnvironment(@Nonnull E event) {
         serverHost = InetAddressWraps.getLocalIpAddress(true);
         Assert.notNull(applicationContext, AssertMessageConst.NOT_NULL);
@@ -124,16 +134,38 @@ public abstract class AbstractApplicationEventListener<E extends ApplicationEven
         privateUrl = buildServerUrl(false);
     }
 
+    /**
+     * Handle the application event after the environment has been detected.
+     *
+     * @param event The event to handle
+     */
     protected abstract void handleApplicationEvent(@Nonnull E event);
 
+    /**
+     * Hook invoked before the event is handled.
+     *
+     * @param event The event to handle
+     */
     @SuppressWarnings("EmptyMethod")
     protected void preApplicationEvent(@Nonnull E event) {
     }
 
+    /**
+     * Hook invoked after the event is handled.
+     *
+     * @param event The event that was handled
+     */
     @SuppressWarnings("EmptyMethod")
     protected void postApplicationEvent(@Nonnull E event) {
     }
 
+    /**
+     * Build the server URL for the detected server configuration.
+     *
+     * @param publication Whether to use the public host instead of localhost
+     *
+     * @return The constructed server URL
+     */
     @Nonnull
     private String buildServerUrl(boolean publication) {
         StringBuilder builder = new StringBuilder();

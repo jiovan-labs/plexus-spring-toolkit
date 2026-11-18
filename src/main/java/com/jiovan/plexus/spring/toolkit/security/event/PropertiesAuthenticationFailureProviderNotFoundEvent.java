@@ -37,19 +37,43 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesAuthenticationFailureProviderNotFoundEvent extends AbstractPropertiesAuthenticationFailureEvent {
+    /**
+     * Create a PropertiesAuthenticationFailureProviderNotFoundEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesAuthenticationFailureProviderNotFoundEvent(@Nonnull AuthenticationFailureProviderNotFoundEvent event) {
         super(event.getAuthentication(), event.getException());
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureProviderNotFoundEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureProviderNotFoundEvent(@Nonnull AuthenticationFailureProviderNotFoundEvent event, @Nullable Properties properties) {
         super(event.getAuthentication(), event.getException());
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureProviderNotFoundEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     */
 	public PropertiesAuthenticationFailureProviderNotFoundEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception) {
 		super(authentication, exception);
 	}
 
+    /**
+     * Create a PropertiesAuthenticationFailureProviderNotFoundEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureProviderNotFoundEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception, @Nullable Properties properties) {
         super(authentication, exception);
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);

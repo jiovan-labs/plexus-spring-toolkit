@@ -45,8 +45,21 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class ContentReplacingResponseFilter extends AbstractExcludableRequestFilter {
+    /**
+     * The replacement content written to the response when not empty.
+     */
     private String content;
 
+    /**
+     * Write the configured replacement content to the response when set, then continue the filter chain.
+     *
+     * @param request The current request
+     * @param response The current response
+     * @param chain The filter chain
+     *
+     * @throws ServletException If the filter fails
+     * @throws IOException If an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
         if (StringUtils.isNotEmpty(content)) {

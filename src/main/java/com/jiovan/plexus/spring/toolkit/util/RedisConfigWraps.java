@@ -38,21 +38,47 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @SuppressWarnings("unused")
 public abstract class RedisConfigWraps {
+    /**
+     * Build a Spring Cache configuration from the given property values.
+     *
+     * @return The configured cache configuration
+     */
     @Nonnull
     public static RedisCacheConfiguration cacheConfiguration() {
         return cacheConfiguration(null, null, null);
     }
 
+    /**
+     * Build a Spring Cache configuration from the given property values.
+     *
+     * @param configuration The configuration, may be {@code null}
+     *
+     * @return The configured cache configuration
+     */
     @Nonnull
     public static RedisCacheConfiguration cacheConfiguration(@Nullable RedisCacheConfiguration configuration) {
         return cacheConfiguration(configuration, null, null);
     }
 
+    /**
+     * Build a Spring Cache configuration from the given property values.
+     *
+     * @param properties The properties, may be {@code null}
+     *
+     * @return The configured cache configuration
+     */
     @Nonnull
     public static RedisCacheConfiguration cacheConfiguration(@Nullable CacheProperties properties) {
         return cacheConfiguration(null, properties, null);
     }
 
+    /**
+     * Build a Spring Cache configuration from the given property values.
+     *
+     * @param properties The properties, may be {@code null}
+     *
+     * @return The configured cache configuration
+     */
     @Nonnull
     public static RedisCacheConfiguration cacheConfiguration(@Nullable JacksonProperties properties) {
         return cacheConfiguration(null, null, properties);
@@ -72,10 +98,26 @@ public abstract class RedisConfigWraps {
         return result;
     }
 
+    /**
+     * Build a cache manager builder from the given property values.
+     *
+     * @param factory The factory, may be {@code null}
+     *
+     * @return The configured cache manager builder
+     */
     public static RedisCacheManager.RedisCacheManagerBuilder cacheManagerBuilder(@Nullable RedisConnectionFactory factory) {
         return cacheManagerBuilder(factory, null, null);
     }
 
+    /**
+     * Build a cache manager builder from the given property values.
+     *
+     * @param factory The factory, may be {@code null}
+     * @param cacheProperties The given cacheProperties
+     * @param jacksonProperties The given jacksonProperties
+     *
+     * @return The configured cache manager builder
+     */
     public static RedisCacheManager.RedisCacheManagerBuilder cacheManagerBuilder(@Nullable RedisConnectionFactory factory, @Nullable CacheProperties cacheProperties, @Nullable JacksonProperties jacksonProperties) {
         if (factory == null) {
             return null;
@@ -88,17 +130,40 @@ public abstract class RedisConfigWraps {
         return builder;
     }
 
+    /**
+     * Build a cache manager from the given property values.
+     *
+     * @param factory The factory, may be {@code null}
+     *
+     * @return The configured cache manager
+     */
     @Nullable
     public static RedisCacheManager cacheManager(@Nullable RedisConnectionFactory factory) {
         return cacheManager(factory, null, null);
     }
 
+    /**
+     * Build a cache manager from the given property values.
+     *
+     * @param factory The factory, may be {@code null}
+     * @param cacheProperties The given cacheProperties
+     * @param jacksonProperties The given jacksonProperties
+     *
+     * @return The configured cache manager
+     */
     @Nullable
     public static RedisCacheManager cacheManager(@Nullable RedisConnectionFactory factory, @Nullable CacheProperties cacheProperties, @Nullable JacksonProperties jacksonProperties) {
         RedisCacheManager.RedisCacheManagerBuilder builder = cacheManagerBuilder(factory, cacheProperties, jacksonProperties);
         return (builder == null) ? null : builder.build();
     }
 
+    /**
+     * Build a configured Redis template.
+     *
+     * @param factory The factory, may be {@code null}
+     * @param keySerializer The key serializer, may be {@code null}
+     * @param valueSerializer The value serializer, may be {@code null}
+     */
     @Nullable
     public static <K, V> RedisTemplate<K, V> redisTemplate(@Nullable RedisConnectionFactory factory, @Nullable RedisSerializer<K> keySerializer, @Nullable RedisSerializer<V> valueSerializer) {
         if (ObjectUtils.anyNull(factory, keySerializer, valueSerializer)) {

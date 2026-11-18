@@ -29,10 +29,21 @@ import org.springframework.beans.BeansException;
  */
 @SuppressWarnings("unused")
 public class InvalidBeanNameException extends BeansException {
+    /**
+     * Create an exception for the given invalid bean name.
+     *
+     * @param beanName The invalid bean name
+     */
     public InvalidBeanNameException(@Nonnull String beanName) {
         super(String.format("The bean name '%s' is invalid", beanName));    // $NON-NLS-1$
     }
 
+    /**
+     * Create an exception for the given invalid bean name with an additional message.
+     *
+     * @param beanName The invalid bean name
+     * @param message Additional detail, may be {@code null}
+     */
     public InvalidBeanNameException(@Nonnull String beanName, @Nullable String message) {
         super(String.format("The bean name '%s' is invalid: %s", beanName, message));    // $NON-NLS-1$
     }

@@ -60,11 +60,26 @@ public abstract class AlternativeUuidGenerator {
         return getBalanceId(false, true);
     }
 
+    /**
+     * Returns a balance-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getBalanceId(boolean uppercase) {
         return getBalanceId(uppercase, true);
     }
 
+    /**
+     * Returns a balance-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     * @param hyphen whether the result should contain hyphens
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getBalanceId(boolean uppercase, boolean hyphen) {
         String result = idGenerator.generateId().toString();

@@ -79,6 +79,14 @@ public abstract class JdbcUtilsWraps {
         });
     }
 
+    /**
+     * Invoke the named DatabaseMetaData method, returning {@code null} on failure.
+     *
+     * @param dataSource The data source, may be {@code null}
+     * @param metaMethod The DatabaseMetaData method name
+     *
+     * @return The metadata value, or {@code null} on failure
+     */
     @Nullable
     public static <T> T getDatabaseMetaDataQuietly(@Nonnull DataSource dataSource, @Nonnull String metaMethod) {
         try {
@@ -88,10 +96,31 @@ public abstract class JdbcUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the database product name reported by the given data source.
+     *
+     * @param dataSource The data source, may be {@code null}
+     *
+     * @return The product name, driver id, or {@code null}
+     *
+     * @throws MetaDataAccessException If the operation fails
+     * @throws IllegalStateException If the operation fails
+     */
     public static String getDatabaseProductName(@Nullable DataSource dataSource) throws MetaDataAccessException, IllegalStateException {
         return getDatabaseProductName(dataSource, false, false);
     }
 
+    /**
+     * Return the database product name reported by the given data source.
+     *
+     * @param dataSource The data source, may be {@code null}
+     * @param commonName Whether to map the product name to its common name
+     *
+     * @return The product name, driver id, or {@code null}
+     *
+     * @throws MetaDataAccessException If the operation fails
+     * @throws IllegalStateException If the operation fails
+     */
     public static String getDatabaseProductName(@Nullable DataSource dataSource, boolean commonName) throws MetaDataAccessException, IllegalStateException {
         return getDatabaseProductName(dataSource, commonName, false);
     }
@@ -129,16 +158,40 @@ public abstract class JdbcUtilsWraps {
         return databaseDriver.getId();
     }
 
+    /**
+     * Return the database product name, or {@code null} on failure.
+     *
+     * @param dataSource The data source, may be {@code null}
+     *
+     * @return The product name, driver id, or {@code null}
+     */
     @Nullable
     public static String getDatabaseProductNameQuietly(@Nullable DataSource dataSource) {
         return getDatabaseProductNameQuietly(dataSource, false, false);
     }
 
+    /**
+     * Return the database product name, or {@code null} on failure.
+     *
+     * @param dataSource The data source, may be {@code null}
+     * @param commonName Whether to map the product name to its common name
+     *
+     * @return The product name, driver id, or {@code null}
+     */
     @Nullable
     public static String getDatabaseProductNameQuietly(@Nullable DataSource dataSource, boolean commonName) {
         return getDatabaseProductNameQuietly(dataSource, commonName, false);
     }
 
+    /**
+     * Return the database product name, or {@code null} on failure.
+     *
+     * @param dataSource The data source, may be {@code null}
+     * @param commonName Whether to map the product name to its common name
+     * @param validateDriver Whether to validate and return the detected driver id
+     *
+     * @return The product name, driver id, or {@code null}
+     */
     @Nullable
     public static String getDatabaseProductNameQuietly(@Nullable DataSource dataSource, boolean commonName, boolean validateDriver) {
         try {

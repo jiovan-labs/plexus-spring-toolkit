@@ -33,8 +33,19 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum JsonParserType implements ValueEnum<String> {
+    /**
+     * Jackson {@code ObjectMapper} parser.
+     */
     JACKSON("tools.jackson.databind.ObjectMapper"),    // $NON-NLS-1$
+
+    /**
+     * Google Gson parser.
+     */
     GSON("com.google.gson.Gson"),    // $NON-NLS-1$
+
+    /**
+     * Jakarta JSON reader.
+     */
     JAKARTA("jakarta.json.JsonReader");    // $NON-NLS-1$
 
     private final String value;

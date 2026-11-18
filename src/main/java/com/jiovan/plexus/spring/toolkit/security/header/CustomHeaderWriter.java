@@ -43,9 +43,21 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public class CustomHeaderWriter implements HeaderWriter {
+    /**
+     * The name of the header to write.
+     */
     private String headerName;
+    /**
+     * The value of the header to write.
+     */
     private String headerValue;
 
+    /**
+     * Write the configured header into the response.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     */
     @Override
     public void writeHeaders(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response) {
         if (StringUtils.isNotBlank(headerName)) {

@@ -59,6 +59,12 @@ public abstract class ResourceConfigWraps {
         }
     }
 
+    /**
+     * Configure static resource caching on the given registry.
+     *
+     * @param resources The given resources
+     * @param registration The given registration
+     */
     public static void configResourceCache(@Nullable WebProperties.Resources resources, @Nullable ResourceHandlerRegistration registration) {
         if (ObjectUtils.anyNull(resources, registration)) {
             return;

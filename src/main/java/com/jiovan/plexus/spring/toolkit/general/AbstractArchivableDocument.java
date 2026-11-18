@@ -35,18 +35,30 @@ import lombok.ToString;
 @ToString(callSuper = true)
 @SuppressWarnings("unused")
 public abstract class AbstractArchivableDocument extends AbstractBsonDocument {
+    /**
+     * The identifier of the archive record.
+     */
     @Field(name = "archive_id")
     @JsonIgnore
     private String archiveId;
 
+    /**
+     * The type of the archive record.
+     */
     @Field(name = "archive_type")
     @JsonIgnore
     private String archiveType;
 
+    /**
+     * The user who archived this document.
+     */
     @Field(name = "archived_by")
     @JsonIgnore
     private String archivedBy;
 
+    /**
+     * The time when this document was archived.
+     */
     @Field(name = "archived_at")
     @JsonIgnore
     private LocalDateTime archivedAt;

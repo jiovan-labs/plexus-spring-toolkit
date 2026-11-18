@@ -39,6 +39,13 @@ import tools.jackson.databind.PropertyNamingStrategy;
  */
 @SuppressWarnings("unused")
 public class UpperFieldNameStrategy extends PropertyNamingStrategy {
+    /**
+     * Convert a property name to uppercase letters.
+     *
+     * @param propertyName The property name to translate
+     *
+     * @return The uppercased property name
+     */
     public String translate(@Nonnull String propertyName) {
         return propertyName.toUpperCase();
     }

@@ -41,6 +41,13 @@ import org.springframework.validation.ObjectError;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ValidationUtilsWraps {
+    /**
+     * Format a single validation reason into a message.
+     *
+     * @param error The error, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String formatReason(@Nullable ObjectError error) {
         return formatReason(error, null, null);
@@ -67,6 +74,14 @@ public abstract class ValidationUtilsWraps {
         return result;
     }
 
+    /**
+     * Format a single validation reason into a message.
+     *
+     * @param error The error, may be {@code null}
+     * @param action The action, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String formatReason(@Nullable ObjectError error, @Nullable Function<FieldError, String> action) {
         if (error == null || action == null) {
@@ -76,16 +91,40 @@ public abstract class ValidationUtilsWraps {
         return (error instanceof FieldError alias) ? action.apply(alias) : result;
     }
 
+    /**
+     * Format the given validation reasons into messages.
+     *
+     * @param errors The given errors
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> formatReasons(@Nullable Collection<ObjectError> errors) {
         return formatReasons(errors, null, null);
     }
 
+    /**
+     * Format the given validation reasons into messages.
+     *
+     * @param errors The given errors
+     * @param prefix The prefix, may be {@code null}
+     * @param suffix The suffix, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> formatReasons(@Nullable Collection<ObjectError> errors, @Nullable CharSequence prefix, @Nullable CharSequence suffix) {
         return CollectionUtils.isEmpty(errors) ? null : errors.stream().filter(Objects::nonNull).map(error -> formatReason(error, prefix, suffix)).collect(Collectors.toList());
     }
 
+    /**
+     * Format the given validation reasons into messages.
+     *
+     * @param errors The given errors
+     * @param action The action, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> formatReasons(@Nullable Collection<ObjectError> errors, @Nullable Function<FieldError, String> action) {
         return CollectionUtils.isEmpty(errors) ? null : errors.stream().filter(Objects::nonNull).map(error -> formatReason(error, action)).collect(Collectors.toList());

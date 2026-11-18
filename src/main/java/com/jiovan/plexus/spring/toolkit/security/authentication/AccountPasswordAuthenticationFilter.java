@@ -70,17 +70,34 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter implements BeanFactoryAware {
+    /**
+     * Whether REST-compatible request bodies are supported.
+     */
     @Getter
     private boolean restCompatible = false;
 
+    /**
+     * Whether remember-me services are enabled.
+     */
     @Getter
     private boolean rememberMe = false;
 
+    /**
+     * Optional transition transforming the success authentication event.
+     */
     @Getter
     private UnaryOperator<AbstractAuthenticationEvent> successEventTransition;
 
+    /**
+     * The bean factory used for resolving beans.
+     */
     protected BeanFactory beanFactory;
 
+    /**
+     * Create a AccountPasswordAuthenticationFilter using the given authentication manager.
+     *
+     * @param manager The authentication manager
+     */
     public AccountPasswordAuthenticationFilter(AuthenticationManager manager) {
         super(manager);
     }
@@ -122,10 +139,22 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
         return super.getAuthenticationManager().authenticate(token);
     }
 
+    /**
+     * Returns whether only POST requests are accepted.
+     *
+     * @return Whether only POST requests are accepted
+     */
     public boolean isPostOnly() {
         return BooleanUtils.isTrue(FieldUtilsWraps.readDeclaredFieldAs(this, "postOnly", true, Boolean.class));    // $NON-NLS-1$
     }
 
+    /**
+     * Extract the username from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The result of the operation
+     */
     @Nullable
     protected String obtainUsername(HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, super.getUsernameParameter());
@@ -138,6 +167,13 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
         return result;
     }
 
+    /**
+     * Extract the password from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The result of the operation
+     */
     @Nullable
     protected String obtainPassword(HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, super.getPasswordParameter());

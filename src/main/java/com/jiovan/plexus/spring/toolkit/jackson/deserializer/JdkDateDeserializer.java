@@ -46,8 +46,19 @@ import lombok.Setter;
 @Getter
 @Setter
 public class JdkDateDeserializer extends ValueDeserializer<Date> {
+    /**
+     * Default date formats used for parsing string values into {@link Date}.
+     */
     private String[] dateFormats = TemporalFormatCombo.ALL_DATETIME_DATES;
 
+    /**
+     * Deserialize a JSON string value into a {@link Date} using configured format patterns.
+     *
+     * @param parser The active parser holding the JSON string token
+     * @param context The active deserialization context
+     *
+     * @return The parsed date, or {@code null} if the input is blank
+     */
     @Override
     public Date deserialize(@Nullable JsonParser parser, @Nullable DeserializationContext context) {
         if (parser == null || StringUtils.isBlank(parser.getString())) {

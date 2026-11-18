@@ -32,14 +32,32 @@ import org.springframework.core.env.Environment;
  */
 @SuppressWarnings("unused")
 public class ClassPathScanningSimpleComponentProvider extends ClassPathScanningCandidateComponentProvider {
+    /**
+     * Create a ClassPathScanningSimpleComponentProvider with the given default-filter setting.
+     *
+     * @param useDefaultFilters Whether to register the default filters
+     */
     public ClassPathScanningSimpleComponentProvider(boolean useDefaultFilters) {
         super(useDefaultFilters);
     }
 
+    /**
+     * Create a ClassPathScanningSimpleComponentProvider with the given default-filter setting.
+     *
+     * @param useDefaultFilters Whether to register the default filters
+     * @param environment The Spring environment
+     */
     public ClassPathScanningSimpleComponentProvider(boolean useDefaultFilters, @Nonnull Environment environment) {
         super(useDefaultFilters, environment);
     }
 
+    /**
+     * Returns whether the given bean definition is a candidate component.
+     *
+     * @param definition The bean definition to inspect
+     *
+     * @return Whether the definition is a candidate component
+     */
     @Override
     protected boolean isCandidateComponent(@Nonnull AnnotatedBeanDefinition definition) {
         return true;

@@ -28,6 +28,9 @@ import com.jiovan.plexus.common.toolkit.util.BeanUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class ApacheBeanConverterRegistrar implements InitializingBean {
+    /**
+     * Register the temporal converters with the Apache Commons BeanUtils instance.
+     */
     @Override
     public void afterPropertiesSet() {
         BeanUtilsWraps.registerTemporalConverters(BeanUtilsWraps.BEAN_UTILS_INSTANCE);

@@ -33,11 +33,34 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum MinioAccessType implements ValueEnum<String> {
+    /**
+     * Default bucket access permission.
+     */
     DEFAULT("default"),    // $NON-NLS-1$
+
+    /**
+     * Private bucket access permission.
+     */
     PRIVATE("private"),    // $NON-NLS-1$
+
+    /**
+     * Public read-only access permission.
+     */
     PUBLIC_READ("public-read"),    // $NON-NLS-1$
+
+    /**
+     * Public read and write access permission.
+     */
     PUBLIC_READ_WRITE("public-read-write"),    // $NON-NLS-1$
+
+    /**
+     * Authenticated users can read.
+     */
     AUTHENTICATED_READ("authenticated-read"),    // $NON-NLS-1$
+
+    /**
+     * Authenticated users can read and write.
+     */
     AUTHENTICATED_READ_WRITE("authenticated-read-write");    // $NON-NLS-1$
 
     private final String value;

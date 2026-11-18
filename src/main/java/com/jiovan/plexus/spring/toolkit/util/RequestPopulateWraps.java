@@ -37,62 +37,170 @@ import com.jiovan.plexus.spring.toolkit.constant.BeanCopierConst;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class RequestPopulateWraps {
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean) {
         populateContextRequestParametersToBean(bean, false, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean, boolean emptyAsNull) {
         populateContextRequestParametersToBean(bean, emptyAsNull, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean, boolean emptyAsNull, boolean includePayload) {
         populateContextRequestParametersToBean(bean, emptyAsNull, includePayload, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray) {
         populateContextRequestParametersToBean(bean, emptyAsNull, includePayload, unwrapSingleArray, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable String... ignoredFields) {
         populateContextRequestParametersToBean(bean, emptyAsNull, includePayload, unwrapSingleArray, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate context request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateContextRequestParametersToBean(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable Collection<String> ignoredFields) {
         populateRequestParametersToBean(bean, WebUtilsWraps.getContextServletRequest(), emptyAsNull, includePayload, unwrapSingleArray, ignoredFields);
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean) {
         populateContextRequestParametersToBeanSheared(bean, false, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean, boolean emptyAsNull) {
         populateContextRequestParametersToBeanSheared(bean, emptyAsNull, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean, boolean emptyAsNull, boolean includePayload) {
         populateContextRequestParametersToBeanSheared(bean, emptyAsNull, includePayload, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray) {
         populateContextRequestParametersToBeanSheared(bean, emptyAsNull, includePayload, unwrapSingleArray, (Collection<String>) null);
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable String... ignoredFields) {
         populateContextRequestParametersToBeanSheared(bean, emptyAsNull, includePayload, unwrapSingleArray, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate context request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateContextRequestParametersToBeanSheared(@Nullable Object bean, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable Collection<String> ignoredFields) {
         populateRequestParametersToBeanSheared(bean, WebUtilsWraps.getContextServletRequest(), emptyAsNull, includePayload, unwrapSingleArray, ignoredFields);
     }
 
+    /**
+     * Populate parameters to bean.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     */
     public static void populateParametersToBean(@Nullable Object bean, @Nullable Map<String, Object> params) {
         populateParametersToBean(bean, params, (Collection<String>) null);
     }
 
+    /**
+     * Populate parameters to bean.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateParametersToBean(@Nullable Object bean, @Nullable Map<String, Object> params, @Nullable String... ignoredFields) {
         populateParametersToBean(bean, params, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate parameters to bean.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateParametersToBean(@Nullable Object bean, @Nullable Map<String, Object> params, @Nullable Collection<String> ignoredFields) {
         if (bean == null || MapPlainWraps.isEmpty(params)) {
             return;
@@ -104,14 +212,34 @@ public abstract class RequestPopulateWraps {
         BeanUtilsWraps.mapToBeanQuietly(bean, alias);
     }
 
+    /**
+     * Populate parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     */
     public static void populateParametersToBeanSheared(@Nullable Object bean, @Nullable Map<String, Object> params) {
         populateParametersToBeanSheared(bean, params, (Collection<String>) null);
     }
 
+    /**
+     * Populate parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateParametersToBeanSheared(@Nullable Object bean, @Nullable Map<String, Object> params, @Nullable String... ignoredFields) {
         populateParametersToBeanSheared(bean, params, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param params The parameters, may be {@code null}
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateParametersToBeanSheared(@Nullable Object bean, @Nullable Map<String, Object> params, @Nullable Collection<String> ignoredFields) {
         if (bean == null || MapPlainWraps.isEmpty(params)) {
             return;
@@ -121,26 +249,76 @@ public abstract class RequestPopulateWraps {
         populateParametersToBean(bean, params, ignores);
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request) {
         populateRequestParametersToBean(bean, request, false, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull) {
         populateRequestParametersToBean(bean, request, emptyAsNull, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload) {
         populateRequestParametersToBean(bean, request, emptyAsNull, includePayload, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray) {
         populateRequestParametersToBean(bean, request, emptyAsNull, includePayload, unwrapSingleArray, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable String... ignoredFields) {
         populateRequestParametersToBean(bean, request, emptyAsNull, includePayload, unwrapSingleArray, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate request parameters to bean.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateRequestParametersToBean(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable Collection<String> ignoredFields) {
         if (ObjectUtils.anyNull(bean, request)) {
             return;
@@ -155,26 +333,76 @@ public abstract class RequestPopulateWraps {
         BeanUtilsWraps.mapToBeanQuietly(bean, map);
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request) {
         populateRequestParametersToBeanSheared(bean, request, false, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull) {
         populateRequestParametersToBeanSheared(bean, request, emptyAsNull, false, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload) {
         populateRequestParametersToBeanSheared(bean, request, emptyAsNull, includePayload, false, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray) {
         populateRequestParametersToBeanSheared(bean, request, emptyAsNull, includePayload, unwrapSingleArray, (Collection<String>) null);
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable String... ignoredFields) {
         populateRequestParametersToBeanSheared(bean, request, emptyAsNull, includePayload, unwrapSingleArray, ArrayUtilsWraps.asList(ignoredFields));
     }
 
+    /**
+     * Populate request parameters to bean sheared.
+     *
+     * @param bean The given bean
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     * @param includePayload The given includePayload
+     * @param unwrapSingleArray The given unwrapSingleArray
+     * @param ignoredFields The given ignoredFields
+     */
     public static void populateRequestParametersToBeanSheared(@Nullable Object bean, @Nullable HttpServletRequest request, boolean emptyAsNull, boolean includePayload, boolean unwrapSingleArray, @Nullable Collection<String> ignoredFields) {
         if (ObjectUtils.anyNull(bean, request)) {
             return;

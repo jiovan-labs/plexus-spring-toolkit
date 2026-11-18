@@ -35,6 +35,13 @@ import com.jiovan.plexus.common.toolkit.util.OptionalPlainWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue", "JavadocReference"})
 public abstract class DataAuditorWraps {
+    /**
+     * Extract the auditor aware instance from the given auditing handler.
+     *
+     * @param handler The auditing handler, may be {@code null}
+     *
+     * @return The auditor aware instance, or {@code null}
+     */
     @Nullable
     public static AuditorAware<?> getAuditorAware(@Nullable AuditingHandler handler) {
         if (handler == null) {

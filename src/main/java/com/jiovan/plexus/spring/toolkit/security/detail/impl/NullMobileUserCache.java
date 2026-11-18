@@ -32,15 +32,34 @@ import com.jiovan.plexus.spring.toolkit.security.detail.MobileUserCache;
  */
 @SuppressWarnings("unused")
 public class NullMobileUserCache implements MobileUserCache {
+    /**
+     * Returns the cached user details for the given mobile and dial code.
+     *
+     * @param mobile The mobile number
+     * @param dial The dial code, may be {@code null}
+     *
+     * @return The cached user details, or {@code null}
+     */
     @Override
     public UserDetails getUserFromCache(@Nonnull String mobile, @Nullable String dial) {
         return null;
     }
 
+    /**
+     * Store the given user details in the cache.
+     *
+     * @param details The user details
+     */
     @Override
     public void putUserInCache(@Nonnull UserDetails details) {
     }
 
+    /**
+     * Remove the cached user details for the given mobile and dial code.
+     *
+     * @param mobile The mobile number
+     * @param dial The dial code, may be {@code null}
+     */
     @Override
     public void removeUserFromCache(@Nonnull String mobile, @Nullable String dial) {
     }

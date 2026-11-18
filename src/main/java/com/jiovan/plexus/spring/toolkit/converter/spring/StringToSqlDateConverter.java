@@ -41,6 +41,13 @@ import lombok.Setter;
 public class StringToSqlDateConverter implements Converter<String, Date> {
     private String[] formats = TemporalFormatCombo.ALL_DATETIME_DATES;
 
+    /**
+     * Convert a string value to a {@link Date} using the configured formats.
+     *
+     * @param value The source string, may be {@code null}
+     *
+     * @return The parsed SQL date, or {@code null} if the value cannot be parsed
+     */
     @Override
     public Date convert(@Nullable String value) {
         if (StringUtils.isBlank(value)) {

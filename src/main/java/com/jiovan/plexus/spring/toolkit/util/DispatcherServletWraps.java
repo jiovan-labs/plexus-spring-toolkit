@@ -35,10 +35,26 @@ import com.jiovan.plexus.common.toolkit.util.ArrayUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class DispatcherServletWraps {
+    /**
+     * Convert the given paths into paths relative to the dispatcher servlet.
+     *
+     * @param dispatcher The dispatcher servlet path, may be {@code null}
+     * @param paths The paths to convert, may be {@code null}
+     *
+     * @return The relative paths, or {@code null}
+     */
     public static String[] getRelativePaths(@Nullable DispatcherServletPath dispatcher, @Nullable String... paths) {
         return getRelativePaths(dispatcher, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Convert the given paths into paths relative to the dispatcher servlet.
+     *
+     * @param dispatcher The dispatcher servlet path, may be {@code null}
+     * @param paths The paths to convert, may be {@code null}
+     *
+     * @return The relative paths, or {@code null}
+     */
     public static String[] getRelativePaths(@Nullable DispatcherServletPath dispatcher, @Nullable Collection<String> paths) {
         return (dispatcher == null || CollectionUtils.isEmpty(paths)) ? null : paths.stream().filter(StringUtils::isNotBlank).map(dispatcher::getRelativePath).toArray(String[]::new);
     }

@@ -39,11 +39,23 @@ import tools.jackson.databind.jsontype.BasicPolymorphicTypeValidator;
  */
 @SuppressWarnings("unused")
 public abstract class JacksonRedisWraps {
+    /**
+     * Create a JSON Redis serializer with polymorphic type handling.
+     *
+     * @return The configured JSON Redis serializer
+     */
     @Nonnull
     public static JacksonJsonRedisSerializer<Object> jsonObjectSerializer() {
         return jsonObjectSerializer(null);
     }
 
+    /**
+     * Create a JSON Redis serializer with polymorphic type handling.
+     *
+     * @param properties The Jackson properties, may be {@code null}
+     *
+     * @return The configured JSON Redis serializer
+     */
     @Nonnull
     public static JacksonJsonRedisSerializer<Object> jsonObjectSerializer(@Nullable JacksonProperties properties) {
         ObjectMapper mapper = ((JsonMapper) JacksonConfigWraps.jsonObjectMapper(properties)).rebuild()
@@ -53,35 +65,76 @@ public abstract class JacksonRedisWraps {
         return new JacksonJsonRedisSerializer<>(mapper, Object.class);
     }
 
+    /**
+     * Create a Redis template using generic JSON serializers.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     */
     public static RedisTemplate<Object, Object> genericObjectRedisTemplate(@Nullable RedisConnectionFactory factory) {
         RedisSerializer<Object> serializer = RedisSerializer.json();
         return objectObjectRedisTemplate(factory, serializer, serializer);
     }
 
+    /**
+     * Create a Redis template with object key and value serializers.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     */
     public static RedisTemplate<Object, Object> objectObjectRedisTemplate(@Nullable RedisConnectionFactory factory) {
         return objectObjectRedisTemplate(factory, null);
     }
 
+    /**
+     * Create a Redis template with object key and value serializers.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     * @param properties The Jackson properties, may be {@code null}
+     */
     public static RedisTemplate<Object, Object> objectObjectRedisTemplate(@Nullable RedisConnectionFactory factory, @Nullable JacksonProperties properties) {
         RedisSerializer<Object> serializer = jsonObjectSerializer(properties);
         return objectObjectRedisTemplate(factory, serializer, serializer);
     }
 
+    /**
+     * Create a Redis template with object key and value serializers.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     * @param keySerializer The key serializer, may be {@code null}
+     * @param valueSerializer The value serializer, may be {@code null}
+     */
     @Nullable
     public static RedisTemplate<Object, Object> objectObjectRedisTemplate(@Nullable RedisConnectionFactory factory, @Nullable RedisSerializer<Object> keySerializer, @Nullable RedisSerializer<Object> valueSerializer) {
         return RedisConfigWraps.redisTemplate(factory, keySerializer, valueSerializer);
     }
 
+    /**
+     * Create a Redis template with string keys and object values.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     */
     public static RedisTemplate<String, Object> stringObjectRedisTemplate(@Nullable RedisConnectionFactory factory) {
         return stringObjectRedisTemplate(factory, null);
     }
 
+    /**
+     * Create a Redis template with string keys and object values.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     * @param properties The Jackson properties, may be {@code null}
+     */
     public static RedisTemplate<String, Object> stringObjectRedisTemplate(@Nullable RedisConnectionFactory factory, @Nullable JacksonProperties properties) {
         RedisSerializer<String> keySerializer = RedisSerializer.string();
         RedisSerializer<Object> valueSerializer = jsonObjectSerializer(properties);
         return stringObjectRedisTemplate(factory, keySerializer, valueSerializer);
     }
 
+    /**
+     * Create a Redis template with string keys and object values.
+     *
+     * @param factory The Redis connection factory, may be {@code null}
+     * @param keySerializer The key serializer, may be {@code null}
+     * @param valueSerializer The value serializer, may be {@code null}
+     */
     @Nullable
     public static RedisTemplate<String, Object> stringObjectRedisTemplate(@Nullable RedisConnectionFactory factory, @Nullable RedisSerializer<String> keySerializer, @Nullable RedisSerializer<Object> valueSerializer) {
         return RedisConfigWraps.redisTemplate(factory, keySerializer, valueSerializer);

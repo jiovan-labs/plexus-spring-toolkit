@@ -45,6 +45,14 @@ import com.jiovan.plexus.common.toolkit.util.StreamPlainWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class StringUtilsWraps {
+    /**
+     * Format the text by substituting values into curly-bracket placeholders.
+     *
+     * @param template The given template
+     * @param arguments The given arguments
+     *
+     * @return The result of the operation
+     */
     public static String formatCurlyBrackets(@Nullable String template, @Nullable Object... arguments) {
         return formatCurlyBrackets(template, ArrayUtilsWraps.asList(arguments));
     }
@@ -68,46 +76,120 @@ public abstract class StringUtilsWraps {
         return result;
     }
 
+    /**
+     * Join the given items using the specified delimiter.
+     *
+     * @param objects The objects, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> String joinWith(@Nullable T[] objects, char delimiter) {
         return joinWith(objects, CharUtils.toString(delimiter));
     }
 
+    /**
+     * Join the given items using the specified delimiter.
+     *
+     * @param objects The objects, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> String joinWith(@Nullable T[] objects, @Nullable CharSequence delimiter) {
         return ArrayUtils.isEmpty(objects) ? null : StringUtils.arrayToDelimitedString(objects, CharSequenceWraps.toStringIgnoreNull(delimiter, StringVariantConst.EMPTY));
     }
 
+    /**
+     * Join the given items using the specified delimiter.
+     *
+     * @param collection The collection, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String joinWith(@Nullable Collection<?> collection, char delimiter) {
         return joinWith(collection, CharUtils.toString(delimiter));
     }
 
+    /**
+     * Join the given items using the specified delimiter.
+     *
+     * @param collection The collection, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String joinWith(@Nullable Collection<?> collection, @Nullable CharSequence delimiter) {
         return CollectionUtils.isEmpty(collection) ? null : StringUtils.collectionToDelimitedString(collection, CharSequenceWraps.toStringIgnoreNull(delimiter, StringVariantConst.EMPTY));
     }
 
+    /**
+     * Return the display string wrapped in quotes.
+     *
+     * @param object The object, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String quoteDisplayString(@Nullable Object object) {
         return (object == null) ? null : StringUtils.quote(ObjectUtilsWraps.getDisplayString(object));
     }
 
+    /**
+     * Return the display string wrapped in quotes.
+     *
+     * @param object The object, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String quoteDisplayString(@Nullable Object object, char delimiter) {
         return quoteDisplayString(object, CharUtils.toString(delimiter));
     }
 
+    /**
+     * Return the display string wrapped in quotes.
+     *
+     * @param object The object, may be {@code null}
+     * @param delimiter The delimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String quoteDisplayString(@Nullable Object object, @Nullable CharSequence delimiter) {
         String display = ObjectUtilsWraps.getDisplayString(object);
         return (display == null) ? null : org.apache.commons.lang3.StringUtils.join(delimiter, display, delimiter);
     }
 
+    /**
+     * Split key-value pairs into a Properties object.
+     *
+     * @param text The text, may be {@code null}
+     * @param groupDelimiter The given groupDelimiter
+     * @param keyValueDelimiter The given keyValueDelimiter
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Properties splitKeyValuesIntoProperties(@Nullable String text, char groupDelimiter, char keyValueDelimiter) {
         return splitKeyValuesIntoProperties(text, CharUtils.toString(groupDelimiter), CharUtils.toString(keyValueDelimiter));
     }
 
+    /**
+     * Split key-value pairs into a Properties object.
+     *
+     * @param text The text, may be {@code null}
+     * @param groupDelimiter The given groupDelimiter
+     * @param keyValueDelimiter The given keyValueDelimiter
+     * @param charsToDelete The given charsToDelete
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Properties splitKeyValuesIntoProperties(@Nullable String text, char groupDelimiter, char keyValueDelimiter, char charsToDelete) {
         return splitKeyValuesIntoProperties(text, CharUtils.toString(groupDelimiter), CharUtils.toString(keyValueDelimiter), CharUtils.toString(charsToDelete));

@@ -35,12 +35,39 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum FormRenderType implements ValueEnum<String> {
+    /**
+     * A string form field.
+     */
     STRING("string"),    // $NON-NLS-1$
+
+    /**
+     * A numeric form field.
+     */
     NUMBER("number"),    // $NON-NLS-1$
+
+    /**
+     * A boolean form field.
+     */
     BOOLEAN("boolean"),    // $NON-NLS-1$
+
+    /**
+     * An array form field.
+     */
     ARRAY("array"),    // $NON-NLS-1$
+
+    /**
+     * A range form field.
+     */
     RANGE("range"),    // $NON-NLS-1$
+
+    /**
+     * An HTML form field.
+     */
     HTML("html"),    // $NON-NLS-1$
+
+    /**
+     * A void form field.
+     */
     VOID("void");    // $NON-NLS-1$
 
     private final String value;

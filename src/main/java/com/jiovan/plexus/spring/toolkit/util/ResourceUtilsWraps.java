@@ -52,11 +52,26 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ResourceUtilsWraps {
+    /**
+     * Resolve the given location into a Spring resource.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Resource determineResource(@Nullable String location) {
         return determineResource(location, null);
     }
 
+    /**
+     * Resolve the given location into a Spring resource.
+     *
+     * @param location The resource location, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Resource determineResource(@Nullable String location, @Nullable ClassLoader loader) {
         if (StringUtils.isBlank(location)) {
@@ -74,11 +89,26 @@ public abstract class ResourceUtilsWraps {
         return new FileSystemResource(location);
     }
 
+    /**
+     * Load the resource at the given location.
+     *
+     * @param location The resource location, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The resolved resource, or {@code null}
+     */
     @Nullable
     public static Resource getResource(@Nullable String location, @Nullable ResourceLoader loader) {
         return (StringUtils.isBlank(location) || loader == null) ? null : loader.getResource(location);
     }
 
+    /**
+     * Return the URL of the given resource.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return The resource URL, or {@code null}
+     */
     @Nullable
     public static URL getUrl(@Nullable String location) {
         if (StringUtils.isBlank(location)) {
@@ -91,6 +121,13 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Convert the given location to a URI.
+     *
+     * @param resourceUrl The given resourceUrl
+     *
+     * @return The resource URI, or {@code null}
+     */
     @Nullable
     public static URI toUri(@Nullable URL resourceUrl) {
         if (resourceUrl == null) {
@@ -103,6 +140,13 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Convert the given location to a URI.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return The resource URI, or {@code null}
+     */
     @Nullable
     public static URI toUri(@Nullable String location) {
         if (StringUtils.isBlank(location)) {
@@ -115,11 +159,26 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Resolve the given resource as a file.
+     *
+     * @param fileUri The given fileUri
+     *
+     * @return The resource as a file, or {@code null}
+     */
     @Nullable
     public static File getFile(@Nullable URI fileUri) {
         return getFile(fileUri, StringVariantConst.URI);
     }
 
+    /**
+     * Resolve the given resource as a file.
+     *
+     * @param fileUri The given fileUri
+     * @param description The given description
+     *
+     * @return The resource as a file, or {@code null}
+     */
     @Nullable
     public static File getFile(@Nullable URI fileUri, @Nullable String description) {
         if (fileUri == null) {
@@ -132,11 +191,26 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Resolve the given resource as a file.
+     *
+     * @param fileUrl The given fileUrl
+     *
+     * @return The resource as a file, or {@code null}
+     */
     @Nullable
     public static File getFile(@Nullable URL fileUrl) {
         return getFile(fileUrl, StringVariantConst.URL);
     }
 
+    /**
+     * Resolve the given resource as a file.
+     *
+     * @param fileUrl The given fileUrl
+     * @param description The given description
+     *
+     * @return The resource as a file, or {@code null}
+     */
     @Nullable
     public static File getFile(@Nullable URL fileUrl, @Nullable String description) {
         if (fileUrl == null) {
@@ -149,6 +223,13 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Resolve the given resource as a file.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return The resource as a file, or {@code null}
+     */
     @Nullable
     public static File getFile(@Nullable String location) {
         if (StringUtils.isBlank(location)) {
@@ -161,6 +242,13 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Extract the archive URL from the given JAR URL.
+     *
+     * @param jarUrl The given jarUrl
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static URL extractArchiveUrl(@Nullable URL jarUrl) {
         if (jarUrl == null) {
@@ -173,6 +261,13 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Extract the JAR file URL from the given URL.
+     *
+     * @param jarUrl The given jarUrl
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static URL extractJarFileUrl(@Nullable URL jarUrl) {
         if (jarUrl == null) {
@@ -185,6 +280,15 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the path of the resolved resource.
+     *
+     * @param resource The resource, may be {@code null}
+     *
+     * @return The resource path, or {@code null}
+     *
+     * @throws UnsupportedResourceException If the operation fails
+     */
     @Nullable
     public static String getResourcePath(@Nullable Resource resource) throws UnsupportedResourceException {
         if (resource == null) {
@@ -202,6 +306,13 @@ public abstract class ResourceUtilsWraps {
         throw new UnsupportedResourceException();
     }
 
+    /**
+     * Return the resource path, or {@code null} on failure.
+     *
+     * @param resource The resource, may be {@code null}
+     *
+     * @return The resource path, or {@code null}
+     */
     @Nullable
     public static String getResourcePathQuietly(@Nullable Resource resource) {
         try {
@@ -211,84 +322,217 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Return whether the location denotes a file system path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isFilePath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_FILE, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a JAR path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isJarPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_JAR, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a WAR path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isWarPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_WAR, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a ZIP path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isZipPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_ZIP, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a WSJAR path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isWsjarPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_WSJAR, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a VFS path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isVfsPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_VFS, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a VFS zip path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isVfszipPath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_VFSZIP, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the location denotes a VFS file path.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isVfsfilePath(@Nullable String location) {
         return StringUtilsWraps.startsWithIgnoreCase(location, StringUtils.join(ResourceUtils.URL_PROTOCOL_VFSFILE, SymbolVariantConst.PROTOCOL_DELIMITER));
     }
 
+    /**
+     * Return whether the named class-path resource exists.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsClassPathResource(@Nullable String location) {
         return existsClassPathResource(location, (ClassLoader) null);
     }
 
+    /**
+     * Return whether the named class-path resource exists.
+     *
+     * @param path The path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsClassPathResource(@Nullable String path, @Nullable ClassLoader loader) {
         ClassPathResource resource = ofClassPathResource(path, loader);
         return resource != null && resource.exists();
     }
 
+    /**
+     * Return whether the named class-path resource exists.
+     *
+     * @param path The path, may be {@code null}
+     * @param clazz The class, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsClassPathResource(@Nullable String path, @Nullable Class<?> clazz) {
         ClassPathResource resource = ofClassPathResource(path, clazz);
         return resource != null && resource.exists();
     }
 
+    /**
+     * Return whether the named URL resource exists.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsUrlResource(@Nullable String location) {
         UrlResource resource = ofUrlResource(location);
         return resource != null && resource.exists();
     }
 
+    /**
+     * Return whether the named URL resource exists.
+     *
+     * @param protocol The given protocol
+     * @param location The resource location, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsUrlResource(@Nullable String protocol, @Nullable String location) {
         UrlResource resource = ofUrlResource(protocol, location);
         return resource != null && resource.exists();
     }
 
+    /**
+     * Return whether the named URL resource exists.
+     *
+     * @param protocol The given protocol
+     * @param location The resource location, may be {@code null}
+     * @param fragment The given fragment
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsUrlResource(@Nullable String protocol, @Nullable String location, @Nullable String fragment) {
         UrlResource resource = ofUrlResource(protocol, location, fragment);
         return resource != null && resource.exists();
     }
 
+    /**
+     * Create a class-path resource for the given path.
+     *
+     * @param path The path, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static ClassPathResource ofClassPathResource(@Nullable String path) {
         return ofClassPathResource(path, (ClassLoader) null);
     }
 
+    /**
+     * Create a class-path resource for the given path.
+     *
+     * @param path The path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static ClassPathResource ofClassPathResource(@Nullable String path, @Nullable ClassLoader loader) {
         String pathToUse = ClassPathWraps.startsWithClasspath(path) ? ClassPathWraps.removeClasspathPrefix(path) : path;
         return StringUtils.isBlank(path) ? null : new ClassPathResource(pathToUse, loader);
     }
 
+    /**
+     * Create a class-path resource for the given path.
+     *
+     * @param path The path, may be {@code null}
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static ClassPathResource ofClassPathResource(@Nullable String path, @Nullable Class<?> clazz) {
         String pathToUse = ClassPathWraps.startsWithClasspath(path) ? ClassPathWraps.removeClasspathPrefix(path) : path;
         return StringUtils.isBlank(path) ? null : new ClassPathResource(pathToUse, clazz);
     }
 
+    /**
+     * Create a URL resource for the given location.
+     *
+     * @param location The resource location, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UrlResource ofUrlResource(@Nullable String location) {
         try {
@@ -298,11 +542,28 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Create a URL resource for the given location.
+     *
+     * @param location The resource location, may be {@code null}
+     * @param protocol The given protocol
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UrlResource ofUrlResource(@Nullable String location, @Nullable String protocol) {
         return ofUrlResource(location, protocol, null);
     }
 
+    /**
+     * Create a URL resource for the given location.
+     *
+     * @param location The resource location, may be {@code null}
+     * @param protocol The given protocol
+     * @param fragment The given fragment
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UrlResource ofUrlResource(@Nullable String location, @Nullable String protocol, @Nullable String fragment) {
         if (StringUtils.isBlank(location)) {
@@ -315,6 +576,15 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Resolve all class-path resources matching the given pattern.
+     *
+     * @param path The path, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static Resource[] resolveClassPathResources(@Nullable String path) throws IOException {
         return resolveClassPathResources(path, null);
@@ -332,11 +602,26 @@ public abstract class ResourceUtilsWraps {
         return resolver.getResources(path);
     }
 
+    /**
+     * Resolve class-path resources, returning {@code null} on failure.
+     *
+     * @param path The path, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Resource[] resolveClassPathResourcesQuietly(@Nullable String path) {
         return resolveClassPathResourcesQuietly(path, null);
     }
 
+    /**
+     * Resolve class-path resources, returning {@code null} on failure.
+     *
+     * @param path The path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Resource[] resolveClassPathResourcesQuietly(@Nullable String path, @Nullable ResourceLoader loader) {
         try {
@@ -346,6 +631,15 @@ public abstract class ResourceUtilsWraps {
         return null;
     }
 
+    /**
+     * Read the given resource into a byte array.
+     *
+     * @param resource The resource, may be {@code null}
+     *
+     * @return The resource bytes, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static byte[] toByteArray(@Nullable Resource resource) throws IOException {
         if (resource == null) {
@@ -357,6 +651,13 @@ public abstract class ResourceUtilsWraps {
         }
     }
 
+    /**
+     * Read the resource into a byte array, returning {@code null} on failure.
+     *
+     * @param resource The resource, may be {@code null}
+     *
+     * @return The resource bytes, or {@code null}
+     */
     @Nullable
     public static byte[] toByteArrayQuietly(@Nullable Resource resource) {
         try {

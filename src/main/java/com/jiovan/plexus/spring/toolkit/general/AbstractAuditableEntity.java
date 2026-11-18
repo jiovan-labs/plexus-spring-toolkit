@@ -53,6 +53,9 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public abstract class AbstractAuditableEntity implements Serializable {
+    /**
+     * The user who created this entity.
+     */
     @Column(name = "created_by", nullable = false, updatable = false, length = 40)
     @NotBlank(groups = InsertUpdateSequence.class)
     @Size(max = 40)
@@ -60,12 +63,18 @@ public abstract class AbstractAuditableEntity implements Serializable {
     @JsonIgnore
     private String createdBy;
 
+    /**
+     * The time when this entity was created.
+     */
     @Column(name = "created_at", nullable = false, updatable = false)
     @NotNull(groups = InsertUpdateSequence.class)
     @CreatedDate
     @JsonIgnore
     private LocalDateTime createdAt;
 
+    /**
+     * The user who last updated this entity.
+     */
     @Column(name = "updated_by", nullable = false, length = 40)
     @NotBlank(groups = InsertUpdateSequence.class)
     @Size(max = 40)
@@ -73,17 +82,26 @@ public abstract class AbstractAuditableEntity implements Serializable {
     @JsonIgnore
     private String updatedBy;
 
+    /**
+     * The time when this entity was last updated.
+     */
     @Column(name = "updated_at", nullable = false)
     @NotNull(groups = InsertUpdateSequence.class)
     @LastModifiedDate
     @JsonIgnore
     private LocalDateTime updatedAt;
 
+    /**
+     * Whether to apply auditing when creating this entity.
+     */
     @Transient
     @JsonIgnore
     @BeanCopyIgnore
     private Boolean auditCreating = Boolean.TRUE;
 
+    /**
+     * Whether to apply auditing when updating this entity.
+     */
     @Transient
     @JsonIgnore
     @BeanCopyIgnore

@@ -47,9 +47,22 @@ import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJdkDateCustom
  * @see org.springframework.context.annotation.ImportBeanDefinitionRegistrar
  */
 public class JacksonTemporalFormatRegistrar implements ImportAware {
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableJacksonTemporalFormat.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));

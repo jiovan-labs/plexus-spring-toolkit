@@ -38,6 +38,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @SuppressWarnings("unused")
 public class SqlDateSerializer extends tools.jackson.databind.ext.sql.JavaSqlDateSerializer {
+    /**
+     * Create a serializer for {@link java.sql.Date} with the given configuration options.
+     *
+     * @param useTimestamp whether to emit timestamps instead of plain dates
+     * @param dateFormat the date format to use, or {@code null} for defaults
+     */
     public SqlDateSerializer(@Nullable Boolean useTimestamp, @Nullable DateFormat dateFormat) {
         super(useTimestamp, dateFormat);
     }

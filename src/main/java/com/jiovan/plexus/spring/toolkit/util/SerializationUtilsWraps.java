@@ -31,6 +31,13 @@ import org.springframework.util.SerializationUtils;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SerializationUtilsWraps {
+    /**
+     * Serialize the given object into a byte array.
+     *
+     * @param object The object, may be {@code null}
+     *
+     * @return The serialized bytes, or {@code null}
+     */
     @Nullable
     public static byte[] serialize(@Nullable Object object) {
         try {
@@ -40,6 +47,13 @@ public abstract class SerializationUtilsWraps {
         return null;
     }
 
+    /**
+     * Create a copy of the given object through serialization.
+     *
+     * @param object The object, may be {@code null}
+     *
+     * @return The cloned object, or {@code null}
+     */
     @Nullable
     public static <T extends Serializable> T clone(T object) {
         try {

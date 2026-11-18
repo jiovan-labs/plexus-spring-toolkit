@@ -36,6 +36,16 @@ import com.jiovan.plexus.spring.toolkit.support.HeaderCapableRequestWrapper;
  */
 @SuppressWarnings("unused")
 public class HeaderCapableRequestFilter extends AbstractExcludableRequestFilter {
+    /**
+     * Wrap the request with {@link HeaderCapableRequestWrapper} and continue the filter chain.
+     *
+     * @param request The current request
+     * @param response The current response
+     * @param chain The filter chain
+     *
+     * @throws ServletException If the filter fails
+     * @throws IOException If an I/O error occurs
+     */
     @Override
     protected void doFilterInternal(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain) throws ServletException, IOException {
         HeaderCapableRequestWrapper wrapper = new HeaderCapableRequestWrapper(request);

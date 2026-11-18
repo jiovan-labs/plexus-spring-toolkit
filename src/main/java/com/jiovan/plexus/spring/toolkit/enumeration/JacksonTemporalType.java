@@ -33,7 +33,14 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum JacksonTemporalType implements ValueEnum<String> {
+    /**
+     * Jackson module for Joda-Time types.
+     */
     JODA("tools.jackson.datatype.joda.JodaModule"),    // $NON-NLS-1$
+
+    /**
+     * Jackson module for {@code java.time} types.
+     */
     JSR310("tools.jackson.databind.ext.javatime.JavaTimeInitializer");    // $NON-NLS-1$
 
     private final String value;

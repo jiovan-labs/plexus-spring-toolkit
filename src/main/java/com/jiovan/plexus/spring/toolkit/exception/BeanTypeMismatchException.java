@@ -32,10 +32,22 @@ import org.springframework.util.ClassUtils;
  */
 @SuppressWarnings("unused")
 public class BeanTypeMismatchException extends BeansException {
+    /**
+     * Create an exception for a bean expected to be of the given type.
+     *
+     * @param beanName The name of the bean
+     * @param expectType The expected bean type
+     */
     public BeanTypeMismatchException(@Nonnull String beanName, @Nonnull Class<?> expectType) {
         super(String.format("Bean named '%s' is expected to be of type '%s'", beanName, ClassUtils.getQualifiedName(expectType)));    // $NON-NLS-1$
     }
 
+    /**
+     * Create an exception for a bean expected to be of the given type name.
+     *
+     * @param beanName The name of the bean
+     * @param expectType The qualified name of the expected bean type
+     */
     public BeanTypeMismatchException(@Nonnull String beanName, @Nonnull String expectType) {
         super(String.format("Bean named '%s' is expected to be of type '%s'", beanName, expectType));    // $NON-NLS-1$
     }

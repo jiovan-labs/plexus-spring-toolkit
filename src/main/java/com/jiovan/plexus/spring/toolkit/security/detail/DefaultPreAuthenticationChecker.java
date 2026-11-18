@@ -38,8 +38,16 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class DefaultPreAuthenticationChecker implements UserDetailsChecker {
+    /**
+     * The message source for resolving localized messages.
+     */
     protected MessageSource messageSource;
 
+    /**
+     * Validate the given user details and throw on an invalid state.
+     *
+     * @param details The user details
+     */
     @Override
     public void check(@Nonnull UserDetails details) {
         if (!details.isAccountNonLocked()) {

@@ -58,6 +58,14 @@ public class PlainParamKeyGenerator extends AbstractKeyGenerator {
     private boolean paramParentheses = true;
     private boolean paramHash = true;
 
+    /**
+     * Apply {@link PlainParamKeyFormat} settings from the target class and the method
+     * before the cache key is generated.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     */
     @Override
     protected void beforeGenerate(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
         Class<?> targetClass = AopUtils.getTargetClass(target);
@@ -71,6 +79,15 @@ public class PlainParamKeyGenerator extends AbstractKeyGenerator {
         }
     }
 
+    /**
+     * Resolve the method parameters into a readable, length-limited key segment.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     *
+     * @return The formatted parameter part of the cache key
+     */
     @Override
     @SuppressWarnings("DataFlowIssue")
     protected String resolveParams(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
@@ -125,6 +142,11 @@ public class PlainParamKeyGenerator extends AbstractKeyGenerator {
         return StringUtils.join(content, String.format(SymbolVariantConst.HEX_ORDER_SQUARES, Math.abs(Arrays.deepHashCode(params))));
     }
 
+    /**
+     * Apply the settings declared by a {@link PlainParamKeyFormat} annotation.
+     *
+     * @param annotation The annotation to apply
+     */
     private void processAnnotation(@Nonnull PlainParamKeyFormat annotation) {
         super.setPrefix(annotation.prefix());
         super.setSuffix(annotation.suffix());

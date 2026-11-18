@@ -37,15 +37,38 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ClassPathWraps {
+    /**
+     * Return whether the class-path resource exists.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsResource(@Nullable String path) {
         return existsResource(path, null);
     }
 
+    /**
+     * Return whether the class-path resource exists.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsResource(@Nullable String path, @Nullable ClassLoader loader) {
         String pathToUse = removeClasspathPrefix(path);
         return StringUtils.isNotBlank(pathToUse) && new ClassPathResource(pathToUse, loader).exists();
     }
 
+    /**
+     * Open an input stream for the class-path resource.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return An input stream for the resource, or {@code null}
+     */
     @Nullable
     public static InputStream readResourceToInputStream(@Nullable String path, @Nullable ClassLoader loader) {
         String pathToUse = removeClasspathPrefix(path);
@@ -57,6 +80,14 @@ public abstract class ClassPathWraps {
         return null;
     }
 
+    /**
+     * Read the class-path resource into a byte array.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return The resource bytes, or {@code null}
+     */
     @Nullable
     public static byte[] readResourceToByteArray(@Nullable String path, @Nullable ClassLoader loader) {
         try (InputStream stream = readResourceToInputStream(path, loader)) {
@@ -66,6 +97,15 @@ public abstract class ClassPathWraps {
         return null;
     }
 
+    /**
+     * Read the class-path resource into a string using the given charset.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     * @param charset The charset to use, may be {@code null}
+     *
+     * @return The resource content as a string, or {@code null}
+     */
     @Nullable
     public static String readResourceToString(@Nullable String path, @Nullable ClassLoader loader, @Nullable Charset charset) {
         try (InputStream stream = readResourceToInputStream(path, loader)) {
@@ -86,33 +126,86 @@ public abstract class ClassPathWraps {
         return StringUtilsWraps.removeStartIgnoreCase(path, StringVariantConst.CLASSPATH_COLON, StringVariantConst.CLASSPATH_STAR_COLON);
     }
 
+    /**
+     * Return whether the path starts with any class-path prefix.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean startsWithAnyClasspath(@Nullable String path) {
         return startsWithClasspath(path) || startsWithClasspathStar(path);
     }
 
+    /**
+     * Return whether the path starts with the {@code classpath:} prefix.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean startsWithClasspath(@Nullable String path) {
         return StringUtilsWraps.startsWithIgnoreCase(path, StringVariantConst.CLASSPATH_COLON);
     }
 
+    /**
+     * Return whether the path starts with the {@code classpath*:} prefix.
+     *
+     * @param path The class-path resource path, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean startsWithClasspathStar(@Nullable String path) {
         return StringUtilsWraps.startsWithIgnoreCase(path, StringVariantConst.CLASSPATH_STAR_COLON);
     }
 
+    /**
+     * Return the fully qualified name of a resource relative to the context.
+     *
+     * @param context The bean factory or invocation context, may be {@code null}
+     * @param resourceName The resource name, may be {@code null}
+     *
+     * @return The fully qualified name, or {@code null}
+     */
     @Nullable
     public static String toFullyQualifiedName(@Nullable Class<?> context, @Nullable String resourceName) {
         return (context == null || StringUtils.isBlank(resourceName)) ? null : ClassPathUtils.toFullyQualifiedName(context, resourceName);
     }
 
+    /**
+     * Return the fully qualified name of a resource relative to the context.
+     *
+     * @param context The bean factory or invocation context, may be {@code null}
+     * @param resourceName The resource name, may be {@code null}
+     *
+     * @return The fully qualified name, or {@code null}
+     */
     @Nullable
     public static String toFullyQualifiedName(@Nullable Package context, @Nullable String resourceName) {
         return (context == null || StringUtils.isBlank(resourceName)) ? null : ClassPathUtils.toFullyQualifiedName(context, resourceName);
     }
 
+    /**
+     * Return the fully qualified path of a resource relative to the context.
+     *
+     * @param context The bean factory or invocation context, may be {@code null}
+     * @param resourceName The resource name, may be {@code null}
+     *
+     * @return The fully qualified path, or {@code null}
+     */
     @Nullable
     public static String toFullyQualifiedPath(@Nullable Class<?> context, @Nullable String resourceName) {
         return (context == null || StringUtils.isBlank(resourceName)) ? null : ClassPathUtils.toFullyQualifiedPath(context, resourceName);
     }
 
+    /**
+     * Return the fully qualified path of a resource relative to the context.
+     *
+     * @param context The bean factory or invocation context, may be {@code null}
+     * @param resourceName The resource name, may be {@code null}
+     *
+     * @return The fully qualified path, or {@code null}
+     */
     @Nullable
     public static String toFullyQualifiedPath(@Nullable Package context, @Nullable String resourceName) {
         return (context == null || StringUtils.isBlank(resourceName)) ? null : ClassPathUtils.toFullyQualifiedPath(context, resourceName);

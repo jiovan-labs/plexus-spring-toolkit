@@ -44,6 +44,9 @@ import com.jiovan.plexus.spring.toolkit.util.HttpHeaderWraps;
  */
 @SuppressWarnings("unused")
 public class HeaderCapableRequestWrapper extends HttpServletRequestWrapper {
+    /**
+     * The modifiable headers of this request wrapper.
+     */
     private final HttpHeaders httpHeaders = new HttpHeaders();
 
     /**
@@ -56,18 +59,35 @@ public class HeaderCapableRequestWrapper extends HttpServletRequestWrapper {
         httpHeaders.addAll(HttpHeaderWraps.getHeaders(request));
     }
 
+    /**
+     * Add a single header value to this request.
+     *
+     * @param name The header name
+     * @param value The value to hold
+     */
     public void addHeader(@Nonnull String name, @Nullable String value) {
         if (StringUtils.isNotEmpty(name)) {
             httpHeaders.add(name, value);
         }
     }
 
+    /**
+     * Add one or more header values to this request.
+     *
+     * @param name The header name
+     * @param values The values to hold
+     */
     public void addHeaders(@Nonnull String name, @Nonnull List<? extends String> values) {
         if (StringUtils.isNotEmpty(name) && !CollectionUtils.isEmpty(values)) {
             httpHeaders.addAll(name, values);
         }
     }
 
+    /**
+     * Add one or more header values to this request.
+     *
+     * @param map The given map
+     */
     public void addHeaders(@Nonnull MultiValueMap<String, String> map) {
         if (!CollectionUtils.isEmpty(map)) {
             map.forEach((name, values) -> {
@@ -78,22 +98,48 @@ public class HeaderCapableRequestWrapper extends HttpServletRequestWrapper {
         }
     }
 
+    /**
+     * Returns the first value of the given header.
+     *
+     * @param name The header name
+     *
+     * @return The first value of the header, or {@code null}
+     */
     @Override
     public String getHeader(@Nonnull String name) {
         return ListPlainWraps.getFirst(httpHeaders.get(name));
     }
 
+    /**
+     * Returns all values of the given header.
+     *
+     * @param name The header name
+     *
+     * @return All values of the header
+     */
     @Override
     public Enumeration<String> getHeaders(@Nonnull String name) {
         List<String> values = httpHeaders.get(name);
         return CollectionUtils.isEmpty(values) ? null : Collections.enumeration(values);
     }
 
+    /**
+     * Returns the names of all headers.
+     *
+     * @return The names of all headers
+     */
     @Override
     public Enumeration<String> getHeaderNames() {
         return Collections.enumeration(httpHeaders.headerNames());
     }
 
+    /**
+     * Returns the given header parsed as a timestamp in milliseconds.
+     *
+     * @param name The header name
+     *
+     * @return The header value as epoch milliseconds
+     */
     @Override
     public long getDateHeader(@Nonnull String name) {
         String value = getHeader(name);
@@ -111,31 +157,64 @@ public class HeaderCapableRequestWrapper extends HttpServletRequestWrapper {
         return 0L;
     }
 
+    /**
+     * Returns the given header parsed as an integer.
+     *
+     * @param name The header name
+     *
+     * @return The header value as an integer
+     */
     @Override
     public int getIntHeader(@Nonnull String name) {
         return NumberUtils.toInt(getHeader(name));
     }
 
+    /**
+     * Remove the given header from this request.
+     *
+     * @param name The header name
+     */
     public void removeHeader(@Nonnull String name) {
         if (StringUtils.isNotEmpty(name)) {
             httpHeaders.remove(name);
         }
     }
 
+    /**
+     * Remove the given headers from this request.
+     *
+     * @param names The given names
+     */
     public void removeHeaders(@Nonnull String... names) {
         removeHeaders(Arrays.asList(names));
     }
 
+    /**
+     * Remove the given headers from this request.
+     *
+     * @param names The given names
+     */
     public void removeHeaders(@Nonnull Collection<String> names) {
         names.forEach(this::removeHeader);
     }
 
+    /**
+     * Remove the given headers from this request.
+     *
+     * @param map The given map
+     */
     public void removeHeaders(@Nonnull MultiValueMap<String, String> map) {
         if (!CollectionUtils.isEmpty(map)) {
             removeHeaders(map.keySet());
         }
     }
 
+    /**
+     * Set a single header value, replacing any existing values.
+     *
+     * @param name The header name
+     * @param value The value to hold
+     */
     public void setHeader(@Nonnull String name, @Nullable String value) {
         if (StringUtils.isNotEmpty(name)) {
             httpHeaders.set(name, value);

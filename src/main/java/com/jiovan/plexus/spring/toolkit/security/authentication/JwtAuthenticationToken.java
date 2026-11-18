@@ -36,18 +36,41 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class JwtAuthenticationToken extends AbstractAdditiveAuthenticationToken {
+    /**
+     * Create a JwtAuthenticationToken.
+     *
+     * @param principal The given principal
+     */
     public JwtAuthenticationToken(@Nonnull Object principal) {
         super(principal, null, null);
     }
 
+    /**
+     * Create a JwtAuthenticationToken.
+     *
+     * @param principal The given principal
+     * @param credentials The given credentials
+     */
     public JwtAuthenticationToken(@Nonnull Object principal, @Nullable Object credentials) {
         super(principal, credentials, null);
     }
 
+    /**
+     * Create a JwtAuthenticationToken.
+     *
+     * @param principal The given principal
+     * @param credentials The given credentials
+     * @param authorities The given authorities
+     */
     public JwtAuthenticationToken(@Nonnull Object principal, @Nullable Object credentials, @Nullable Collection<? extends GrantedAuthority> authorities) {
         super(principal, credentials, authorities);
     }
 
+    /**
+     * Returns the decodedJwt.
+     *
+     * @return The decoded JWT derived from the credentials
+     */
     public DecodedJWT getDecodedJwt() {
         return JwtAuthWraps.decodeToken(super.getCredentialsAs(String.class));
     }

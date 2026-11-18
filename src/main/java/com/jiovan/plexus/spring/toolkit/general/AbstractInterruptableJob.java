@@ -33,8 +33,14 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public abstract class AbstractInterruptableJob extends QuartzJobBean implements InterruptableJob {
+    /**
+     * Whether an interruption has been requested for this job.
+     */
     private boolean interrupted = false;
 
+    /**
+     * Mark this job as interrupted.
+     */
     @Override
     public void interrupt() {
         interrupted = true;

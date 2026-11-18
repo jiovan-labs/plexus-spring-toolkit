@@ -34,11 +34,21 @@ import com.jiovan.plexus.common.toolkit.util.LocalePlainWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class LocaleHolderWraps {
+    /**
+     * Return an optional space when the context locale is not Chinese.
+     *
+     * @return A single space, or {@code null}
+     */
     @Nullable
     public static String getOptionalSpace() {
         return needOptionalSpace() ? StringUtils.SPACE : null;
     }
 
+    /**
+     * Return whether the context locale is not Chinese.
+     *
+     * @return Whether the condition holds
+     */
     public static boolean needOptionalSpace() {
         return !LocalePlainWraps.equalsLanguage(LocaleContextHolder.getLocale(), Locale.CHINESE);
     }

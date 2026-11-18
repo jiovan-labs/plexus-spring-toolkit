@@ -30,10 +30,20 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class HttpSessionIdledEvent extends ApplicationEvent {
+    /**
+     * Create an event for an HTTP session that has become idle.
+     *
+     * @param session The idle HTTP session
+     */
     public HttpSessionIdledEvent(@Nonnull HttpSession session) {
         super(session);
     }
 
+    /**
+     * Return the idle HTTP session.
+     *
+     * @return The HTTP session that triggered this event
+     */
     @Nonnull
     public HttpSession getHttpSession() {
         return ObjectUtilsWraps.castAs(super.getSource(), HttpSession.class);

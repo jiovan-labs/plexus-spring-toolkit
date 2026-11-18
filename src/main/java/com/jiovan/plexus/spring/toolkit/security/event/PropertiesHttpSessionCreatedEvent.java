@@ -36,21 +36,46 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesHttpSessionCreatedEvent extends HttpSessionCreatedEvent {
+    /**
+     * Additional properties carried by this event.
+     */
     private final Properties properties = new Properties();
 
+    /**
+     * Create a PropertiesHttpSessionCreatedEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesHttpSessionCreatedEvent(@Nonnull HttpSessionCreatedEvent event) {
         super(event.getSession());
     }
 
+    /**
+     * Create a PropertiesHttpSessionCreatedEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionCreatedEvent(@Nonnull HttpSessionCreatedEvent event, @Nullable Properties properties) {
         super(event.getSession());
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesHttpSessionCreatedEvent.
+     *
+     * @param session The HTTP session
+     */
     public PropertiesHttpSessionCreatedEvent(@Nonnull HttpSession session) {
         super(session);
     }
 
+    /**
+     * Create a PropertiesHttpSessionCreatedEvent with the given values and additional properties.
+     *
+     * @param session The HTTP session
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionCreatedEvent(@Nonnull HttpSession session, @Nullable Properties properties) {
         super(session);
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);

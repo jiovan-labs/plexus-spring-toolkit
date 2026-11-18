@@ -43,16 +43,43 @@ import tools.jackson.databind.introspect.AnnotatedMethod;
  */
 @SuppressWarnings("unused")
 public class OriginFieldNameStrategy extends PropertyNamingStrategy {
+    /**
+     * Preserve the original field name for JSON serialization/deserialization.
+     *
+     * @param config The current mapper configuration, may be {@code null}
+     * @param field The annotated field being processed
+     * @param defaultName The default generated property name
+     *
+     * @return The original Java field name
+     */
     @Override
     public String nameForField(@Nullable MapperConfig<?> config, @Nonnull AnnotatedField field, @Nonnull String defaultName) {
         return field.getName();
     }
 
+    /**
+     * Preserve the original method name for getter-based property names.
+     *
+     * @param config The current mapper configuration, may be {@code null}
+     * @param method The annotated getter method being processed
+     * @param defaultName The default generated property name
+     *
+     * @return The original Java method name
+     */
     @Override
     public String nameForGetterMethod(@Nullable MapperConfig<?> config, @Nonnull AnnotatedMethod method, @Nonnull String defaultName) {
         return method.getName();
     }
 
+    /**
+     * Preserve the original method name for setter-based property names.
+     *
+     * @param config The current mapper configuration, may be {@code null}
+     * @param method The annotated setter method being processed
+     * @param defaultName The default generated property name
+     *
+     * @return The original Java method name
+     */
     @Override
     public String nameForSetterMethod(@Nullable MapperConfig<?> config, @Nonnull AnnotatedMethod method, @Nonnull String defaultName) {
         return method.getName();

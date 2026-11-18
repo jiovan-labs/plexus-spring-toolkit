@@ -61,6 +61,16 @@ import tools.jackson.datatype.joda.JodaModule;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class JacksonConfigWraps {
+    /**
+     * Create a mapper customizer that registers temporal modules and a default time zone.
+     *
+     * @param dateFormat The date pattern, may be {@code null}
+     * @param timeFormat The time pattern, may be {@code null}
+     * @param dateTimeFormat The date-time pattern, may be {@code null}
+     * @param timeZone The time zone, may be {@code null}
+     *
+     * @return The configured mapper builder customizer
+     */
     @Nonnull
     public static JsonMapperBuilderCustomizer dateTimeCustomizer(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone) {
         JacksonModule[] modules = temporalModules(dateFormat, timeFormat, dateTimeFormat);
@@ -70,36 +80,91 @@ public abstract class JacksonConfigWraps {
         };
     }
 
+    /**
+     * Build a fully configured JSON object mapper.
+     *
+     * @return The configured JSON object mapper
+     */
     @Nonnull
     public static ObjectMapper jsonObjectMapper() {
         return jsonObjectMapper(null, null, null, null, null);
     }
 
+    /**
+     * Build a fully configured JSON object mapper.
+     *
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured JSON object mapper
+     */
     @Nonnull
     public static ObjectMapper jsonObjectMapper(@Nullable TimeZone timeZone, @Nullable Locale locale) {
         return jsonObjectMapper(null, null, null, timeZone, locale);
     }
 
+    /**
+     * Build a fully configured JSON object mapper.
+     *
+     * @param dateFormat The date pattern, may be {@code null}
+     * @param timeFormat The time pattern, may be {@code null}
+     * @param dateTimeFormat The date-time pattern, may be {@code null}
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured JSON object mapper
+     */
     @Nonnull
     public static ObjectMapper jsonObjectMapper(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone, @Nullable Locale locale) {
         return jsonObjectMapperBuilder(dateFormat, timeFormat, dateTimeFormat, timeZone, locale).build();
     }
 
+    /**
+     * Build a fully configured JSON object mapper.
+     *
+     * @param properties The Jackson properties, may be {@code null}
+     *
+     * @return The configured JSON object mapper
+     */
     @Nonnull
     public static ObjectMapper jsonObjectMapper(@Nullable JacksonProperties properties) {
         return (properties == null) ? jsonObjectMapper() : jsonObjectMapper(properties.getDateFormat(), null, null, properties.getTimeZone(), properties.getLocale());
     }
 
+    /**
+     * Build a JSON mapper builder with the toolkit configuration applied.
+     *
+     * @return The configured JSON mapper builder
+     */
     @Nonnull
     public static JsonMapper.Builder jsonObjectMapperBuilder() {
         return jsonObjectMapperBuilder(null, null, null, null, null);
     }
 
+    /**
+     * Build a JSON mapper builder with the toolkit configuration applied.
+     *
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured JSON mapper builder
+     */
     @Nonnull
     public static JsonMapper.Builder jsonObjectMapperBuilder(@Nullable TimeZone timeZone, @Nullable Locale locale) {
         return jsonObjectMapperBuilder(null, null, null, timeZone, locale);
     }
 
+    /**
+     * Build a JSON mapper builder with the toolkit configuration applied.
+     *
+     * @param dateFormat The date pattern, may be {@code null}
+     * @param timeFormat The time pattern, may be {@code null}
+     * @param dateTimeFormat The date-time pattern, may be {@code null}
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured JSON mapper builder
+     */
     @Nonnull
     public static JsonMapper.Builder jsonObjectMapperBuilder(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone, @Nullable Locale locale) {
         JsonMapper.Builder builder = JsonMapper.builder();
@@ -107,31 +172,79 @@ public abstract class JacksonConfigWraps {
         return builder;
     }
 
+    /**
+     * Build a fully configured XML object mapper.
+     *
+     * @return The configured XML object mapper
+     */
     @Nonnull
     public static ObjectMapper xmlObjectMapper() {
         return xmlObjectMapper(null, null, null, null, null);
     }
 
+    /**
+     * Build a fully configured XML object mapper.
+     *
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured XML object mapper
+     */
     @Nonnull
     public static ObjectMapper xmlObjectMapper(@Nullable TimeZone timeZone, @Nullable Locale locale) {
         return xmlObjectMapper(null, null, null, timeZone, locale);
     }
 
+    /**
+     * Build a fully configured XML object mapper.
+     *
+     * @param dateFormat The date pattern, may be {@code null}
+     * @param timeFormat The time pattern, may be {@code null}
+     * @param dateTimeFormat The date-time pattern, may be {@code null}
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured XML object mapper
+     */
     @Nonnull
     public static ObjectMapper xmlObjectMapper(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone, @Nullable Locale locale) {
         return xmlObjectMapperBuilder(dateFormat, timeFormat, dateTimeFormat, timeZone, locale).build();
     }
 
+    /**
+     * Build an XML mapper builder with the toolkit configuration applied.
+     *
+     * @return The configured XML mapper builder
+     */
     @Nonnull
     public static XmlMapper.Builder xmlObjectMapperBuilder() {
         return xmlObjectMapperBuilder(null, null, null, null, null);
     }
 
+    /**
+     * Build an XML mapper builder with the toolkit configuration applied.
+     *
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured XML mapper builder
+     */
     @Nonnull
     public static XmlMapper.Builder xmlObjectMapperBuilder(@Nullable TimeZone timeZone, @Nullable Locale locale) {
         return xmlObjectMapperBuilder(null, null, null, timeZone, locale);
     }
 
+    /**
+     * Build an XML mapper builder with the toolkit configuration applied.
+     *
+     * @param dateFormat The date pattern, may be {@code null}
+     * @param timeFormat The time pattern, may be {@code null}
+     * @param dateTimeFormat The date-time pattern, may be {@code null}
+     * @param timeZone The time zone, may be {@code null}
+     * @param locale The locale, may be {@code null}
+     *
+     * @return The configured XML mapper builder
+     */
     @Nonnull
     public static XmlMapper.Builder xmlObjectMapperBuilder(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone, @Nullable Locale locale) {
         XmlMapper.Builder builder = XmlMapper.builder();

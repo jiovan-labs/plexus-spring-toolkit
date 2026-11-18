@@ -40,6 +40,15 @@ import tools.jackson.databind.SerializationContext;
  */
 @SuppressWarnings("unused")
 public class BooleanToIntegerSerializer extends ValueSerializer<Boolean> {
+    /**
+     * Write {@code 1} for true and {@code 0} for false as a JSON number.
+     *
+     * @param value The boolean value to serialize, may be {@code null}
+     * @param generator The JSON generator used for output
+     * @param provider The serialization context, may be {@code null}
+     *
+     * @throws tools.jackson.core.JacksonException If write fails
+     */
     @Override
     public void serialize(@Nullable Boolean value, @Nonnull JsonGenerator generator, @Nullable SerializationContext provider) {
         if (value != null) {

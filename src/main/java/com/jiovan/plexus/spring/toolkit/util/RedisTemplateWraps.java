@@ -47,11 +47,27 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class RedisTemplateWraps {
+    /**
+     * Count key.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return The result of the operation
+     */
     @SafeVarargs
     public static <K> long countKey(@Nullable RedisTemplate<K, ?> template, @Nullable K... keys) {
         return countKey(template, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Count key.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return The result of the operation
+     */
     public static <K> long countKey(@Nullable RedisTemplate<K, ?> template, @Nullable Collection<K> keys) {
         if (template == null || CollectionUtils.isEmpty(keys)) {
             return 0L;
@@ -59,6 +75,14 @@ public abstract class RedisTemplateWraps {
         return keys.stream().filter(item -> Objects.nonNull(item) && template.hasKey(item)).count();
     }
 
+    /**
+     * Count pattern.
+     *
+     * @param template The given template
+     * @param patterns The given patterns
+     *
+     * @return The result of the operation
+     */
     @SafeVarargs
     public static <K> long countPattern(@Nullable RedisTemplate<K, ?> template, @Nullable K... patterns) {
         return countPattern(template, ArrayUtilsWraps.asList(patterns));
@@ -108,11 +132,27 @@ public abstract class RedisTemplateWraps {
         return result;
     }
 
+    /**
+     * Delete the value stored under the given key.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return The result of the operation
+     */
     @SafeVarargs
     public static <K> long deleteKey(@Nullable RedisTemplate<K, ?> template, @Nullable K... keys) {
         return deleteKey(template, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Delete the value stored under the given key.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return The result of the operation
+     */
     public static <K> long deleteKey(@Nullable RedisTemplate<K, ?> template, @Nullable Collection<K> keys) {
         if (template == null || CollectionUtils.isEmpty(keys)) {
             return 0L;
@@ -126,6 +166,14 @@ public abstract class RedisTemplateWraps {
         return result;
     }
 
+    /**
+     * Delete all keys matching the given pattern.
+     *
+     * @param template The given template
+     * @param patterns The given patterns
+     *
+     * @return The result of the operation
+     */
     @SafeVarargs
     public static <K> long deletePattern(@Nullable RedisTemplate<K, ?> template, @Nullable K... patterns) {
         return deletePattern(template, ArrayUtilsWraps.asList(patterns));
@@ -180,29 +228,76 @@ public abstract class RedisTemplateWraps {
         return result;
     }
 
+    /**
+     * Exists key.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <K> boolean existsKey(@Nullable RedisTemplate<K, ?> template, @Nullable K key) {
         return ObjectUtilsWraps.allNotNull(template, key) && BooleanUtils.isTrue(template.hasKey(key));
     }
 
+    /**
+     * Exists all keys.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return Whether the condition holds
+     */
     @SafeVarargs
     public static <K> boolean existsAllKeys(@Nullable RedisTemplate<K, ?> template, @Nullable K... keys) {
         return existsAllKeys(template, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Exists all keys.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return Whether the condition holds
+     */
     public static <K> boolean existsAllKeys(@Nullable RedisTemplate<K, ?> template, @Nullable Collection<K> keys) {
         return template != null && !CollectionUtils.isEmpty(keys) && keys.stream().filter(Objects::nonNull).allMatch(key -> existsKey(template, key));
     }
 
+    /**
+     * Exists any keys.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return Whether the condition holds
+     */
     @SafeVarargs
     public static <K> boolean existsAnyKeys(@Nullable RedisTemplate<K, ?> template, @Nullable K... keys) {
         return existsAnyKeys(template, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Exists any keys.
+     *
+     * @param template The given template
+     * @param keys The given keys
+     *
+     * @return Whether the condition holds
+     */
     public static <K> boolean existsAnyKeys(@Nullable RedisTemplate<K, ?> template, @Nullable Collection<K> keys) {
         return template != null && !CollectionUtils.isEmpty(keys) && keys.stream().filter(Objects::nonNull).anyMatch(key -> existsKey(template, key));
     }
 
+    /**
+     * Return the connection.
+     *
+     * @param template The given template
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <K, V> RedisConnection getConnection(@Nullable RedisTemplate<K, V> template) {
         if (template == null) {
@@ -212,33 +307,87 @@ public abstract class RedisTemplateWraps {
         return (factory == null) ? null : factory.getConnection();
     }
 
+    /**
+     * Return the value stored under the given key.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     *
+     * @return The stored value, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> V getValue(@Nullable RedisTemplate<K, V> template, @Nullable K key) {
         return ObjectUtilsWraps.anyNull(template, key) ? null : template.opsForValue().get(key);
     }
 
+    /**
+     * Return the stored value converted to the expected type.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted value, or {@code null}
+     */
     @Nullable
     public static <K, T> T getValueAs(@Nullable RedisTemplate<K, ?> template, @Nullable K key, @Nullable Class<T> expectType) {
         return ObjectUtilsWraps.castAs(getValue(template, key), expectType);
     }
 
+    /**
+     * Return and remove the value stored under the given key.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     *
+     * @return The value and then deleted, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> V getValueAndDelete(@Nullable RedisTemplate<K, V> template, @Nullable K key) {
         return ObjectUtilsWraps.anyNull(template, key) ? null : template.opsForValue().getAndDelete(key);
     }
 
+    /**
+     * Return the value and refresh its expiration.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <K, V> V getValueAndExpire(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable Long timeout, @Nullable ChronoUnit unit) {
         return getValueAndExpire(template, key, DurationUtilsWraps.ofChronoUnit(timeout, unit));
     }
 
+    /**
+     * Return the value and refresh its expiration.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <K, V> V getValueAndExpire(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable Long timeout, @Nullable TimeUnit unit) {
         return getValueAndExpire(template, key, DurationUtilsWraps.ofTimeUnit(timeout, unit));
     }
 
+    /**
+     * Return the value and refresh its expiration.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> V getValueAndExpire(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable Duration timeout) {
@@ -248,18 +397,42 @@ public abstract class RedisTemplateWraps {
         return (timeout == null) ? template.opsForValue().get(key) : template.opsForValue().getAndExpire(key, timeout);
     }
 
+    /**
+     * Return the value and persist it.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> V getValueAndPersist(@Nullable RedisTemplate<K, V> template, @Nullable K key) {
         return ObjectUtilsWraps.anyNull(template, key) ? null : template.opsForValue().getAndPersist(key);
     }
 
+    /**
+     * Return the value and update it.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> V getValueAndSet(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value) {
         return ObjectUtilsWraps.anyNull(template, key) ? null : template.opsForValue().getAndSet(key, value);
     }
 
+    /**
+     * Set the value.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> void setValue(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value) {
         if (ObjectUtilsWraps.allNotNull(template, key)) {
@@ -267,14 +440,40 @@ public abstract class RedisTemplateWraps {
         }
     }
 
+    /**
+     * Set the value.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     */
     public static <K, V> void setValue(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable ChronoUnit unit) {
         setValue(template, key, value, DurationUtilsWraps.ofChronoUnit(timeout, unit));
     }
 
+    /**
+     * Set the value.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     */
     public static <K, V> void setValue(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable TimeUnit unit) {
         setValue(template, key, value, DurationUtilsWraps.ofTimeUnit(timeout, unit));
     }
 
+    /**
+     * Set the value.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> void setValue(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Duration timeout) {
         if (ObjectUtilsWraps.anyNull(template, key)) {
@@ -287,14 +486,46 @@ public abstract class RedisTemplateWraps {
         }
     }
 
+    /**
+     * Set a value only when the key is absent.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean setIfAbsent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable TimeUnit unit) {
         return setIfAbsent(template, key, value, DurationUtilsWraps.ofTimeUnit(timeout, unit));
     }
 
+    /**
+     * Set a value only when the key is absent.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean setIfAbsent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable ChronoUnit unit) {
         return setIfAbsent(template, key, value, DurationUtilsWraps.ofChronoUnit(timeout, unit));
     }
 
+    /**
+     * Set a value only when the key is absent.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> boolean setIfAbsent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Duration timeout) {
         if (ObjectUtilsWraps.anyNull(template, key)) {
@@ -307,14 +538,46 @@ public abstract class RedisTemplateWraps {
         }
     }
 
+    /**
+     * Set a value only when the key is present.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean setIfPresent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable TimeUnit unit) {
         return setIfPresent(template, key, value, DurationUtilsWraps.ofTimeUnit(timeout, unit));
     }
 
+    /**
+     * Set a value only when the key is present.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     * @param unit The time unit, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean setIfPresent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Long timeout, @Nullable ChronoUnit unit) {
         return setIfPresent(template, key, value, DurationUtilsWraps.ofChronoUnit(timeout, unit));
     }
 
+    /**
+     * Set a value only when the key is present.
+     *
+     * @param template The given template
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param timeout The timeout, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <K, V> boolean setIfPresent(@Nullable RedisTemplate<K, V> template, @Nullable K key, @Nullable V value, @Nullable Duration timeout) {
         if (ObjectUtilsWraps.anyNull(template, key)) {

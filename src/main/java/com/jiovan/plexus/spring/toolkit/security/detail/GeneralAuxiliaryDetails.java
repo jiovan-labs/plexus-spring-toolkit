@@ -41,8 +41,16 @@ import lombok.ToString;
 @Getter
 @ToString(callSuper = true)
 public class GeneralAuxiliaryDetails extends WebAuthenticationDetails {
+    /**
+     * The time when the details were captured.
+     */
     private final LocalDateTime timestamp;
 
+    /**
+     * Create a GeneralAuxiliaryDetails.
+     *
+     * @param request The current HTTP request
+     */
     public GeneralAuxiliaryDetails(@Nonnull HttpServletRequest request) {
         super(request);
         StringUtilsWraps.ifNotBlank(WebUtilsWraps.getRemoteAddress(request), item -> {
@@ -56,6 +64,13 @@ public class GeneralAuxiliaryDetails extends WebAuthenticationDetails {
         timestamp = LocalDateWraps.getCurrentDateTime();
     }
 
+    /**
+     * Create details from the given request, or {@code null} when the request is {@code null}.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The details, or {@code null} when the request is {@code null}
+     */
     public static GeneralAuxiliaryDetails ofRequest(@Nullable HttpServletRequest request) {
         return (request == null) ? null : new GeneralAuxiliaryDetails(request);
     }

@@ -38,6 +38,15 @@ import com.jiovan.plexus.spring.toolkit.util.HttpHeaderWraps;
  * @author David Hsing
  */
 public class MdcTraceInterceptor implements HandlerInterceptor {
+    /**
+     * Extract the trace ID from the request header or generate a new one, then store it in request attributes and MDC.
+     *
+     * @param request The current servlet request
+     * @param response The current servlet response
+     * @param handler The selected handler (controller, global handler, etc.)
+     *
+     * @return {@code true} to proceed with the interceptor chain
+     */
     @Override
     public boolean preHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler) {
         String traceId = HttpHeaderWraps.getHeader(request, HttpHeaderConst.X_TRACE_ID, JdkUuidGenerator.getRandomId());
@@ -46,10 +55,26 @@ public class MdcTraceInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    /**
+     * No-op hook invoked after the controller method executes but before rendering the view.
+     *
+     * @param request The current servlet request
+     * @param response The current servlet response
+     * @param handler The selected handler
+     * @param modelAndView The {@link ModelAndView} returned by the handler
+     */
     @Override
     public void postHandle(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler, @Nullable ModelAndView modelAndView) {
     }
 
+    /**
+     * Remove the trace ID from request attributes and MDC once the request is fully complete.
+     *
+     * @param request The current servlet request
+     * @param response The current servlet response
+     * @param handler The selected handler
+     * @param cause Exception thrown during handler execution, may be {@code null}
+     */
     @Override
     public void afterCompletion(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Object handler, @Nullable Exception cause) {
         request.removeAttribute(StringVariantConst.TRACE_ID);

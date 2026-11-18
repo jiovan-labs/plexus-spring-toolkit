@@ -41,6 +41,14 @@ import tools.jackson.databind.ValueDeserializer;
  */
 @SuppressWarnings("unused")
 public class StringToBooleanDeserializer extends ValueDeserializer<Boolean> {
+    /**
+     * Deserialize a JSON string into a {@link Boolean} by matching known truthy or falsy literals.
+     *
+     * @param parser The active parser holding the JSON string token
+     * @param context The active deserialization context
+     *
+     * @return {@code Boolean.TRUE}, {@code Boolean.FALSE}, or {@code null} if no match
+     */
     @Override
     public Boolean deserialize(@Nullable JsonParser parser, @Nullable DeserializationContext context) {
         if (parser == null || StringUtils.isBlank(parser.getString())) {

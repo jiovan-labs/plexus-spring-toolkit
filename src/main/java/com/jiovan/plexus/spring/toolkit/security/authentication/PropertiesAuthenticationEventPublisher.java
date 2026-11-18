@@ -67,26 +67,49 @@ import lombok.Setter;
  */
 @SuppressWarnings("unused")
 public class PropertiesAuthenticationEventPublisher implements AuthenticationEventPublisher, ApplicationEventPublisherAware, InitializingBean {
+    /**
+     * Mapping from exception class names to authentication event constructors.
+     */
     private final HashMap<String, Constructor<? extends AbstractAuthenticationEvent>> exceptionEvents = new LinkedHashMap<>();
+    /**
+     * Constructor used to build the default authentication failure event.
+     */
     private Constructor<? extends AbstractAuthenticationFailureEvent> defaultFailureConstructor;
 
+    /**
+     * Optional consumer invoked for authentication success events.
+     */
     @Getter
     @Setter
     private Consumer<PropertiesCapableEvent> successEventConsumer;
 
+    /**
+     * Optional consumer invoked for authentication failure events.
+     */
     @Getter
     @Setter
     private Consumer<PropertiesCapableEvent> failureEventConsumer;
 
+    /**
+     * The publisher for application events.
+     */
     @Setter
     protected ApplicationEventPublisher applicationEventPublisher;
 
+    /**
+     * Initialize default authentication event mappings.
+     */
     @Override
     public void afterPropertiesSet() {
         initExceptionEvents();
         setDefaultAuthenticationFailureEvent(PropertiesAuthenticationFailureAmbiguousEvent.class);
     }
 
+    /**
+     * Publish an event for a successful authentication.
+     *
+     * @param authentication The authentication object
+     */
     @Override
     public void publishAuthenticationSuccess(@Nonnull Authentication authentication) {
         PropertiesAuthenticationSuccessEvent event = new PropertiesAuthenticationSuccessEvent(authentication);
@@ -96,6 +119,12 @@ public class PropertiesAuthenticationEventPublisher implements AuthenticationEve
         publishEvent(event);
     }
 
+    /**
+     * Publish an event for a failed authentication.
+     *
+     * @param exception The authentication exception
+     * @param authentication The authentication object
+     */
     @Override
     public void publishAuthenticationFailure(@Nonnull AuthenticationException exception, @Nonnull Authentication authentication) {
         Constructor<? extends AbstractAuthenticationEvent> constructor = exceptionEvents.getOrDefault(exception.getClass().getName(), defaultFailureConstructor);
@@ -109,10 +138,22 @@ public class PropertiesAuthenticationEventPublisher implements AuthenticationEve
         publishEvent(event);
     }
 
+    /**
+     * Register the authentication event type for an exception class.
+     *
+     * @param exception The authentication exception class
+     * @param event The authentication event class
+     */
     public void addExceptionEvent(@Nonnull Class<? extends AuthenticationException> exception, @Nonnull Class<? extends AbstractAuthenticationEvent> event) {
         addExceptionEvent(exception.getName(), event);
     }
 
+    /**
+     * Register the authentication event type for an exception class.
+     *
+     * @param exception The authentication exception
+     * @param event The authentication event class
+     */
     public void addExceptionEvent(@Nonnull String exception, @Nonnull Class<? extends AbstractAuthenticationEvent> event) {
         Constructor<? extends AbstractAuthenticationEvent> constructor = ConstructorUtils.getAccessibleConstructor(event, Authentication.class, AuthenticationException.class);
         if (constructor == null) {
@@ -121,10 +162,18 @@ public class PropertiesAuthenticationEventPublisher implements AuthenticationEve
         exceptionEvents.put(exception, constructor);
     }
 
+    /**
+     * Returns the event type used when no specific exception mapping exists.
+     */
     public Class<? extends AbstractAuthenticationFailureEvent> getDefaultAuthenticationFailureEvent() {
         return (defaultFailureConstructor == null) ? null : defaultFailureConstructor.getDeclaringClass();
     }
 
+    /**
+     * Set the event type used when no specific exception mapping exists.
+     *
+     * @param event The authentication event class
+     */
     public void setDefaultAuthenticationFailureEvent(@Nullable Class<? extends AbstractAuthenticationFailureEvent> event) {
         defaultFailureConstructor = ConstructorUtilsWraps.getAccessibleConstructor(event, Authentication.class, AuthenticationException.class);
         if (event != null && defaultFailureConstructor == null) {
@@ -132,6 +181,9 @@ public class PropertiesAuthenticationEventPublisher implements AuthenticationEve
         }
     }
 
+    /**
+     * Register the default authentication exception to event mappings.
+     */
     private void initExceptionEvents() {
         addExceptionEvent(BadCaptchaException.class, PropertiesAuthenticationFailureBadCredentialsEvent.class);
         addExceptionEvent(BadCredentialsException.class, PropertiesAuthenticationFailureBadCredentialsEvent.class);
@@ -146,6 +198,11 @@ public class PropertiesAuthenticationEventPublisher implements AuthenticationEve
         addExceptionEvent("org.springframework.security.oauth2.server.resource.InvalidBearerTokenException", PropertiesAuthenticationFailureBadCredentialsEvent.class);    // $NON-NLS-1$
     }
 
+    /**
+     * Publish the given event to the application context.
+     *
+     * @param event The source event
+     */
     protected void publishEvent(@Nullable AbstractAuthenticationEvent event) {
         if (ObjectUtils.allNotNull(event, applicationEventPublisher)) {
             applicationEventPublisher.publishEvent(event);

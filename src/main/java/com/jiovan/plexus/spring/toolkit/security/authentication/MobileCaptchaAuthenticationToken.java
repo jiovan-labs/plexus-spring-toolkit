@@ -34,14 +34,32 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class MobileCaptchaAuthenticationToken extends AbstractAdditiveAuthenticationToken {
+    /**
+     * Create a MobileCaptchaAuthenticationToken.
+     *
+     * @param principal The given principal
+     */
     public MobileCaptchaAuthenticationToken(@Nonnull Object principal) {
         this(principal, null, null);
     }
 
+    /**
+     * Create a MobileCaptchaAuthenticationToken.
+     *
+     * @param principal The given principal
+     * @param credentials The given credentials
+     */
     public MobileCaptchaAuthenticationToken(@Nonnull Object principal, @Nullable Object credentials) {
         this(principal, credentials, null);
     }
 
+    /**
+     * Create a MobileCaptchaAuthenticationToken.
+     *
+     * @param principal The given principal
+     * @param credentials The given credentials
+     * @param authorities The given authorities
+     */
     public MobileCaptchaAuthenticationToken(@Nonnull Object principal, @Nullable Object credentials, @Nullable Collection<? extends GrantedAuthority> authorities) {
         super(principal, credentials, authorities);
     }

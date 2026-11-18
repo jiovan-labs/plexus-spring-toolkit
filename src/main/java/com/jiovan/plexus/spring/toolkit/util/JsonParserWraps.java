@@ -363,14 +363,34 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Return whether the given JSON parser type is available on the class path.
+     *
+     * @param type The JSON parser type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isParserPresent(@Nullable JsonParserType type) {
         return isParserPresent(type, null);
     }
 
+    /**
+     * Return whether the given JSON parser type is available on the class path.
+     *
+     * @param type The JSON parser type, may be {@code null}
+     * @param loader The class loader, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isParserPresent(@Nullable JsonParserType type, @Nullable ClassLoader loader) {
         return type != null && ClassUtils.isPresent(type.getValue(), loader);
     }
 
+    /**
+     * Parse the given JSON text into a map of field names to values.
+     *
+     * @param content The JSON text, may be {@code null}
+     */
     public static Map<String, Object> parseJsonToMap(@Nullable String content) {
         return parseJsonToMap(content, detectParserType());
     }
@@ -411,11 +431,28 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Serialize the given value into its JSON string representation.
+     *
+     * @param value The value to serialize, may be {@code null}
+     * @param factory The bean factory, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJsonString(@Nullable Object value, @Nullable BeanFactory factory) {
         return ObjectUtils.anyNull(value, factory) ? null : toJsonString(value, factory, detectParserType(factory.getClass().getClassLoader()));
     }
 
+    /**
+     * Serialize the given value into its JSON string representation.
+     *
+     * @param value The value to serialize, may be {@code null}
+     * @param factory The bean factory, may be {@code null}
+     * @param type The JSON parser type, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJsonString(@Nullable Object value, @Nullable BeanFactory factory, @Nullable JsonParserType type) {
         if (ObjectUtils.anyNull(value, factory, type) || !isParserPresent(type)) {
@@ -437,11 +474,26 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Serialize the given value into its JSON string representation.
+     *
+     * @param value The value to serialize, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJsonString(@Nullable Object value) {
         return toJsonString(value, detectParserType());
     }
 
+    /**
+     * Serialize the given value into its JSON string representation.
+     *
+     * @param value The value to serialize, may be {@code null}
+     * @param type The JSON parser type, may be {@code null}
+     *
+     * @return The JSON string, or {@code null} on failure
+     */
     @Nullable
     public static String toJsonString(@Nullable Object value, @Nullable JsonParserType type) {
         if (value == null || !isParserPresent(type)) {
@@ -462,6 +514,14 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Parse the given JSON content into a parser-specific JSON tree.
+     *
+     * @param content The JSON text, may be {@code null}
+     * @param factory The bean factory, may be {@code null}
+     *
+     * @return The JSON tree, or {@code null} on failure
+     */
     @Nullable
     public static Object toJsonTree(@Nullable String content, @Nullable BeanFactory factory) {
         return ObjectUtils.anyNull(content, factory) ? null : toJsonTree(content, factory, detectParserType(factory.getClass().getClassLoader()));
@@ -495,6 +555,13 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Parse the given JSON content into a parser-specific JSON tree.
+     *
+     * @param content The JSON text, may be {@code null}
+     *
+     * @return The JSON tree, or {@code null} on failure
+     */
     @Nullable
     public static Object toJsonTree(@Nullable String content) {
         return toJsonTree(content, detectParserType());
@@ -556,6 +623,12 @@ public abstract class JsonParserWraps {
         return null;
     }
 
+    /**
+     * Apply the given action to the node and all of its descendants.
+     *
+     * @param node The JSON node to traverse, may be {@code null}
+     * @param action The action to apply to each node, may be {@code null}
+     */
     public static void traverseNode(@Nullable tools.jackson.databind.JsonNode node, @Nullable Consumer<tools.jackson.databind.JsonNode> action) {
         if (ObjectUtils.anyNull(node, action)) {
             return;
@@ -568,6 +641,12 @@ public abstract class JsonParserWraps {
         }
     }
 
+    /**
+     * Apply the given action to the node and all of its descendants.
+     *
+     * @param node The JSON node to traverse, may be {@code null}
+     * @param action The action to apply to each node, may be {@code null}
+     */
     public static void traverseNode(@Nullable com.google.gson.JsonElement node, @Nullable Consumer<com.google.gson.JsonElement> action) {
         if (ObjectUtils.anyNull(node, action)) {
             return;
@@ -584,6 +663,12 @@ public abstract class JsonParserWraps {
         }
     }
 
+    /**
+     * Apply the given action to the node and all of its descendants.
+     *
+     * @param node The JSON node to traverse, may be {@code null}
+     * @param action The action to apply to each node, may be {@code null}
+     */
     public static void traverseNode(@Nullable jakarta.json.JsonValue node, @Nullable Consumer<jakarta.json.JsonValue> action) {
         if (ObjectUtils.anyNull(node, action)) {
             return;

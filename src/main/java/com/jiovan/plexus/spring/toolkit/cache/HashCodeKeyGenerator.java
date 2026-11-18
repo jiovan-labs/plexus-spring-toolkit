@@ -45,6 +45,14 @@ import lombok.Setter;
 public class HashCodeKeyGenerator extends AbstractKeyGenerator {
     private boolean paramParentheses = true;
 
+    /**
+     * Apply {@link HashCodeKeyFormat} settings from the target class and the method
+     * before the cache key is generated.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     */
     @Override
     protected void beforeGenerate(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
         Class<?> targetClass = AopUtils.getTargetClass(target);
@@ -58,12 +66,26 @@ public class HashCodeKeyGenerator extends AbstractKeyGenerator {
         }
     }
 
+    /**
+     * Resolve the method parameters into the hexadecimal form of their deep hash code.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     *
+     * @return The formatted parameter part of the cache key
+     */
     @Override
     protected String resolveParams(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
         String result = ArrayUtils.isEmpty(params) ? null : String.format(SymbolVariantConst.HEX_ORDER_SQUARES, Math.abs(Arrays.deepHashCode(params)));
         return !paramParentheses ? result : StringUtils.join(CharVariantConst.PARENTHESIS_LEFT, CharVariantConst.PARENTHESIS_RIGHT, result);
     }
 
+    /**
+     * Apply the settings declared by a {@link HashCodeKeyFormat} annotation.
+     *
+     * @param annotation The annotation to apply
+     */
     private void processAnnotation(@Nonnull HashCodeKeyFormat annotation) {
         super.setPrefix(annotation.prefix());
         super.setSuffix(annotation.suffix());

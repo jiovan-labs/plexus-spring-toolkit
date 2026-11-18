@@ -37,113 +37,309 @@ import com.jiovan.plexus.common.toolkit.util.ArrayUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class StereotypeBeanWraps {
+    /**
+     * Return whether all the given classes are annotated as mergedcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allMergedController(@Nullable Class<?>... classes) {
         return allMergedController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as mergedcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allMergedController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isMergedController);
     }
+    /**
+     * Return whether all the given classes are annotated as controllers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allController(@Nullable Class<?>... classes) {
         return allController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as controllers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isController);
     }
 
+    /**
+     * Return whether all the given classes are annotated as controlleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allControllerAdvice(@Nullable Class<?>... classes) {
         return allControllerAdvice(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as controlleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allControllerAdvice(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isControllerAdvice);
     }
 
+    /**
+     * Return whether all the given classes are annotated as restcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRestController(@Nullable Class<?>... classes) {
         return allRestController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as restcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRestController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isRestController);
     }
 
+    /**
+     * Return whether all the given classes are annotated as restcontrolleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRestControllerAdvice(@Nullable Class<?>... classes) {
         return allRestControllerAdvice(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as restcontrolleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRestControllerAdvice(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isRestControllerAdvice);
     }
 
+    /**
+     * Return whether all the given classes are annotated as services.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allService(@Nullable Class<?>... classes) {
         return allService(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as services.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allService(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isService);
     }
 
+    /**
+     * Return whether all the given classes are annotated as repositorys.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRepository(@Nullable Class<?>... classes) {
         return allRepository(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether all the given classes are annotated as repositorys.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean allRepository(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().allMatch(StereotypeBeanWraps::isRepository);
     }
 
+    /**
+     * Return whether any the given classes are annotated as mergedcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyMergedController(@Nullable Class<?>... classes) {
         return anyMergedController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as mergedcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyMergedController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isMergedController);
     }
 
+    /**
+     * Return whether any the given classes are annotated as controllers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyController(@Nullable Class<?>... classes) {
         return anyController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as controllers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isController);
     }
 
+    /**
+     * Return whether any the given classes are annotated as controlleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyControllerAdvice(@Nullable Class<?>... classes) {
         return anyControllerAdvice(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as controlleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyControllerAdvice(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isControllerAdvice);
     }
 
+    /**
+     * Return whether any the given classes are annotated as restcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRestController(@Nullable Class<?>... classes) {
         return anyRestController(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as restcontrollers.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRestController(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isRestController);
     }
 
+    /**
+     * Return whether any the given classes are annotated as restcontrolleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRestControllerAdvice(@Nullable Class<?>... classes) {
         return anyRestControllerAdvice(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as restcontrolleradvices.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRestControllerAdvice(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isRestControllerAdvice);
     }
 
+    /**
+     * Return whether any the given classes are annotated as services.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyService(@Nullable Class<?>... classes) {
         return anyService(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as services.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyService(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isService);
     }
 
+    /**
+     * Return whether any the given classes are annotated as repositorys.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRepository(@Nullable Class<?>... classes) {
         return anyRepository(ArrayUtilsWraps.asList(classes));
     }
 
+    /**
+     * Return whether any the given classes are annotated as repositorys.
+     *
+     * @param classes The given classes
+     *
+     * @return Whether the condition holds
+     */
     public static boolean anyRepository(@Nullable Collection<Class<?>> classes) {
         return !CollectionUtils.isEmpty(classes) && classes.stream().anyMatch(StereotypeBeanWraps::isRepository);
     }

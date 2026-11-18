@@ -38,24 +38,50 @@ import lombok.Setter;
  */
 @SuppressWarnings("unused")
 public class MessageSourceAccessorProcessor implements BeanPostProcessor, Ordered {
+    /**
+     * The Spring application context in use.
+     */
     private final ConfigurableApplicationContext applicationContext;
+
+    /**
+     * Pre-created accessor for resolving localized messages from the message source.
+     */
     private final MessageSourceAccessor messageAccessor;
 
+    /**
+     * The order value for this processor.
+     */
     @Getter
     @Setter
     private int order = 0;
 
+    /**
+     * Create a processor using the application's default locale.
+     *
+     * @param context The Spring application context
+     */
     public MessageSourceAccessorProcessor(@Nonnull ConfigurableApplicationContext context) {
         applicationContext = context;
         messageAccessor = new MessageSourceAccessor(applicationContext);
     }
 
+    /**
+     * Create a processor with an explicit default locale override.
+     *
+     * @param context The Spring application context
+     * @param defaultLocale The locale to use when no match is found in the request, may be {@code null}
+     */
     @SuppressWarnings("DataFlowIssue")
     public MessageSourceAccessorProcessor(@Nonnull ConfigurableApplicationContext context, @Nullable Locale defaultLocale) {
         applicationContext = context;
         messageAccessor = new MessageSourceAccessor(applicationContext, defaultLocale);
     }
 
+    /**
+     * Invoke the {@link MessageSourceAccessorAware} interface on the given bean by injecting the configured message accessor.
+     *
+     * @param bean The Spring bean being processed
+     */
     private void invokeAwareInterfaces(@Nonnull Object bean) {
         if (bean instanceof MessageSourceAccessorAware alias) {
             alias.setMessageSourceAccessor(messageAccessor);

@@ -32,9 +32,24 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public enum TemplateFileType implements ValueEnum<String> {
+    /**
+     * FreeMarker template files ({@code .ftlh}).
+     */
     FREEMARKER(".ftlh"),    // $NON-NLS-1$
+
+    /**
+     * Groovy template files ({@code .tpl}).
+     */
     GROOVY(".tpl"),    // $NON-NLS-1$
+
+    /**
+     * Mustache template files ({@code .mustache}).
+     */
     MUSTACHE(".mustache"),    // $NON-NLS-1$
+
+    /**
+     * Thymeleaf template files ({@code .html}).
+     */
     THYMELEAF(FileExtensionConst.HTML);
 
     private final String value;

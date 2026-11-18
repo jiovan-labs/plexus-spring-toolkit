@@ -41,6 +41,14 @@ import com.jiovan.plexus.spring.toolkit.constant.SpringBeanConst;
  */
 @SuppressWarnings({"unused", "JavadocReference"})
 public class MongoDataAuditProcessor implements BeanFactoryPostProcessor {
+    /**
+     * Replace the MongoDB auditing handler bean definition with {@link MongoDataAuditHandler}
+     * when the default handler is registered.
+     *
+     * @param factory The bean factory to post-process
+     *
+     * @throws BeansException If post-processing fails
+     */
     @Override
     public void postProcessBeanFactory(@Nonnull ConfigurableListableBeanFactory factory) throws BeansException {
         if (factory.containsBeanDefinition(SpringBeanConst.MONGO_AUDITING_HANDLER)) {

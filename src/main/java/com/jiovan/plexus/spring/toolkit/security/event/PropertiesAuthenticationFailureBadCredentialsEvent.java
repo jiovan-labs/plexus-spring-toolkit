@@ -37,19 +37,43 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesAuthenticationFailureBadCredentialsEvent extends AbstractPropertiesAuthenticationFailureEvent {
+    /**
+     * Create a PropertiesAuthenticationFailureBadCredentialsEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesAuthenticationFailureBadCredentialsEvent(@Nonnull AuthenticationFailureBadCredentialsEvent event) {
         super(event.getAuthentication(), event.getException());
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureBadCredentialsEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureBadCredentialsEvent(@Nonnull AuthenticationFailureBadCredentialsEvent event, @Nullable Properties properties) {
         super(event.getAuthentication(), event.getException());
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureBadCredentialsEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     */
     public PropertiesAuthenticationFailureBadCredentialsEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception) {
         super(authentication, exception);
     }
 
+    /**
+     * Create a PropertiesAuthenticationFailureBadCredentialsEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureBadCredentialsEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception, @Nullable Properties properties) {
         super(authentication, exception);
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);

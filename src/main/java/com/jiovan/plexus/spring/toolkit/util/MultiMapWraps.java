@@ -76,19 +76,53 @@ public abstract class MultiMapWraps {
         }
     }
 
+    /**
+     * Contains key.
+     *
+     * @param map The map, may be {@code null}
+     * @param key The key, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K> boolean containsKey(@Nullable MultiValueMap<K, ?> map, @Nullable K key) {
         return MapPlainWraps.containsKey(map, key);
     }
 
+    /**
+     * Contains key value.
+     *
+     * @param map The map, may be {@code null}
+     * @param key The key, may be {@code null}
+     * @param value The value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean containsKeyValue(@Nullable MultiValueMap<K, V> map, @Nullable K key, @Nullable V value) {
         return MapPlainWraps.containsKey(map, key) && CollectionPlainWraps.contains(map.get(key), value);
     }
 
+    /**
+     * Contains key values.
+     *
+     * @param map The map, may be {@code null}
+     * @param key The key, may be {@code null}
+     * @param values The values, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     @SafeVarargs
     public static <K, V> boolean containsKeyValues(@Nullable MultiValueMap<K, V> map, @Nullable K key, @Nullable V... values) {
         return MapPlainWraps.containsKey(map, key) && CollectionPlainWraps.containsAll(map.get(key), values);
     }
 
+    /**
+     * Contains value.
+     *
+     * @param map The map, may be {@code null}
+     * @param value The value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <V> boolean containsValue(@Nullable MultiValueMap<?, V> map, @Nullable V value) {
         return !CollectionUtils.isEmpty(map) && map.keySet().stream().anyMatch(key -> CollectionPlainWraps.contains(map.get(key), value));
     }
@@ -158,6 +192,14 @@ public abstract class MultiMapWraps {
         return !containsKey(map, key) ? null : CollectionPlainWraps.toElementArray(map.get(key));
     }
 
+    /**
+     * Remove entries whose values contain the given text.
+     *
+     * @param map The map, may be {@code null}
+     * @param value The value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <K, V> boolean removeByValueContains(@Nullable MultiValueMap<K, V> map, @Nullable V value) {
         return MapPlainWraps.isNotEmpty(map) && map.entrySet().removeIf(entry -> entry != null && CollectionPlainWraps.contains(entry.getValue(), value));
     }

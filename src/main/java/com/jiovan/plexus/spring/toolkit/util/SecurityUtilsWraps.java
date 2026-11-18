@@ -62,6 +62,13 @@ import com.jiovan.plexus.spring.toolkit.security.exception.IllegalAuthentication
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SecurityUtilsWraps {
+    /**
+     * Return the name of the current authentication.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getAuthenticationName(@Nullable Authentication authentication) {
         return getAuthenticationName(authentication, false);
@@ -75,41 +82,98 @@ public abstract class SecurityUtilsWraps {
         return (authentication == null || (authenticated && !authentication.isAuthenticated())) ? null : authentication.getName();
     }
 
+    /**
+     * Return the authentication principal converted to the expected type.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getAuthenticationPrincipalAs(@Nullable Authentication authentication, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(authentication, expectType) ? null : ObjectUtilsWraps.castAs(authentication.getPrincipal(), expectType);
     }
 
+    /**
+     * Return the authentication principal as a string.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getAuthenticationPrincipalAsString(@Nullable Authentication authentication) {
         return getAuthenticationPrincipalAs(authentication, String.class);
     }
 
+    /**
+     * Return the authentication credentials converted to the expected type.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getAuthenticationCredentialsAs(@Nullable Authentication authentication, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(authentication, expectType) ? null : ObjectUtilsWraps.castAs(authentication.getCredentials(), expectType);
     }
 
+    /**
+     * Return the authentication credentials as a string.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getAuthenticationCredentialsAsString(@Nullable Authentication authentication) {
         return getAuthenticationCredentialsAs(authentication, String.class);
     }
 
+    /**
+     * Return the authentication details converted to the expected type.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getAuthenticationDetailsAs(@Nullable Authentication authentication, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(authentication, expectType) ? null : ObjectUtilsWraps.castAs(authentication.getDetails(), expectType);
     }
 
+    /**
+     * Return the authentication details as a string.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getAuthenticationDetailsAsString(@Nullable Authentication authentication) {
         return getAuthenticationDetailsAs(authentication, String.class);
     }
 
+    /**
+     * Return the authentication from the current security context.
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication getContextAuthentication() {
         return getContextAuthentication(false);
     }
 
+    /**
+     * Return the authentication from the current security context.
+     *
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication getContextAuthentication(boolean authenticated) {
         SecurityContext context = SecurityContextHolder.getContext();
@@ -117,16 +181,36 @@ public abstract class SecurityUtilsWraps {
         return (authentication == null || (authenticated && !authentication.isAuthenticated())) ? null : authentication;
     }
 
+    /**
+     * Return the context authentication converted to the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T extends Authentication> T getContextAuthenticationAs(@Nullable Class<T> expectType) {
         return getContextAuthenticationAs(false, expectType);
     }
 
+    /**
+     * Return the context authentication converted to the expected type.
+     *
+     * @param authenticated The given authenticated
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T extends Authentication> T getContextAuthenticationAs(boolean authenticated, @Nullable Class<T> expectType) {
         return (expectType == null) ? null : ObjectUtilsWraps.castAs(getContextAuthentication(authenticated), expectType);
     }
 
+    /**
+     * Return the name of the context authentication.
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextAuthenticationName() {
         return getContextAuthenticationName(false);
@@ -142,11 +226,27 @@ public abstract class SecurityUtilsWraps {
         return getAuthenticationName(getContextAuthentication(authenticated), authenticated);
     }
 
+    /**
+     * Return the required context authentication name.
+     *
+     * @return The result of the operation
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     @Nonnull
     public static String getContextAuthenticationNameRequired() throws AuthenticationException {
         return getContextAuthenticationNameRequired(true);
     }
 
+    /**
+     * Return the required context authentication name.
+     *
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     @Nonnull
     public static String getContextAuthenticationNameRequired(boolean authenticated) throws AuthenticationException {
         String result = getContextAuthenticationName(authenticated);
@@ -156,11 +256,23 @@ public abstract class SecurityUtilsWraps {
         return result;
     }
 
+    /**
+     * Return the required authentication name, or {@code null} on failure.
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextAuthenticationNameRequiredQuietly() {
         return getContextAuthenticationNameRequiredQuietly(true);
     }
 
+    /**
+     * Return the required authentication name, or {@code null} on failure.
+     *
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextAuthenticationNameRequiredQuietly(boolean authenticated) {
         try {
@@ -170,21 +282,55 @@ public abstract class SecurityUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the context principal converted to the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationPrincipalAs(@Nullable Class<T> expectType) {
         return getContextAuthenticationPrincipalAs(expectType, false);
     }
 
+    /**
+     * Return the context principal converted to the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationPrincipalAs(@Nullable Class<T> expectType, boolean authenticated) {
         return getAuthenticationPrincipalAs(getContextAuthentication(authenticated), expectType);
     }
 
+    /**
+     * Return the required context principal as the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     @Nonnull
     public static <T> T getContextAuthenticationPrincipalRequiredAs(@Nullable Class<T> expectType) throws AuthenticationException {
         return getContextAuthenticationPrincipalRequiredAs(expectType, true);
     }
 
+    /**
+     * Return the required context principal as the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     *
+     * @throws AuthenticationException If the operation fails
+     */
     @Nonnull
     public static <T> T getContextAuthenticationPrincipalRequiredAs(@Nullable Class<T> expectType, boolean authenticated) throws AuthenticationException {
         T result = getAuthenticationPrincipalAs(getContextAuthentication(authenticated), expectType);
@@ -194,11 +340,26 @@ public abstract class SecurityUtilsWraps {
         return result;
     }
 
+    /**
+     * Return the required context principal, or {@code null} on failure.
+     *
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationPrincipalRequiredAsQuietly(@Nullable Class<T> expectType) {
         return getContextAuthenticationPrincipalRequiredAsQuietly(expectType, true);
     }
 
+    /**
+     * Return the required context principal, or {@code null} on failure.
+     *
+     * @param expectType The expected type, may be {@code null}
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationPrincipalRequiredAsQuietly(@Nullable Class<T> expectType, boolean authenticated) {
         try {
@@ -208,31 +369,72 @@ public abstract class SecurityUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the context details converted to the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationDetailsAs(@Nullable Class<T> expectType) {
         return getContextAuthenticationDetailsAs(expectType, false);
     }
 
+    /**
+     * Return the context details converted to the expected type.
+     *
+     * @param expectType The expected type, may be {@code null}
+     * @param authenticated The given authenticated
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T> T getContextAuthenticationDetailsAs(@Nullable Class<T> expectType, boolean authenticated) {
         return getAuthenticationDetailsAs(getContextAuthentication(authenticated), expectType);
     }
 
+    /**
+     * Return the granted authorities of the current authentication.
+     *
+     * @param authorities The authorities, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<GrantedAuthority> getGrantedAuthorities(@Nullable String[] authorities) {
         return getGrantedAuthorities(ArrayUtilsWraps.asList(authorities));
     }
 
+    /**
+     * Return the granted authorities of the current authentication.
+     *
+     * @param authorities The authorities, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<GrantedAuthority> getGrantedAuthorities(@Nullable Collection<String> authorities) {
         return CollectionUtils.isEmpty(authorities) ? null : authorities.stream().filter(StringUtils::isNotBlank).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 
+    /**
+     * Return the names of the granted authorities in the context.
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getContextGrantedAuthoritiesNames() {
         return getGrantedAuthoritiesNames(getContextAuthentication());
     }
 
+    /**
+     * Return the names of the granted authorities.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getGrantedAuthoritiesNames(@Nullable Authentication authentication) {
         if (authentication == null) {
@@ -242,31 +444,75 @@ public abstract class SecurityUtilsWraps {
         return CollectionUtils.isEmpty(authorities) ? null : authorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
     }
 
+    /**
+     * Return the authentication stored in the session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication getSessionAuthentication(@Nullable HttpServletRequest request) {
         return (request == null) ? null : getSessionAuthentication(request.getSession());
     }
 
+    /**
+     * Return the authentication stored in the session.
+     *
+     * @param session The HTTP session, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication getSessionAuthentication(@Nullable HttpSession session) {
         SecurityContext context = getSessionSecurityContext(session);
         return (context == null) ? null : context.getAuthentication();
     }
 
+    /**
+     * Return the session authentication converted to the expected type.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T extends Authentication> T getSessionAuthenticationAs(@Nullable HttpServletRequest request, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(request, expectType) ? null : getSessionAuthenticationAs(request.getSession(), expectType);
     }
 
+    /**
+     * Return the session authentication converted to the expected type.
+     *
+     * @param session The HTTP session, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <T extends Authentication> T getSessionAuthenticationAs(@Nullable HttpSession session, @Nullable Class<T> expectType) {
         return ObjectUtilsWraps.castAs(getSessionAuthentication(session), expectType);
     }
 
+    /**
+     * Return all authentications stored in the session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static List<Authentication> getSessionAuthentications(@Nullable HttpServletRequest request) {
         return (request == null) ? null : getSessionAuthentications(request.getSession());
     }
 
+    /**
+     * Return all authentications stored in the session.
+     *
+     * @param session The HTTP session, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static List<Authentication> getSessionAuthentications(@Nullable HttpSession session) {
         if (session == null) {
             return null;
@@ -275,11 +521,25 @@ public abstract class SecurityUtilsWraps {
         return CollectionUtils.isEmpty(contexts) ? null : contexts.stream().map(SecurityContext::getAuthentication).collect(Collectors.toList());
     }
 
+    /**
+     * Return the security context stored in the session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static SecurityContext getSessionSecurityContext(@Nullable HttpServletRequest request) {
         return (request == null) ? null : getSessionSecurityContext(request.getSession());
     }
 
+    /**
+     * Return the security context stored in the session.
+     *
+     * @param session The HTTP session, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static SecurityContext getSessionSecurityContext(@Nullable HttpSession session) {
         if (session == null) {
@@ -289,6 +549,13 @@ public abstract class SecurityUtilsWraps {
         return ObjectUtilsWraps.castAs(attribute, SecurityContext.class);
     }
 
+    /**
+     * Return all security contexts stored in the session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<SecurityContext> getSessionSecurityContexts(@Nullable HttpServletRequest request) {
         return (request == null) ? null : getSessionSecurityContexts(request.getSession());
@@ -314,22 +581,74 @@ public abstract class SecurityUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return whether the current authentication is authenticated.
+     *
+     * @param authentication The authentication, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAuthenticationAuthenticated(@Nullable Authentication authentication) {
         return authentication != null && authentication.isAuthenticated();
     }
 
+    /**
+     * Return whether the context authentication is authenticated.
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContextAuthenticationAuthenticated() {
         return isAuthenticationAuthenticated(getContextAuthentication());
     }
 
+    /**
+     * Renew the authentication held in the current security context.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws IllegalArgumentException If the operation fails
+     * @throws IllegalAccessException If the operation fails
+     */
     public static Authentication renewAuthentication(@Nullable Authentication authentication, @Nullable Object principal) throws IllegalArgumentException, IllegalAccessException {
         return renewAuthentication(authentication, principal, false, null, false, null, false, null);
     }
 
+    /**
+     * Renew the authentication held in the current security context.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     * @param details The details, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws IllegalArgumentException If the operation fails
+     * @throws IllegalAccessException If the operation fails
+     */
     public static Authentication renewAuthentication(@Nullable Authentication authentication, @Nullable Object principal, @Nullable Object details) throws IllegalArgumentException, IllegalAccessException {
         return renewAuthentication(authentication, principal, false, null, false, null, true, details);
     }
 
+    /**
+     * Renew the authentication held in the current security context.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     * @param renewCredentials The given renewCredentials
+     * @param credentials The credentials, may be {@code null}
+     * @param renewAuthorities The given renewAuthorities
+     * @param authorities The authorities, may be {@code null}
+     * @param renewDetails The given renewDetails
+     * @param details The details, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws IllegalAccessException If the operation fails
+     * @throws UnsupportedClassException If the operation fails
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static Authentication renewAuthentication(@Nullable Authentication authentication, @Nullable Object principal, boolean renewCredentials, @Nullable Object credentials, boolean renewAuthorities, @Nullable Collection<? extends GrantedAuthority> authorities, boolean renewDetails, @Nullable Object details) throws IllegalAccessException, UnsupportedClassException {
@@ -363,6 +682,14 @@ public abstract class SecurityUtilsWraps {
         return result;
     }
 
+    /**
+     * Renew the authentication, ignoring failures.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication renewAuthenticationQuietly(@Nullable Authentication authentication, @Nullable Object principal) {
         try {
@@ -372,6 +699,15 @@ public abstract class SecurityUtilsWraps {
         return null;
     }
 
+    /**
+     * Renew the authentication, ignoring failures.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     * @param details The details, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication renewAuthenticationQuietly(@Nullable Authentication authentication, @Nullable Object principal, @Nullable Object details) {
         try {
@@ -381,6 +717,20 @@ public abstract class SecurityUtilsWraps {
         return null;
     }
 
+    /**
+     * Renew the authentication, ignoring failures.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param principal The principal, may be {@code null}
+     * @param renewCredentials The given renewCredentials
+     * @param credentials The credentials, may be {@code null}
+     * @param renewAuthorities The given renewAuthorities
+     * @param authorities The authorities, may be {@code null}
+     * @param renewDetails The given renewDetails
+     * @param details The details, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Authentication renewAuthenticationQuietly(@Nullable Authentication authentication, @Nullable Object principal, boolean renewCredentials, @Nullable Object credentials, boolean renewAuthorities, @Nullable Collection<? extends GrantedAuthority> authorities, boolean renewDetails, @Nullable Object details) {
         try {
@@ -403,6 +753,12 @@ public abstract class SecurityUtilsWraps {
         ((AbstractAuthenticationToken) authentication).setDetails(details);
     }
 
+    /**
+     * Set authentication details, ignoring failures.
+     *
+     * @param authentication The authentication, may be {@code null}
+     * @param details The details, may be {@code null}
+     */
     public static void setAuthenticationDetailsQuietly(@Nullable Authentication authentication, @Nullable Object details) {
         try {
             setAuthenticationDetails(authentication, details);
@@ -410,11 +766,24 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Store the given authentication in the current security context.
+     *
+     * @param authentication The authentication, may be {@code null}
+     */
     public static void setContextAuthentication(@Nullable Authentication authentication) {
         SecurityContext context = SecurityContextHolder.getContext();
         context.setAuthentication(authentication);
     }
 
+    /**
+     * Set the principal on the current context authentication.
+     *
+     * @param principal The principal, may be {@code null}
+     *
+     * @throws IllegalAccessException If the operation fails
+     * @throws IllegalArgumentException If the operation fails
+     */
     public static void setContextAuthenticationPrincipal(@Nullable Object principal) throws IllegalAccessException, IllegalArgumentException {
         if (principal != null) {
             Authentication authentication = renewAuthentication(getContextAuthentication(), principal);
@@ -422,6 +791,18 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Set the principal on the current context authentication.
+     *
+     * @param principal The principal, may be {@code null}
+     * @param renewCredentials The given renewCredentials
+     * @param credentials The credentials, may be {@code null}
+     * @param renewAuthorities The given renewAuthorities
+     * @param authorities The authorities, may be {@code null}
+     *
+     * @throws IllegalAccessException If the operation fails
+     * @throws IllegalArgumentException If the operation fails
+     */
     public static void setContextAuthenticationPrincipal(@Nullable Object principal, boolean renewCredentials, @Nullable Object credentials, boolean renewAuthorities, @Nullable Collection<? extends GrantedAuthority> authorities) throws IllegalAccessException, IllegalArgumentException {
         if (principal != null) {
             Authentication authentication = renewAuthentication(getContextAuthentication(), principal, renewCredentials, credentials, renewAuthorities, authorities, false, null);
@@ -429,6 +810,11 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Set the context principal, ignoring failures.
+     *
+     * @param principal The principal, may be {@code null}
+     */
     public static void setContextAuthenticationPrincipalQuietly(@Nullable Object principal) {
         try {
             setContextAuthenticationPrincipal(principal);
@@ -436,6 +822,15 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Set the context principal, ignoring failures.
+     *
+     * @param principal The principal, may be {@code null}
+     * @param renewCredentials The given renewCredentials
+     * @param credentials The credentials, may be {@code null}
+     * @param renewAuthorities The given renewAuthorities
+     * @param authorities The authorities, may be {@code null}
+     */
     public static void setContextAuthenticationPrincipalQuietly(@Nullable Object principal, boolean renewCredentials, @Nullable Object credentials, boolean renewAuthorities, @Nullable Collection<? extends GrantedAuthority> authorities) {
         try {
             setContextAuthenticationPrincipal(principal, renewCredentials, credentials, renewAuthorities, authorities);
@@ -443,6 +838,13 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Set details on the current context authentication.
+     *
+     * @param details The details, may be {@code null}
+     *
+     * @throws IllegalArgumentException If the operation fails
+     */
     public static void setContextAuthenticationDetails(@Nullable WebAuthenticationDetails details) throws IllegalArgumentException {
         if (details != null) {
             Authentication authentication = getContextAuthentication();
@@ -451,6 +853,11 @@ public abstract class SecurityUtilsWraps {
         }
     }
 
+    /**
+     * Set context authentication details, ignoring failures.
+     *
+     * @param details The details, may be {@code null}
+     */
     public static void setContextAuthenticationDetailsQuietly(@Nullable WebAuthenticationDetails details) {
         try {
             setContextAuthenticationDetails(details);

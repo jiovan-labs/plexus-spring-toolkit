@@ -50,11 +50,26 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class UriUtilsWraps {
+    /**
+     * Decode the given URL-encoded text.
+     *
+     * @param url The URL, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String decodeUrl(@Nullable String url) {
         return decodeUrl(url, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Decode the given URL-encoded text.
+     *
+     * @param url The URL, may be {@code null}
+     * @param charset The charset, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String decodeUrl(@Nullable String url, @Nullable Charset charset) {
         try {
@@ -64,11 +79,26 @@ public abstract class UriUtilsWraps {
         return null;
     }
 
+    /**
+     * Encode the given text for use in a URL.
+     *
+     * @param url The URL, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String encodeUrl(@Nullable String url) {
         return encodeUrl(url, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Encode the given text for use in a URL.
+     *
+     * @param url The URL, may be {@code null}
+     * @param charset The charset, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String encodeUrl(@Nullable String url, @Nullable Charset charset) {
         try {
@@ -78,6 +108,13 @@ public abstract class UriUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the context path of the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextPath(@Nullable HttpServletRequest request) {
         return getContextPath(request, false);
@@ -102,11 +139,26 @@ public abstract class UriUtilsWraps {
         return (!endSlash || StringUtilsWraps.endsWith(result, CharUtils.toString(CharVariantConst.SLASH))) ? result : StringUtils.join(result, CharVariantConst.SLASH);
     }
 
+    /**
+     * Return the original context path before any wrapper changes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextPathOriginally(@Nullable HttpServletRequest request) {
         return getContextPathOriginally(request, false);
     }
 
+    /**
+     * Return the original context path before any wrapper changes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param endSlash The given endSlash
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextPathOriginally(@Nullable HttpServletRequest request, boolean endSlash) {
         if (request == null) {
@@ -147,58 +199,135 @@ public abstract class UriUtilsWraps {
         return url.delete(url.length() - request.getRequestURI().length(), url.length()).append(StringUtils.defaultString(request.getContextPath())).toString();
     }
 
+    /**
+     * Return a named query parameter from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getQueryParamAsStringFromUri(@Nullable String uri, @Nullable String name) {
         return StringUtils.isAnyBlank(uri, name) ? null : MultiMapWraps.firstNonNullValue(getQueryParamsFromUri(uri), name);
     }
 
+    /**
+     * Return a named query parameter from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getQueryParamAsStringFromUri(@Nullable URI uri, @Nullable String name) {
         return (uri == null || StringUtils.isBlank(name)) ? null : MultiMapWraps.firstNonNullValue(getQueryParamsFromUri(uri), name);
     }
 
+    /**
+     * Return a named query parameter from the given URL.
+     *
+     * @param url The URL, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getQueryParamAsStringFromUrl(@Nullable String url, @Nullable String name) {
         return StringUtils.isAnyBlank(url, name) ? null : MultiMapWraps.firstNonNullValue(getQueryParamsFromUrl(url), name);
     }
 
+    /**
+     * Return all values of a named query parameter from the URI.
+     *
+     * @param uri The URI, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getQueryParamAsStringsFromUri(@Nullable String uri, @Nullable String name) {
         return StringUtils.isAnyBlank(uri, name) ? null : MultiMapWraps.getValues(getQueryParamsFromUri(uri), name);
     }
 
+    /**
+     * Return all values of a named query parameter from the URI.
+     *
+     * @param uri The URI, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getQueryParamAsStringsFromUri(@Nullable URI uri, @Nullable String name) {
         return (uri == null || StringUtils.isBlank(name)) ? null : MultiMapWraps.getValues(getQueryParamsFromUri(uri), name);
     }
 
+    /**
+     * Return all values of a named query parameter from the URL.
+     *
+     * @param url The URL, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getQueryParamAsStringsFromUrl(@Nullable String url, @Nullable String name) {
         return StringUtils.isAnyBlank(url, name) ? null : MultiMapWraps.getValues(getQueryParamsFromUrl(url), name);
     }
 
+    /**
+     * Return all query parameters from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     */
     @Nullable
     public static MultiValueMap<String, String> getQueryParamsFromUri(@Nullable String uri) {
         UriComponents components = ofUriComponentsFromUri(uri);
         return (components == null) ? null : components.getQueryParams();
     }
 
+    /**
+     * Return all query parameters from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     */
     @Nullable
     public static MultiValueMap<String, String> getQueryParamsFromUri(@Nullable URI uri) {
         UriComponents components = ofUriComponentsFromUri(uri);
         return (components == null) ? null : components.getQueryParams();
     }
 
+    /**
+     * Return all query parameters from the given URL.
+     *
+     * @param url The URL, may be {@code null}
+     */
     @Nullable
     public static MultiValueMap<String, String> getQueryParamsFromUrl(@Nullable String url) {
         UriComponents components = ofUriComponentsFromUrl(url);
         return (components == null) ? null : components.getQueryParams();
     }
 
+    /**
+     * Return the query string of the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getQueryString(@Nullable HttpServletRequest request) {
         return (request == null) ? null : request.getQueryString();
     }
 
+    /**
+     * Return the original query string before any wrapper changes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getQueryStringOriginally(@Nullable HttpServletRequest request) {
         return (request == null) ? null : UrlPathHelper.defaultInstance.getOriginatingQueryString(request);
     }
@@ -216,6 +345,13 @@ public abstract class UriUtilsWraps {
         return (request == null) ? null : UrlPathHelper.defaultInstance.getRequestUri(request);
     }
 
+    /**
+     * Return the original request URI before any wrapper changes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getRequestUriOriginally(@Nullable HttpServletRequest request) {
         return (request == null) ? null : UrlPathHelper.defaultInstance.getOriginatingRequestUri(request);
     }
@@ -237,6 +373,13 @@ public abstract class UriUtilsWraps {
         return StringUtils.isBlank(query) ? uri : StringUtils.join(uri, CharVariantConst.QUESTION, query);
     }
 
+    /**
+     * Return the original URI and query string.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getRequestUriQueryStringOriginally(@Nullable HttpServletRequest request) {
         if (request == null) {
             return null;
@@ -288,6 +431,13 @@ public abstract class UriUtilsWraps {
         return (request == null) ? null : UrlPathHelper.defaultInstance.getServletPath(request);
     }
 
+    /**
+     * Return the original servlet path before any wrapper changes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getServletPathOriginally(@Nullable HttpServletRequest request) {
         return (request == null) ? null : UrlPathHelper.defaultInstance.getOriginatingServletPath(request);
     }
@@ -309,6 +459,13 @@ public abstract class UriUtilsWraps {
         return StringUtils.isBlank(query) ? path : StringUtils.join(path, CharVariantConst.QUESTION, query);
     }
 
+    /**
+     * Build a URL path helper with the given configuration.
+     *
+     * @param defaultEncoding The given defaultEncoding
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static UrlPathHelper ofUrlPathHelper(@Nullable Charset defaultEncoding) {
         UrlPathHelper result = new UrlPathHelper();
@@ -318,6 +475,13 @@ public abstract class UriUtilsWraps {
         return result;
     }
 
+    /**
+     * Build a URL path helper with the given configuration.
+     *
+     * @param defaultEncoding The given defaultEncoding
+     *
+     * @return The result of the operation
+     */
     @Nonnull
     public static UrlPathHelper ofUrlPathHelper(@Nullable String defaultEncoding) {
         UrlPathHelper result = new UrlPathHelper();
@@ -327,16 +491,37 @@ public abstract class UriUtilsWraps {
         return result;
     }
 
+    /**
+     * Build URI components from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UriComponents ofUriComponentsFromUri(@Nullable String uri) {
         return StringUtils.isBlank(uri) ? null : UriComponentsBuilder.fromUriString(uri).build();
     }
 
+    /**
+     * Build URI components from the given URI.
+     *
+     * @param uri The URI, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UriComponents ofUriComponentsFromUri(@Nullable URI uri) {
         return (uri == null) ? null : UriComponentsBuilder.fromUri(uri).build();
     }
 
+    /**
+     * Build URI components from the given URL.
+     *
+     * @param url The URL, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static UriComponents ofUriComponentsFromUrl(@Nullable String url) {
         return StringUtils.isBlank(url) ? null : UriComponentsBuilder.fromUriString(url).build();

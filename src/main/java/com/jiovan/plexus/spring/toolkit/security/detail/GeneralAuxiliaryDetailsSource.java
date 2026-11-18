@@ -31,6 +31,13 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class GeneralAuxiliaryDetailsSource implements AuthenticationDetailsSource<HttpServletRequest, GeneralAuxiliaryDetails> {
+    /**
+     * Build auxiliary authentication details from the given request.
+     *
+     * @param request The current HTTP request
+     *
+     * @return The authentication details built from the request
+     */
     @Nonnull
     @Override
     public GeneralAuxiliaryDetails buildDetails(@Nonnull HttpServletRequest request) {

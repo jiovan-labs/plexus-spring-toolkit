@@ -28,6 +28,13 @@ import org.springframework.session.Session;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SessionRepositoryUtils {
+    /**
+     * Return whether the given session is a Redis-backed session.
+     *
+     * @param session The session to check, may be {@code null}
+     *
+     * @return {@code true} if the given session is backed by Redis, {@code false} otherwise
+     */
     public static boolean isRedisSession(@Nullable Session session) {
         return (session instanceof RedisSessionRepository.RedisSession);
     }

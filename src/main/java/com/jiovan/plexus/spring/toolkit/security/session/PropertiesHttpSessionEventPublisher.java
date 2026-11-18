@@ -46,28 +46,61 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class PropertiesHttpSessionEventPublisher extends HttpSessionEventPublisher {
+    /**
+     * Optional transition for creating a session-created event from a session event.
+     */
     private Function<HttpSessionEvent, PropertiesHttpSessionCreatedEvent> sessionCreatedTransition;
+
+    /**
+     * Optional transition for creating a session-destroyed event from a session event.
+     */
     private Function<HttpSessionEvent, PropertiesHttpSessionDestroyedEvent> sessionDestroyedTransition;
+
+    /**
+     * Optional transition for creating a session-id-changed event from a session event.
+     */
     private BiFunction<HttpSessionEvent, String, PropertiesHttpSessionIdChangedEvent> sessionIdChangedTransition;
 
+    /**
+     * Handle an HTTP session created event.
+     *
+     * @param event The source event
+     */
     @Override
     public void sessionCreated(@Nonnull HttpSessionEvent event) {
         AbstractSessionEvent transition = (sessionCreatedTransition != null) ? sessionCreatedTransition.apply(event) : new PropertiesHttpSessionCreatedEvent(event.getSession());
         publishEvent(event.getSession(), transition);
     }
 
+    /**
+     * Handle an HTTP session destroyed event.
+     *
+     * @param event The source event
+     */
     @Override
     public void sessionDestroyed(@Nonnull HttpSessionEvent event) {
         AbstractSessionEvent transition = (sessionDestroyedTransition != null) ? sessionDestroyedTransition.apply(event): new PropertiesHttpSessionDestroyedEvent(event.getSession());
         publishEvent(event.getSession(), transition);
     }
 
+    /**
+     * Handle an HTTP session id changed event.
+     *
+     * @param event The source event
+     * @param previousId The previous session id, may be {@code null}
+     */
     @Override
     public void sessionIdChanged(@Nonnull HttpSessionEvent event, @Nullable String previousId) {
         AbstractSessionEvent transition = (sessionIdChangedTransition != null) ? sessionIdChangedTransition.apply(event, previousId) : new PropertiesHttpSessionIdChangedEvent(event.getSession(), previousId);
         publishEvent(event.getSession(), transition);
     }
 
+    /**
+     * Publish the given event to the application context.
+     *
+     * @param session The HTTP session
+     * @param event The source event
+     */
     protected void publishEvent(@Nonnull HttpSession session, @Nullable AbstractSessionEvent event) {
         if (event == null) {
             return;

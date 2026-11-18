@@ -33,8 +33,19 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public enum ImageCaptchaType implements KeyValueEnum<String, MediaType> {
+    /**
+     * GIF image captcha format.
+     */
     GIF(FileExtensionConst.GIF, MediaType.IMAGE_GIF),    // $NON-NLS-1$
+
+    /**
+     * JPEG image captcha format.
+     */
     JPG(FileExtensionConst.JPG, MediaType.IMAGE_JPEG),    // $NON-NLS-1$
+
+    /**
+     * PNG image captcha format.
+     */
     PNG(FileExtensionConst.PNG, MediaType.IMAGE_PNG);    // $NON-NLS-1$
 
     private final String key;

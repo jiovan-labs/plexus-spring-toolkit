@@ -39,6 +39,14 @@ import lombok.Setter;
 public class SecurityContextAuditorAware implements AuditorAware<String> {
     private String defaultAuditor = StringUtils.EMPTY;
 
+    /**
+     * Return the current auditor name resolved from the security context.
+     *
+     * <p>Falls back to the configured default auditor, and then to an empty string,
+     * when no authenticated name is available.
+     *
+     * @return An {@link Optional} containing the auditor name
+     */
     @Nonnull
     @Override
     public Optional<String> getCurrentAuditor() {

@@ -37,16 +37,41 @@ import org.springframework.security.crypto.password.PasswordEncoder;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class PasswordEncoderWraps {
+    /**
+     * Build a BCrypt password encoder.
+     *
+     * @param strength The given strength
+     *
+     * @return The configured password encoder
+     */
     @Nonnull
     public static PasswordEncoder bCryptEncoder(int strength) {
         return new BCryptPasswordEncoder(strength);
     }
 
+    /**
+     * Build a BCrypt password encoder.
+     *
+     * @param strength The given strength
+     * @param algorithm The given algorithm
+     *
+     * @return The configured password encoder
+     *
+     * @throws NoSuchAlgorithmException If the operation fails
+     */
     @Nullable
     public static PasswordEncoder bCryptEncoder(int strength, @Nullable String algorithm) throws NoSuchAlgorithmException {
         return StringUtils.isBlank(algorithm) ? null : new BCryptPasswordEncoder(strength, SecureRandom.getInstance(algorithm));
     }
 
+    /**
+     * Build a BCrypt password encoder, or {@code null} on failure.
+     *
+     * @param strength The given strength
+     * @param algorithm The given algorithm
+     *
+     * @return The configured password encoder, or {@code null}
+     */
     @Nullable
     public static PasswordEncoder bCryptEncoderQuietly(int strength, @Nullable String algorithm) {
         try {
@@ -56,11 +81,29 @@ public abstract class PasswordEncoderWraps {
         return null;
     }
 
+    /**
+     * Build a BCrypt password encoder.
+     *
+     * @param version The given version
+     * @param algorithm The given algorithm
+     *
+     * @return The configured password encoder
+     *
+     * @throws NoSuchAlgorithmException If the operation fails
+     */
     @Nullable
     public static PasswordEncoder bCryptEncoder(@Nullable BCryptPasswordEncoder.BCryptVersion version, @Nullable String algorithm) throws NoSuchAlgorithmException {
         return (version == null || StringUtils.isBlank(algorithm)) ? null : new BCryptPasswordEncoder(version, SecureRandom.getInstance(algorithm));
     }
 
+    /**
+     * Build a BCrypt password encoder, or {@code null} on failure.
+     *
+     * @param version The given version
+     * @param algorithm The given algorithm
+     *
+     * @return The configured password encoder, or {@code null}
+     */
     @Nullable
     public static PasswordEncoder bCryptEncoderQuietly(@Nullable BCryptPasswordEncoder.BCryptVersion version, @Nullable String algorithm) {
         try {

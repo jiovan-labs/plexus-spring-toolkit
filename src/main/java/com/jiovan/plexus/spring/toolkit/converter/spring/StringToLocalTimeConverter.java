@@ -40,6 +40,13 @@ import lombok.Setter;
 public class StringToLocalTimeConverter implements Converter<String, LocalTime> {
     private String[] formats = TemporalFormatCombo.TIME_FORMATS;
 
+    /**
+     * Convert a string value to a {@link LocalTime} using the configured time formats.
+     *
+     * @param value The source string, may be {@code null}
+     *
+     * @return The parsed time, or {@code null} if the value cannot be parsed
+     */
     @Override
     public LocalTime convert(@Nullable String value) {
         if (StringUtils.isBlank(value)) {

@@ -51,11 +51,34 @@ import com.jiovan.plexus.spring.toolkit.structure.DataTableStruct;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class DataTableWraps {
+    /**
+     * The request parameter name for the DataTables draw counter.
+     */
     private static final String DRAW_PARAM = "draw";    // $NON-NLS-1$
+
+    /**
+     * The request parameter name for the first record offset.
+     */
     private static final String START_PARAM = "start";    // $NON-NLS-1$
+
+    /**
+     * The request parameter name for the page length.
+     */
     private static final String LENGTH_PARAM = "length";    // $NON-NLS-1$
+
+    /**
+     * The parameter key used to carry the resolved sort order.
+     */
     private static final String SORT_ORDER = "_sort_order_";    // $NON-NLS-1$
+
+    /**
+     * The ascending sort order token.
+     */
     private static final String SORT_ASC = "asc";    // $NON-NLS-1$
+
+    /**
+     * The descending sort order token.
+     */
     private static final String SORT_DESC = "desc";    // $NON-NLS-1$
 
     /**
@@ -92,6 +115,13 @@ public abstract class DataTableWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the column sort orders rendered as a delimited string.
+     *
+     * @param params The request parameter map, may be {@code null}
+     *
+     * @return The rendered sort orders, or {@code null}
+     */
     @Nullable
     public static String getOrderDirAsString(@Nullable Map<String, Object> params) {
         if (CollectionUtils.isEmpty(params)) {
@@ -101,11 +131,23 @@ public abstract class DataTableWraps {
         return com.jiovan.plexus.spring.toolkit.util.MapPlainWraps.toDelimitedString(columnDirs, StringUtils.SPACE, SymbolVariantConst.COMMA_SPACE);
     }
 
+    /**
+     * Create a DataTables struct initialized from the current context request.
+     *
+     * @return The initialized DataTables struct
+     */
     @Nonnull
     public static DataTableStruct ofTableWithContext() {
         return ofTableWithRequest(WebUtilsWraps.getContextServletRequest());
     }
 
+    /**
+     * Create a DataTables struct initialized from the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The initialized DataTables struct
+     */
     @Nonnull
     @SuppressWarnings("DataFlowIssue")
     public static DataTableStruct ofTableWithRequest(@Nullable HttpServletRequest request) {
@@ -114,16 +156,46 @@ public abstract class DataTableWraps {
         return struct;
     }
 
+    /**
+     * Query the statement and build a DataTables result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param drawTimes The draw counter, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null} for a blank statement id
+     */
     @Nullable
     public static DataTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Integer drawTimes) {
         return queryForTable(sqlSession, statementId, null, null, drawTimes);
     }
 
+    /**
+     * Query the statement and build a DataTables result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     * @param drawTimes The draw counter, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null} for a blank statement id
+     */
     @Nullable
     public static DataTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params, @Nullable Integer drawTimes) {
         return queryForTable(sqlSession, statementId, params, null, drawTimes);
     }
 
+    /**
+     * Query the statement and build a DataTables result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     * @param bounds The pagination row bounds, may be {@code null}
+     * @param drawTimes The draw counter, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null} for a blank statement id
+     */
     @Nullable
     public static DataTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params, @Nullable PageRowBounds bounds, @Nullable Integer drawTimes) {
         if (StringUtils.isBlank(statementId)) {
@@ -158,53 +230,148 @@ public abstract class DataTableWraps {
         return struct;
     }
 
+    /**
+     * Query for a DataTables result using the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContext(@Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithContext(sqlSession, statementId, null, null);
     }
 
+    /**
+     * Query for a DataTables result using the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContext(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params) {
         return queryForTableWithContext(sqlSession, statementId, params, null);
     }
 
+    /**
+     * Query for a DataTables result using the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     * @param bounds The pagination row bounds, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContext(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params, @Nullable PageRowBounds bounds) {
         HttpServletRequest request = WebUtilsWraps.getContextServletRequest();
         return (request == null) ? null : queryForTableWithRequest(request, sqlSession, statementId, params, bounds);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithContextParameterized(sqlSession, statementId, false, false, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload) {
         return queryForTableWithContextParameterized(sqlSession, statementId, includePayload, false, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray) {
         return queryForTableWithContextParameterized(sqlSession, statementId, includePayload, unwrapSingleArray, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     * @param paramsAction An optional transformation applied to the parameter map
+     *
+     * @return The DataTables result, or {@code null} when no context request exists
+     */
     @Nullable
     public static DataTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray, @Nullable UnaryOperator<Map<String, Object>> paramsAction) {
         HttpServletRequest request = WebUtilsWraps.getContextServletRequest();
         return (request == null) ? null : queryForTableWithRequestParameterized(request, sqlSession, statementId, includePayload, unwrapSingleArray, paramsAction);
     }
 
+    /**
+     * Query for a DataTables result using the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequest(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithRequest(request, sqlSession, statementId, null, null);
     }
 
+    /**
+     * Query for a DataTables result using the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequest(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params) {
         return queryForTableWithRequest(request, sqlSession, statementId, params, null);
     }
 
+    /**
+     * Query for a DataTables result using the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The request parameter map, may be {@code null}
+     * @param bounds The pagination row bounds, may be {@code null}
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static DataTableStruct queryForTableWithRequest(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params, @Nullable PageRowBounds bounds) {
@@ -212,21 +379,63 @@ public abstract class DataTableWraps {
         return queryForTable(sqlSession, statementId, params, bounds, drawTimes);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, false, false, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, false, false, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, false, unwrapSingleArray, null);
     }
 
+    /**
+     * Query for a DataTables result from parameters of the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     * @param paramsAction An optional transformation applied to the parameter map
+     *
+     * @return The DataTables result, or {@code null}
+     */
     @Nullable
     public static DataTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray, @Nullable UnaryOperator<Map<String, Object>> paramsAction) {
         Map<String, Object> params = RequestParamWraps.getParameterObjectMap(request, false, includePayload, unwrapSingleArray);

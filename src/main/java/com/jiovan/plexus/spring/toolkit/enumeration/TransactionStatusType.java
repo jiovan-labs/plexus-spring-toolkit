@@ -34,8 +34,19 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public enum TransactionStatusType implements ValueEnum<Integer> {
+    /**
+     * The transaction completed successfully.
+     */
     COMMITTED(TransactionSynchronization.STATUS_COMMITTED),
+
+    /**
+     * The transaction was rolled back.
+     */
     ROLLED_BACK(TransactionSynchronization.STATUS_ROLLED_BACK),
+
+    /**
+     * The transaction status is unknown.
+     */
     UNKNOWN(TransactionSynchronization.STATUS_UNKNOWN);
 
     private final Integer value;

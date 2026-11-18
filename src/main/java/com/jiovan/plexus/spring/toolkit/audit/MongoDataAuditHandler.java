@@ -37,25 +37,57 @@ import com.jiovan.plexus.spring.toolkit.general.AbstractAuditableDocument;
  */
 @SuppressWarnings("unused")
 public class MongoDataAuditHandler extends IsNewAwareAuditingHandler {
+    /**
+     * Create a handler from the given mapping context.
+     *
+     * @param context The mapping context used to resolve persistent entities
+     */
     public MongoDataAuditHandler(@Nonnull MappingContext<? extends PersistentEntity<?, ?>, ? extends PersistentProperty<?>> context) {
         this(PersistentEntities.of(context));
     }
 
+    /**
+     * Create a handler from the given persistent entities.
+     *
+     * @param entities The persistent entities used for auditing
+     */
     public MongoDataAuditHandler(@Nonnull PersistentEntities entities) {
         super(entities);
     }
 
+    /**
+     * Create a handler from the given persistent entities and auditor provider.
+     *
+     * @param entities The persistent entities used for auditing
+     * @param auditor The auditor provider used to resolve the current auditor
+     */
     public MongoDataAuditHandler(@Nonnull PersistentEntities entities, @Nonnull AuditorAware<?> auditor) {
         super(entities);
         super.setAuditorAware(auditor);
     }
 
+    /**
+     * Mark the given source as created when auditing is enabled for the auditable document.
+     *
+     * @param <T> The source type
+     * @param source The source to mark
+     *
+     * @return The marked source, or the original source when auditing is not enabled
+     */
     @Nonnull
     @Override
     public <T> T markCreated(@Nonnull T source) {
         return (source instanceof AbstractAuditableDocument alias && BooleanUtils.isTrue(alias.getAuditCreating())) ? super.markCreated(source) : source;
     }
 
+    /**
+     * Mark the given source as modified when auditing is enabled for the auditable document.
+     *
+     * @param <T> The source type
+     * @param source The source to mark
+     *
+     * @return The marked source, or the original source when auditing is not enabled
+     */
     @Nonnull
     @Override
     public <T> T markModified(@Nonnull T source) {

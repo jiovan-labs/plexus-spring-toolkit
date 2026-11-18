@@ -42,6 +42,11 @@ import org.springframework.util.CollectionUtils;
  */
 @SuppressWarnings("unused")
 public abstract class PropertySourceContextInitializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
+    /**
+     * Add the configured property sources to the application context environment.
+     *
+     * @param context The application context being initialized
+     */
     @Override
     public void initialize(@Nonnull ConfigurableApplicationContext context) {
         MutablePropertySources contextSources = context.getEnvironment().getPropertySources();
@@ -57,9 +62,19 @@ public abstract class PropertySourceContextInitializer implements ApplicationCon
         }
     }
 
+    /**
+     * Return property sources to add at the head of the environment.
+     *
+     * @return The property sources, or {@code null} if none
+     */
     @Nullable
     protected abstract Collection<PropertySource<?>> getHeadPropertySources();
 
+    /**
+     * Return property sources to add at the tail of the environment.
+     *
+     * @return The property sources, or {@code null} if none
+     */
     @Nullable
     protected abstract Collection<PropertySource<?>> getTailPropertySources();
 }

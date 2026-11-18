@@ -84,6 +84,13 @@ public abstract class RequestMappingWraps {
         return AnnotationUtilsWraps.anyPresent(method, RequestMapping.class, GetMapping.class, PostMapping.class, PatchMapping.class, PutMapping.class, DeleteMapping.class);
     }
 
+    /**
+     * Return all mapping paths from the given handler methods.
+     *
+     * @param controller The given controller
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getAllMappingPaths(@Nullable Class<?> controller) {
         Set<String> result = getAllMappingPathsToSet(controller);
@@ -305,6 +312,11 @@ public abstract class RequestMappingWraps {
         return (mapping == null) ? null : mapping.path();
     }
 
+    /**
+     * Return the methods mapped by the given request mapping info.
+     *
+     * @param context The context, may be {@code null}
+     */
     public static Map<RequestMappingInfo, HandlerMethod> getRequestMappingMethods(@Nullable ApplicationContext context) {
         return getRequestMappingMethods(context, null, null, false);
     }
@@ -373,21 +385,48 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(cloned) ? null : Collections.unmodifiableMap(cloned);
     }
 
+    /**
+     * Return the methods mapped by the given request mapping info.
+     *
+     * @param context The context, may be {@code null}
+     * @param controller The given controller
+     */
     public static Map<RequestMappingInfo, HandlerMethod> getRequestMappingMethods(@Nullable ApplicationContext context, @Nullable Class<?> controller) {
         return getRequestMappingMethods(context, null, controller, false);
     }
 
+    /**
+     * Return request mapping patterns.
+     *
+     * @param structs The given structs
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatterns(@Nullable RequestMappingStruct... structs) {
         return getRequestMappingPatterns(ArrayUtilsWraps.asList(structs));
     }
 
+    /**
+     * Return request mapping patterns.
+     *
+     * @param structs The given structs
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatterns(@Nullable Collection<RequestMappingStruct> structs) {
         Set<String> result = getRequestMappingPatternsToSet(structs);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return request mapping patterns as a set.
+     *
+     * @param structs The given structs
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getRequestMappingPatternsToSet(@Nullable RequestMappingStruct... structs) {
         return getRequestMappingPatternsToSet(ArrayUtilsWraps.asList(structs));
@@ -427,17 +466,42 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the request mapping patterns with annotation.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotation The annotation type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatternsWithAnnotation(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation> annotation) {
         return getRequestMappingPatternsWithAnnotation(context, annotation, null);
     }
 
+    /**
+     * Return the request mapping patterns with annotation.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotation The annotation type, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatternsWithAnnotation(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation> annotation, @Nullable BiPredicate<RequestMappingInfo, HandlerMethod> filter) {
         Set<String> result = getRequestMappingPatternsWithAnnotationToSet(context, annotation);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return the request mapping patterns with annotation to set.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotation The annotation type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static Set<String> getRequestMappingPatternsWithAnnotationToSet(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation> annotation) {
         return getRequestMappingPatternsWithAnnotationToSet(context, annotation, null);
     }
@@ -479,6 +543,14 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return request mapping patterns with all of the given annotations.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getRequestMappingPatternsWithAllAnnotations(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation>... annotations) {
@@ -486,12 +558,28 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return request mapping patterns with all of the given annotations.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatternsWithAllAnnotations(@Nullable ApplicationContext context, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> result = getRequestMappingPatternsWithAllAnnotationsToSet(context, annotations);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return request mapping patterns with all of the given annotations as a set.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getRequestMappingPatternsWithAllAnnotationsToSet(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation>... annotations) {
@@ -516,6 +604,14 @@ public abstract class RequestMappingWraps {
         return getRequestMappingPatternsToSet(structs);
     }
 
+    /**
+     * Return request mapping patterns with any of the given annotations.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getRequestMappingPatternsWithAnyAnnotations(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation>... annotations) {
@@ -523,12 +619,28 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return request mapping patterns with any of the given annotations.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getRequestMappingPatternsWithAnyAnnotations(@Nullable ApplicationContext context, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> result = getRequestMappingPatternsWithAnyAnnotationsToSet(context, annotations);
         return CollectionUtils.isEmpty(result) ? null : result.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return request mapping patterns with any of the given annotations as a set.
+     *
+     * @param context The context, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getRequestMappingPatternsWithAnyAnnotationsToSet(@Nullable ApplicationContext context, @Nullable Class<? extends Annotation>... annotations) {
@@ -553,6 +665,14 @@ public abstract class RequestMappingWraps {
         return getRequestMappingPatternsToSet(structs);
     }
 
+    /**
+     * Filter handler methods to those carrying all the given annotations.
+     *
+     * @param mappings The mappings, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<RequestMappingStruct> filterHandlerMethodsWithAllAnnotations(@Nullable Map<RequestMappingInfo, HandlerMethod> mappings, @Nullable Class<? extends Annotation>... annotations) {
@@ -589,6 +709,14 @@ public abstract class RequestMappingWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Filter handler methods to those carrying any of the given annotations.
+     *
+     * @param mappings The mappings, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<RequestMappingStruct> filterHandlerMethodsWithAnyAnnotations(@Nullable Map<RequestMappingInfo, HandlerMethod> mappings, @Nullable Class<? extends Annotation>... annotations) {

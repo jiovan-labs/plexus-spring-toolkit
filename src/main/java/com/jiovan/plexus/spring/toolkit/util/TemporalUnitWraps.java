@@ -29,11 +29,34 @@ import org.springframework.context.i18n.LocaleContextHolder;
  */
 @SuppressWarnings("unused")
 public abstract class TemporalUnitWraps {
+    /**
+     * The bundle name.
+     */
     private static final String BUNDLE_NAME = "lang.stockpile.TemporalUnit";
+
+    /**
+     * The seconds per minute.
+     */
     private static final long SECONDS_PER_MINUTE = 60L;
+
+    /**
+     * The seconds per hour.
+     */
     private static final long SECONDS_PER_HOUR = 3600L;
+
+    /**
+     * The seconds per day.
+     */
     private static final long SECONDS_PER_DAY = 86400L;
+
+    /**
+     * The seconds per month.
+     */
     private static final long SECONDS_PER_MONTH = 2592000L;    // 30 days
+
+    /**
+     * The seconds per year.
+     */
     private static final long SECONDS_PER_YEAR = 31536000L;    // 365 days
 
     /**

@@ -35,10 +35,29 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public enum CacheManagerType implements ValueEnum<String> {
+    /**
+     * Caffeine cache manager.
+     */
     CAFFEINE("org.springframework.cache.caffeine.CaffeineCacheManager"),    // $NON-NLS-1$
+
+    /**
+     * Couchbase cache manager.
+     */
     COUCHBASE("org.springframework.data.couchbase.cache.CouchbaseCacheManager"),    // $NON-NLS-1$
+
+    /**
+     * JCache cache manager.
+     */
     JCACHE("org.springframework.cache.jcache.JCacheCacheManager"),    // $NON-NLS-1$
+
+    /**
+     * Infinispan cache manager.
+     */
     INFINISPAN("org.infinispan.manager.DefaultCacheManager"),    // $NON-NLS-1$
+
+    /**
+     * Redis cache manager.
+     */
     REDIS("org.springframework.data.redis.cache.RedisCacheManager");    // $NON-NLS-1$
 
     private final String value;

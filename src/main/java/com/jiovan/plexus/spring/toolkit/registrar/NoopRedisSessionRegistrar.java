@@ -30,6 +30,11 @@ import org.springframework.session.data.redis.config.ConfigureRedisAction;
  * @see "http://www.jianshu.com/p/5d6c7772ad87"
  */
 public class NoopRedisSessionRegistrar {
+    /**
+     * Provide a no-op Redis configuration action so Spring Session does not change Redis settings.
+     *
+     * @return The no-op configuration action.
+     */
     @Bean
     @ConditionalOnMissingBean
     @SuppressWarnings("SameReturnValue")

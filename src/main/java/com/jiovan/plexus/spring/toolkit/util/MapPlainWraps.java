@@ -37,12 +37,28 @@ import com.jiovan.plexus.common.toolkit.util.ArrayUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class MapPlainWraps {
+    /**
+     * Return the display string of the first key whose value is not blank.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keys The keys to inspect, may be {@code null}
+     *
+     * @return The first non-blank display string, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static <K, V> String firstNonBlankDisplayString(@Nullable Map<? super K, V> map, @Nullable K... keys) {
         return firstNonBlankDisplayString(map, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Return the display string of the first key whose value is not blank.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keys The keys to inspect, may be {@code null}
+     *
+     * @return The first non-blank display string, or {@code null}
+     */
     @Nullable
     public static <K, V> String firstNonBlankDisplayString(@Nullable Map<? super K, V> map, @Nullable Collection<K> keys) {
         if (CollectionUtils.isEmpty(map) || CollectionUtils.isEmpty(keys)) {
@@ -51,12 +67,28 @@ public abstract class MapPlainWraps {
         return keys.stream().map(key -> ObjectUtils.getDisplayString(map.get(key))).filter(StringUtils::isNotBlank).findFirst().orElse(null);
     }
 
+    /**
+     * Return the display string of the first key whose value is not empty.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keys The keys to inspect, may be {@code null}
+     *
+     * @return The first non-empty display string, or {@code null}
+     */
     @Nullable
     @SafeVarargs
     public static <K, V> String firstNonEmptyDisplayString(@Nullable Map<? super K, V> map, @Nullable K... keys) {
         return firstNonEmptyDisplayString(map, ArrayUtilsWraps.asList(keys));
     }
 
+    /**
+     * Return the display string of the first key whose value is not empty.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keys The keys to inspect, may be {@code null}
+     *
+     * @return The first non-empty display string, or {@code null}
+     */
     @Nullable
     public static <K, V> String firstNonEmptyDisplayString(@Nullable Map<? super K, V> map, @Nullable Collection<K> keys) {
         if (CollectionUtils.isEmpty(map) || CollectionUtils.isEmpty(keys)) {
@@ -65,21 +97,57 @@ public abstract class MapPlainWraps {
         return keys.stream().map(key -> ObjectUtils.getDisplayString(map.get(key))).filter(StringUtils::isNotEmpty).findFirst().orElse(null);
     }
 
+    /**
+     * Render the map entries as a delimited string with configurable affixes.
+     *
+     * @param map The source map, may be {@code null}
+     *
+     * @return The rendered string, or {@code null} when the map is empty
+     */
     @Nullable
     public static <K, V> String toDelimitedString(@Nullable Map<K, V> map) {
         return toDelimitedString(map, CharUtils.toString(CharVariantConst.EQUAL), SymbolVariantConst.COMMA_SPACE);
     }
 
+    /**
+     * Render the map entries as a delimited string with configurable affixes.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keyValueDelimiter The delimiter between key and value
+     * @param groupDelimiter The delimiter between entries
+     *
+     * @return The rendered string, or {@code null} when the map is empty
+     */
     @Nullable
     public static <K, V> String toDelimitedString(@Nullable Map<K, V> map, char keyValueDelimiter, char groupDelimiter) {
         return toDelimitedString(map, CharUtils.toString(keyValueDelimiter), CharUtils.toString(groupDelimiter), null, null);
     }
 
+    /**
+     * Render the map entries as a delimited string with configurable affixes.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keyValueDelimiter The delimiter between key and value
+     * @param groupDelimiter The delimiter between entries
+     *
+     * @return The rendered string, or {@code null} when the map is empty
+     */
     @Nullable
     public static <K, V> String toDelimitedString(@Nullable Map<K, V> map, @Nullable CharSequence keyValueDelimiter, @Nullable CharSequence groupDelimiter) {
         return toDelimitedString(map, keyValueDelimiter, groupDelimiter, null, null);
     }
 
+    /**
+     * Render the map entries as a delimited string with configurable affixes.
+     *
+     * @param map The source map, may be {@code null}
+     * @param keyValueDelimiter The delimiter between key and value
+     * @param groupDelimiter The delimiter between entries
+     * @param keyPrefix The prefix prepended to each non-null key, may be {@code null}
+     * @param keySuffix The suffix appended to each non-null key, may be {@code null}
+     *
+     * @return The rendered string, or {@code null} when the map is empty
+     */
     @Nullable
     public static <K, V> String toDelimitedString(@Nullable Map<K, V> map, @Nullable CharSequence keyValueDelimiter, @Nullable CharSequence groupDelimiter, @Nullable CharSequence keyPrefix, @Nullable CharSequence keySuffix) {
         return toDelimitedString(map, keyValueDelimiter, groupDelimiter, keyPrefix, keySuffix, null, null);

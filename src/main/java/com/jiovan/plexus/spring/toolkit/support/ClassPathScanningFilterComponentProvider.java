@@ -39,16 +39,37 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class ClassPathScanningFilterComponentProvider extends ClassPathScanningCandidateComponentProvider {
+    /**
+     * Optional filter deciding whether a bean definition is a candidate component.
+     */
     private Function<AnnotatedBeanDefinition, Boolean> candidateFilter;
 
+    /**
+     * Create a ClassPathScanningFilterComponentProvider with the given default-filter setting.
+     *
+     * @param useDefaultFilters Whether to register the default filters
+     */
     public ClassPathScanningFilterComponentProvider(boolean useDefaultFilters) {
         super(useDefaultFilters);
     }
 
+    /**
+     * Create a ClassPathScanningFilterComponentProvider with the given default-filter setting.
+     *
+     * @param useDefaultFilters Whether to register the default filters
+     * @param environment The Spring environment
+     */
     public ClassPathScanningFilterComponentProvider(boolean useDefaultFilters, @Nonnull Environment environment) {
         super(useDefaultFilters, environment);
     }
 
+    /**
+     * Returns whether the given bean definition is a candidate component.
+     *
+     * @param definition The bean definition to inspect
+     *
+     * @return Whether the definition is a candidate component
+     */
     @Override
     protected boolean isCandidateComponent(@Nonnull AnnotatedBeanDefinition definition) {
         return candidateFilter != null && BooleanUtils.isTrue(candidateFilter.apply(definition));

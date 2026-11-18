@@ -46,6 +46,9 @@ public abstract class TransactionSyncWraps {
         }
         TransactionSynchronizationManager.registerSynchronization(
             new TransactionSynchronization() {
+                /**
+                 * Register an action to run after a successful transaction commit.
+                 */
                 @Override
                 public void afterCommit() {
                     callback.run();
@@ -68,6 +71,11 @@ public abstract class TransactionSyncWraps {
         }
         TransactionSynchronizationManager.registerSynchronization(
             new TransactionSynchronization() {
+                /**
+                 * Register an action to run after transaction completion.
+                 *
+                 * @param status The given status
+                 */
                 @Override
                 public void afterCompletion(int status) {
                     callback.accept(status);
@@ -89,6 +97,11 @@ public abstract class TransactionSyncWraps {
         }
         TransactionSynchronizationManager.registerSynchronization(
             new TransactionSynchronization() {
+                /**
+                 * Register an action to run before a transaction commit.
+                 *
+                 * @param readonly The given readonly
+                 */
                 @Override
                 public void beforeCommit(boolean readonly) {
                     callback.accept(readonly);
@@ -110,6 +123,9 @@ public abstract class TransactionSyncWraps {
         }
         TransactionSynchronizationManager.registerSynchronization(
             new TransactionSynchronization() {
+                /**
+                 * Register an action to run before transaction completion.
+                 */
                 @Override
                 public void beforeCompletion() {
                     callback.run();

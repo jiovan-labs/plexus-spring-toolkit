@@ -62,14 +62,43 @@ import com.jiovan.plexus.spring.toolkit.constant.BeanCopierConst;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class BeanUtilsWraps {
+    /**
+     * Copy properties from the source object to the target object.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     public static void copyProperties(@Nullable Object source, @Nullable Object target, @Nullable Collection<String> excludes) throws BeansException {
         copyProperties(source, target, true, excludes);
     }
 
+    /**
+     * Copy properties from the source object to the target object.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     public static void copyProperties(@Nullable Object source, @Nullable Object target, boolean exclude, @Nullable String... fields) throws BeansException {
         copyProperties(source, target, exclude, ArrayUtilsWraps.asList(fields));
     }
 
+    /**
+     * Copy properties from the source object to the target object.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     @SuppressWarnings("DataFlowIssue")
     public static void copyProperties(@Nullable Object source, @Nullable Object target, boolean exclude, @Nullable Collection<String> fields) throws BeansException {
         if (source == null || target == null || (!exclude && CollectionUtils.isEmpty(fields))) {
@@ -88,6 +117,13 @@ public abstract class BeanUtilsWraps {
         BeanUtils.copyProperties(source, target, ignores);
     }
 
+    /**
+     * Copy properties from source to target, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     */
     @SuppressWarnings("DataFlowIssue")
     public static void copyPropertiesQuietly(@Nullable Object source, @Nullable Object target, @Nullable String... excludes) {
         if (source == null || target == null) {
@@ -99,14 +135,37 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Copy properties from source to target, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     */
     public static void copyPropertiesQuietly(@Nullable Object source, @Nullable Object target, @Nullable Collection<String> excludes) {
         copyPropertiesQuietly(source, target, true, excludes);
     }
 
+    /**
+     * Copy properties from source to target, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     */
     public static void copyPropertiesQuietly(@Nullable Object source, @Nullable Object target, boolean exclude, @Nullable String... fields) {
         copyPropertiesQuietly(source, target, exclude, ArrayUtilsWraps.asList(fields));
     }
 
+    /**
+     * Copy properties from source to target, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     */
     public static void copyPropertiesQuietly(@Nullable Object source, @Nullable Object target, boolean exclude, @Nullable Collection<String> fields) {
         try {
             copyProperties(source, target, exclude, fields);
@@ -114,10 +173,27 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Copy properties while also ignoring audit and annotated fields.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     public static void copyPropertiesSheared(@Nullable Object source, @Nullable Object target) throws BeansException {
         copyPropertiesSheared(source, target, (Collection<String>) null);
     }
 
+    /**
+     * Copy properties while also ignoring audit and annotated fields.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     public static void copyPropertiesSheared(@Nullable Object source, @Nullable Object target, @Nullable String... excludes) throws BeansException {
         copyPropertiesSheared(source, target, ArrayUtilsWraps.asList(excludes));
     }
@@ -148,14 +224,34 @@ public abstract class BeanUtilsWraps {
         copyProperties(source, target, true, ignores);
     }
 
+    /**
+     * Copy shared properties, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     */
     public static void copyPropertiesShearedQuietly(@Nullable Object source, @Nullable Object target) {
         copyPropertiesShearedQuietly(source, target, (Collection<String>) null);
     }
 
+    /**
+     * Copy shared properties, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     */
     public static void copyPropertiesShearedQuietly(@Nullable Object source, @Nullable Object target, @Nullable String... excludes) {
         copyPropertiesShearedQuietly(source, target, ArrayUtilsWraps.asList(excludes));
     }
 
+    /**
+     * Copy shared properties, ignoring failures.
+     *
+     * @param source The source object to read from, may be {@code null}
+     * @param target The target object to write to, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     */
     public static void copyPropertiesShearedQuietly(@Nullable Object source, @Nullable Object target, @Nullable Collection<String> excludes) {
         try {
             copyPropertiesSheared(source, target, excludes);
@@ -163,21 +259,46 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Convert the bean properties into a map.
+     *
+     * @param bean The bean object, may be {@code null}
+     */
     @Nullable
     public static Map<String, Object> beanToMap(@Nullable Object bean) {
         return beanToMap(bean, true, Collections.emptyList());
     }
 
+    /**
+     * Convert the bean properties into a map.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     */
     @Nullable
     public static Map<String, Object> beanToMap(@Nullable Object bean, @Nullable Collection<String> excludes) {
         return beanToMap(bean, true, excludes);
     }
 
+    /**
+     * Convert the bean properties into a map.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     */
     @Nullable
     public static Map<String, Object> beanToMap(@Nullable Object bean, boolean exclude, @Nullable String... fields) {
         return beanToMap(bean, true, ArrayUtilsWraps.asList(fields));
     }
 
+    /**
+     * Convert the bean properties into a map.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     */
     @Nullable
     public static Map<String, Object> beanToMap(@Nullable Object bean, boolean exclude, @Nullable Collection<String> fields) {
         if (bean == null || (!exclude && CollectionUtils.isEmpty(fields))) {
@@ -197,26 +318,67 @@ public abstract class BeanUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Convert the bean properties into a Properties object.
+     *
+     * @param bean The bean object, may be {@code null}
+     *
+     * @return The bean properties, or {@code null}
+     */
     @Nullable
     public static Properties beanToProperties(@Nullable Object bean) {
         return PropertyPlainWraps.ofMap(beanToMap(bean));
     }
 
+    /**
+     * Convert the bean properties into a Properties object.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param excludes The field names to exclude, may be {@code null}
+     *
+     * @return The bean properties, or {@code null}
+     */
     @Nullable
     public static Properties beanToProperties(@Nullable Object bean, @Nullable Collection<String> excludes) {
         return PropertyPlainWraps.ofMap(beanToMap(bean, excludes));
     }
 
+    /**
+     * Convert the bean properties into a Properties object.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     *
+     * @return The bean properties, or {@code null}
+     */
     @Nullable
     public static Properties beanToProperties(@Nullable Object bean, boolean exclude, @Nullable String... fields) {
         return PropertyPlainWraps.ofMap(beanToMap(bean, exclude, fields));
     }
 
+    /**
+     * Convert the bean properties into a Properties object.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param exclude Whether {@code fields} are exclusions rather than inclusions
+     * @param fields The field names, may be {@code null}
+     *
+     * @return The bean properties, or {@code null}
+     */
     @Nullable
     public static Properties beanToProperties(@Nullable Object bean, boolean exclude, @Nullable Collection<String> fields) {
         return PropertyPlainWraps.ofMap(beanToMap(bean, exclude, fields));
     }
 
+    /**
+     * Apply the map entries as properties on the given bean.
+     *
+     * @param map The source map, may be {@code null}
+     * @param bean The bean object, may be {@code null}
+     *
+     * @throws BeansException If the operation fails
+     */
     public static void mapToBean(@Nullable Map<?, ?> map, @Nullable Object bean) throws BeansException {
         if (map == null || bean == null || map.isEmpty()) {
             return;
@@ -226,6 +388,12 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Apply the map entries as properties on the given bean, ignoring failures.
+     *
+     * @param map The source map, may be {@code null}
+     * @param bean The bean object, may be {@code null}
+     */
     public static void mapToBeanQuietly(@Nullable Map<String, ?> map, @Nullable Object bean) {
         try {
             mapToBean(map, bean);
@@ -233,11 +401,27 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Instantiate the given class or constructor.
+     *
+     * @param clazz The class to use, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     *
+     * @throws BeanInstantiationException If the operation fails
+     */
     @Nullable
     public static <T> T instantiateClass(@Nullable Class<T> clazz) throws BeanInstantiationException {
         return (clazz == null) ? null : BeanUtils.instantiateClass(clazz);
     }
 
+    /**
+     * Instantiate the given class or constructor, returning {@code null} on failure.
+     *
+     * @param clazz The class to use, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     */
     @Nullable
     public static <T> T instantiateClassQuietly(@Nullable Class<T> clazz) {
         if (clazz == null) {
@@ -250,11 +434,29 @@ public abstract class BeanUtilsWraps {
         return null;
     }
 
+    /**
+     * Instantiate the given class or constructor.
+     *
+     * @param clazz The class to use, may be {@code null}
+     * @param assignableTo The type the result must be assignable to, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     *
+     * @throws BeanInstantiationException If the operation fails
+     */
     @Nullable
     public static <T> T instantiateClass(@Nullable Class<?> clazz, Class<T> assignableTo) throws BeanInstantiationException {
         return (clazz == null || assignableTo == null) ? null : BeanUtils.instantiateClass(clazz, assignableTo);
     }
 
+    /**
+     * Instantiate the given class or constructor, returning {@code null} on failure.
+     *
+     * @param clazz The class to use, may be {@code null}
+     * @param assignableTo The type the result must be assignable to, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     */
     @Nullable
     public static <T> T instantiateClassQuietly(@Nullable Class<?> clazz, Class<T> assignableTo) {
         if (clazz == null || assignableTo == null) {
@@ -267,11 +469,29 @@ public abstract class BeanUtilsWraps {
         return null;
     }
 
+    /**
+     * Instantiate the given class or constructor.
+     *
+     * @param constructor The constructor to invoke, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     *
+     * @throws BeanInstantiationException If the operation fails
+     */
     @Nullable
     public static <T> T instantiateClass(@Nullable Constructor<T> constructor, @Nullable Object... args) throws BeanInstantiationException {
         return (constructor == null || args == null) ? null : BeanUtils.instantiateClass(constructor, args);
     }
 
+    /**
+     * Instantiate the given class or constructor, returning {@code null} on failure.
+     *
+     * @param constructor The constructor to invoke, may be {@code null}
+     * @param args The constructor or factory arguments, may be {@code null}
+     *
+     * @return The instantiated object, or {@code null}
+     */
     @Nullable
     public static <T> T instantiateClassQuietly(@Nullable Constructor<T> constructor, @Nullable Object... args) {
         if (constructor == null || args == null) {
@@ -310,6 +530,15 @@ public abstract class BeanUtilsWraps {
         }
     }
 
+    /**
+     * Set a single bean property, returning {@code false} on failure.
+     *
+     * @param bean The bean object, may be {@code null}
+     * @param property The property name, may be {@code null}
+     * @param value The property value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean setPropertyQuietly(@Nullable Object bean, @Nullable String property, @Nullable Object value) {
         try {
             return setProperty(bean, property, value);

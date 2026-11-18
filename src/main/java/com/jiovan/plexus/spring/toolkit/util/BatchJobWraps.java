@@ -49,34 +49,90 @@ import com.jiovan.plexus.common.toolkit.identity.JdkUuidGenerator;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class BatchJobWraps {
+    /**
+     * Return the job execution associated with the given context or step execution.
+     *
+     * @param context The application context, may be {@code null}
+     *
+     * @return The job execution, or {@code null}
+     */
     public static JobExecution getJobExecution(@Nullable ChunkContext context) {
         return (context == null) ? null : context.getStepContext().getStepExecution().getJobExecution();
     }
 
+    /**
+     * Return the job execution associated with the given context or step execution.
+     *
+     * @param execution The job or step execution
+     *
+     * @return The job execution, or {@code null}
+     */
     public static JobExecution getJobExecution(@Nullable StepExecution execution) {
         return (execution == null) ? null : execution.getJobExecution();
     }
 
+    /**
+     * Return the job execution context associated with the given context or step execution.
+     *
+     * @param context The application context, may be {@code null}
+     *
+     * @return The job execution context, or {@code null}
+     */
     public static ExecutionContext getJobExecutionContext(@Nullable ChunkContext context) {
         return (context == null) ? null : context.getStepContext().getStepExecution().getJobExecution().getExecutionContext();
     }
 
+    /**
+     * Return the job execution context associated with the given context or step execution.
+     *
+     * @param execution The job or step execution
+     *
+     * @return The job execution context, or {@code null}
+     */
     public static ExecutionContext getJobExecutionContext(@Nullable StepExecution execution) {
         return (execution == null) ? null : execution.getJobExecution().getExecutionContext();
     }
 
+    /**
+     * Return the step execution associated with the given chunk context.
+     *
+     * @param context The application context, may be {@code null}
+     *
+     * @return The step execution, or {@code null}
+     */
     public static StepExecution getStepExecution(@Nullable ChunkContext context) {
         return (context == null) ? null : context.getStepContext().getStepExecution();
     }
 
+    /**
+     * Return the step execution context associated with the given context or step execution.
+     *
+     * @param context The application context, may be {@code null}
+     *
+     * @return The step execution context, or {@code null}
+     */
     public static ExecutionContext getStepExecutionContext(@Nullable ChunkContext context) {
         return (context == null) ? null : context.getStepContext().getStepExecution().getExecutionContext();
     }
 
+    /**
+     * Return the step execution context associated with the given context or step execution.
+     *
+     * @param execution The job or step execution
+     *
+     * @return The step execution context, or {@code null}
+     */
     public static ExecutionContext getStepExecutionContext(@Nullable StepExecution execution) {
         return (execution == null) ? null : execution.getExecutionContext();
     }
 
+    /**
+     * Build a new set of job parameters from the given map.
+     *
+     * @param params The source parameter map, may be {@code null}
+     *
+     * @return The new job parameters
+     */
     @Nonnull
     public static JobParameters newJobParameters(@Nullable Map<String, Object> params) {
         return newJobParameters(params, false);
@@ -100,6 +156,13 @@ public abstract class BatchJobWraps {
         return builder.toJobParameters();
     }
 
+    /**
+     * Build a job parameters builder populated from the given map.
+     *
+     * @param params The source parameter map, may be {@code null}
+     *
+     * @return The populated job parameters builder
+     */
     @Nonnull
     public static JobParametersBuilder newJobParametersBuilder(@Nullable Map<String, Object> params) {
         JobParametersBuilder builder = new JobParametersBuilder();
@@ -132,9 +195,21 @@ public abstract class BatchJobWraps {
         return builder;
     }
 
+    /**
+     * Create a job execution listener that runs the given action before the job.
+     *
+     * @param action The action to invoke, may be {@code null}
+     *
+     * @return The configured job execution listener
+     */
     @Nonnull
     public static JobExecutionListener beforeJobExecutionListener(@Nullable Consumer<JobExecution> action) {
         return new JobExecutionListener() {
+            /**
+             * Invoke the configured action before the job execution.
+             *
+             * @param execution The job or step execution
+             */
             @Override
             public void beforeJob(@Nonnull JobExecution execution) {
                 if (action != null) {
@@ -144,9 +219,21 @@ public abstract class BatchJobWraps {
         };
     }
 
+    /**
+     * Create a job execution listener that runs the given action after the job.
+     *
+     * @param action The action to invoke, may be {@code null}
+     *
+     * @return The configured job execution listener
+     */
     @Nonnull
     public static JobExecutionListener afterJobExecutionListener(@Nullable Consumer<JobExecution> action) {
         return new JobExecutionListener() {
+            /**
+             * Invoke the configured action after the job execution.
+             *
+             * @param execution The job or step execution
+             */
             @Override
             public void afterJob(@Nonnull JobExecution execution) {
                 if (action != null) {
@@ -156,9 +243,21 @@ public abstract class BatchJobWraps {
         };
     }
 
+    /**
+     * Create a step execution listener that runs the given action before the step.
+     *
+     * @param action The action to invoke, may be {@code null}
+     *
+     * @return The configured step execution listener
+     */
     @Nonnull
     public static StepExecutionListener beforeStepExecutionListener(@Nullable Consumer<StepExecution> action) {
         return new StepExecutionListener() {
+            /**
+             * Invoke the configured action before the step execution.
+             *
+             * @param execution The job or step execution
+             */
             @Override
             public void beforeStep(@Nonnull StepExecution execution) {
                 if (action != null) {
@@ -168,9 +267,23 @@ public abstract class BatchJobWraps {
         };
     }
 
+    /**
+     * Create a step execution listener that runs the given action after the step.
+     *
+     * @param action The action to invoke, may be {@code null}
+     *
+     * @return The configured step execution listener
+     */
     @Nonnull
     public static StepExecutionListener afterStepExecutionListener(@Nullable Function<StepExecution, ExitStatus> action) {
         return new StepExecutionListener() {
+            /**
+             * Apply the configured action and return the resulting exit status.
+             *
+             * @param execution The job or step execution
+             *
+             * @return The resulting exit status, or {@code null}
+             */
             @Override
             public ExitStatus afterStep(@Nonnull StepExecution execution) {
                 return (action == null) ? null : action.apply(execution);

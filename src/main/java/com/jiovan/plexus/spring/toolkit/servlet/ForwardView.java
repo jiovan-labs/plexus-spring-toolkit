@@ -40,6 +40,15 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class ForwardView extends AbstractUrlBasedView {
+    /**
+     * Forward the incoming request to the configured URL using the server-side {@link RequestDispatcher}.
+     *
+     * @param model The model attributes to merge into the view (unused for forwarding)
+     * @param request The current HTTP servlet request
+     * @param response The current HTTP servlet response
+     *
+     * @throws Exception If request forwarding fails
+     */
     @Override
     protected void renderMergedOutputModel(@Nonnull Map<String, Object> model, @Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response) throws Exception {
         String path = StringUtilsWraps.removeStartIgnoreCase(super.getUrl(), UrlBasedViewResolver.FORWARD_URL_PREFIX);

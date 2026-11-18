@@ -38,16 +38,40 @@ import org.springframework.cache.interceptor.CacheResolver;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class CacheUtilsWraps {
+    /**
+     * Return the named cache from the manager.
+     *
+     * @param manager The cache manager, may be {@code null}
+     * @param name The cache name, may be {@code null}
+     *
+     * @return The named cache, or {@code null}
+     */
     @Nullable
     public static Cache getCache(@Nullable CacheManager manager, @Nullable String name) {
         return (manager == null || StringUtils.isEmpty(name)) ? null : manager.getCache(name);
     }
 
+    /**
+     * Return the names of all caches managed by the manager.
+     *
+     * @param manager The cache manager, may be {@code null}
+     *
+     * @return The cache names, or {@code null}
+     */
     @Nullable
     public static Collection<String> getCacheNames(@Nullable CacheManager manager) {
         return (manager == null) ? null : manager.getCacheNames();
     }
 
+    /**
+     * Return the raw value stored under the given cache key.
+     *
+     * @param manager The cache manager, may be {@code null}
+     * @param name The cache name, may be {@code null}
+     * @param key The cache key, may be {@code null}
+     *
+     * @return The cached value wrapper, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static Cache.ValueWrapper getCacheValue(@Nullable CacheManager manager, @Nullable String name, @Nullable String key) {
@@ -58,6 +82,16 @@ public abstract class CacheUtilsWraps {
         return (cache == null) ? null : cache.get(key);
     }
 
+    /**
+     * Return the value stored under the given cache key converted to the expected type.
+     *
+     * @param manager The cache manager, may be {@code null}
+     * @param name The cache name, may be {@code null}
+     * @param key The cache key, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted cached value, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <T> T getCacheValueAs(@Nullable CacheManager manager, @Nullable String name, @Nullable String key, @Nullable Class<T> expectType) {
@@ -68,6 +102,16 @@ public abstract class CacheUtilsWraps {
         return (cache == null) ? null : cache.get(key, expectType);
     }
 
+    /**
+     * Return the cached value, computing it with the callable when absent.
+     *
+     * @param manager The cache manager, may be {@code null}
+     * @param name The cache name, may be {@code null}
+     * @param key The cache key, may be {@code null}
+     * @param callable The fallback value supplier, may be {@code null}
+     *
+     * @return The cached or computed value, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static <T> T getCacheValueCallable(@Nullable CacheManager manager, @Nullable String name, @Nullable String key, @Nullable Callable<T> callable) {
@@ -78,11 +122,27 @@ public abstract class CacheUtilsWraps {
         return (cache == null) ? null : cache.get(key, callable);
     }
 
+    /**
+     * Return the cache manager referenced by the cache operation or context.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param context The bean factory or invocation context, may be {@code null}
+     *
+     * @return The resolved cache manager, or {@code null}
+     */
     @Nullable
     public static CacheManager getCacheManager(@Nullable BeanFactory factory, @Nullable CacheOperationInvocationContext<?> context) {
         return ObjectUtils.anyNull(factory, context) ? null : getCacheManager(factory, context.getOperation());
     }
 
+    /**
+     * Return the cache manager referenced by the cache operation or context.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param operation The cache operation, may be {@code null}
+     *
+     * @return The resolved cache manager, or {@code null}
+     */
     @Nullable
     public static <T extends BasicOperation> CacheManager getCacheManager(@Nullable BeanFactory factory, @Nullable T operation) {
         if (ObjectUtils.anyNull(factory, operation) || !(operation instanceof CacheOperation alias)) {
@@ -91,11 +151,27 @@ public abstract class CacheUtilsWraps {
         return BeanFactoryWraps.getBean(factory, alias.getCacheManager(), CacheManager.class);
     }
 
+    /**
+     * Return the cache resolver referenced by the cache operation or context.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param context The bean factory or invocation context, may be {@code null}
+     *
+     * @return The resolved cache resolver, or {@code null}
+     */
     @Nullable
     public static CacheResolver getCacheResolver(@Nullable BeanFactory factory, @Nullable CacheOperationInvocationContext<?> context) {
         return ObjectUtils.anyNull(factory, context) ? null : getCacheResolver(factory, context.getOperation());
     }
 
+    /**
+     * Return the cache resolver referenced by the cache operation or context.
+     *
+     * @param factory The bean factory to inspect, may be {@code null}
+     * @param operation The cache operation, may be {@code null}
+     *
+     * @return The resolved cache resolver, or {@code null}
+     */
     @Nullable
     public static <T extends BasicOperation> CacheResolver getCacheResolver(@Nullable BeanFactory factory, @Nullable T operation) {
         if (ObjectUtils.anyNull(factory, operation) || !(operation instanceof CacheOperation alias)) {

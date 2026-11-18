@@ -37,14 +37,38 @@ import lombok.Setter;
  */
 @SuppressWarnings("unused")
 public class ThymeleafTemplateResolverProcessor implements BeanPostProcessor, Ordered {
+    /**
+     * The resolved {@link TemplateEngine} bean instance.
+     */
     private TemplateEngine engine;
+
+    /**
+     * The resolved Thymeleaf configuration properties.
+     */
     private ThymeleafProperties properties;
+
+    /**
+     * Flag indicating whether the processor has already been applied to any bean.
+     */
     private boolean beanProcessed = false;
 
+    /**
+     * The order value for this processor.
+     */
     @Getter
     @Setter
     private int order = 0;
 
+    /**
+     * Post-process beans to resolve Thymeleaf dependencies and configure a default template resolver.
+     *
+     * @param bean The Spring bean being initialized
+     * @param beanName The name of the bean
+     *
+     * @return The original bean instance
+     *
+     * @throws BeansException If bean initialization fails
+     */
     @Override
     public Object postProcessAfterInitialization(@Nonnull Object bean, @Nonnull String beanName) throws BeansException {
         if (beanProcessed) {

@@ -64,21 +64,47 @@ import lombok.RequiredArgsConstructor;
  */
 @RequiredArgsConstructor
 @Slf4j
-@SuppressWarnings({"unused", "JavadocReference"})
+@SuppressWarnings("unused")
 public class BeanValidationMessenger {
     private final MessageSource messageSource;
     private final Validator validator;
 
+    /**
+     * Extract binding error messages using default field formatting.
+     *
+     * @param binding The binding result with potential validation errors
+     *
+     * @return A list of formatted error messages, or {@code null} if no errors
+     */
     @Nullable
     public List<String> getBindingErrors(@Nonnull BindingResult binding) {
         return getBindingErrors(binding, true, false);
     }
 
+    /**
+     * Extract binding error messages with configurable field naming options.
+     *
+     * @param binding The binding result with potential validation errors
+     * @param fieldName Whether to include the field name in each message
+     * @param nameLocalized Whether to use localized field names (requires {@code fieldName} to be true)
+     *
+     * @return A list of formatted error messages, or {@code null} if no errors
+     */
     @Nullable
     public List<String> getBindingErrors(@Nonnull BindingResult binding, boolean fieldName, boolean nameLocalized) {
         return getBindingErrors(binding, fieldName, nameLocalized, SymbolVariantConst.ORDER_SQUARES_SPACE);
     }
 
+    /**
+     * Extract binding error messages with configurable field formatting and ordering template.
+     *
+     * @param binding The binding result with potential validation errors
+     * @param fieldName Whether to include the field name in each message
+     * @param nameLocalized Whether to use localized field names (requires {@code fieldName} to be true)
+     * @param orderFormat A template format for numbering multiple errors (e.g. "[%d]")
+     *
+     * @return A list of formatted error messages, or {@code null} if no errors
+     */
     @Nullable
     public List<String> getBindingErrors(@Nonnull BindingResult binding, boolean fieldName, boolean nameLocalized, @Nullable String orderFormat) {
         return getBindingErrors(binding, fieldName, nameLocalized, orderFormat, null);
@@ -142,10 +168,27 @@ public class BeanValidationMessenger {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Look up a localized field name for the given error using multiple candidate keys.
+     *
+     * @param error The field error containing the field name and object information
+     * @param binding The binding result providing target class context, may be {@code null}
+     *
+     * @return The resolved localized field name, or {@code null} if no match
+     */
     public String getFieldLocaleName(@Nonnull FieldError error, @Nullable BindingResult binding) {
         return getFieldLocaleName(error, binding, null);
     }
 
+    /**
+     * Look up a localized field name for the given error using the specified locale.
+     *
+     * @param error The field error containing the field name and object information
+     * @param binding The binding result providing target class context, may be {@code null}
+     * @param locale The locale to use for lookup, may be {@code null}
+     *
+     * @return The resolved localized field name, or {@code null} if no match
+     */
     public String getFieldLocaleName(@Nonnull FieldError error, @Nullable BindingResult binding, @Nullable Locale locale) {
         Set<String> lookupCodes = new LinkedHashSet<>();
         if (StringUtils.isNotBlank(error.getObjectName())) {
@@ -179,12 +222,24 @@ public class BeanValidationMessenger {
         return MessageSourceWraps.firstMessageLookup(messageSource, lookupCodes, locale);
     }
 
+    /**
+     * Resolve the human-readable error message for a validation error.
+     *
+     * @param error The object error (field or global) containing the code
+     *
+     * @return The resolved error message string
+     */
     public String getErrorMessage(@Nonnull ObjectError error) {
         return getErrorMessage(error, null);
     }
 
     /**
-     * @see org.springframework.validation.beanvalidation.SpringValidatorAdapter#determineErrorCode
+     * Resolve the human-readable error message for a validation error using the specified locale.
+     *
+     * @param error The object error (field or global) containing the code
+     * @param locale The locale to use for message resolution, may be {@code null}
+     *
+     * @return The resolved error message string
      */
     public String getErrorMessage(@Nonnull ObjectError error, @Nullable Locale locale) {
         if (error.contains(ConstraintViolation.class)) {
@@ -193,6 +248,14 @@ public class BeanValidationMessenger {
         return MessageSourceWraps.getMessageLookup(messageSource, error, locale);
     }
 
+    /**
+     * Validate the given object against all constraints and collect violation messages.
+     *
+     * @param object The object to validate
+     * @param groups Validation groups to apply, may be {@code null} for default group
+     *
+     * @return A success flag with concatenated violation messages on failure
+     */
     @Nonnull
     public <T> BooleanTextStruct validateObject(@Nonnull T object, @Nullable Class<?>... groups) {
         BooleanTextStruct struct = new BooleanTextStruct(true);
@@ -200,6 +263,15 @@ public class BeanValidationMessenger {
         return processViolationMessages(struct, violations);
     }
 
+    /**
+     * Validate a single property of the given object and collect violation messages.
+     *
+     * @param object The object whose property is to be validated
+     * @param property The name of the property to validate
+     * @param groups Validation groups to apply, may be {@code null} for default group
+     *
+     * @return A success flag with concatenated violation messages on failure, or failure if property is blank
+     */
     @Nonnull
     public <T> BooleanTextStruct validateProperty(@Nonnull T object, @Nonnull String property, @Nullable Class<?>... groups) {
         if (StringUtils.isBlank(property)) {
@@ -209,6 +281,16 @@ public class BeanValidationMessenger {
         return processViolationMessages(BooleanTextStruct.ofSuccess(), violations);
     }
 
+    /**
+     * Validate a specific value for a property of the given class type.
+     *
+     * @param clazz The class defining the property to validate
+     * @param property The name of the property to validate
+     * @param value The value to test
+     * @param groups Validation groups to apply, may be {@code null} for default group
+     *
+     * @return A success flag with concatenated violation messages on failure, or failure if property is blank
+     */
     @Nonnull
     public <T> BooleanTextStruct validateValue(@Nonnull Class<T> clazz, @Nonnull String property, @Nullable Object value, @Nullable Class<?>... groups) {
         if (StringUtils.isBlank(property)) {
@@ -218,6 +300,14 @@ public class BeanValidationMessenger {
         return processViolationMessages(BooleanTextStruct.ofSuccess(), violations);
     }
 
+    /**
+     * Process constraint violations by appending each one as a formatted text segment into the result struct.
+     *
+     * @param struct The result struct to populate with success status and violation text
+     * @param violations The set of constraint violations found during validation, may be {@code null}
+     *
+     * @return The same struct updated with any violation information
+     */
     @Nonnull
     protected <T> BooleanTextStruct processViolationMessages(@Nonnull BooleanTextStruct struct, @Nullable Set<ConstraintViolation<T>> violations) {
         if (CollectionUtils.isEmpty(violations)) {

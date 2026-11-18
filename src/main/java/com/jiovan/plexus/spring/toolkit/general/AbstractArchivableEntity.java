@@ -40,24 +40,36 @@ import lombok.ToString;
 @ToString
 @SuppressWarnings("unused")
 public abstract class AbstractArchivableEntity implements Serializable {
+    /**
+     * The identifier of the archive record.
+     */
     @Column(name = "archive_id", nullable = false, updatable = false, length = 40)
     @NotBlank(groups = InsertUpdateSequence.class)
     @Size(max = 40)
     @JsonIgnore
     private String archiveId;
 
+    /**
+     * The type of the archive record.
+     */
     @Column(name = "archive_type", nullable = false, updatable = false, length = 1)
     @NotBlank(groups = InsertUpdateSequence.class)
     @Size(max = 1)
     @JsonIgnore
     private String archiveType;
 
+    /**
+     * The user who archived this entity.
+     */
     @Column(name = "archived_by", nullable = false, updatable = false, length = 40)
     @NotBlank(groups = InsertUpdateSequence.class)
     @Size(max = 40)
     @JsonIgnore
     private String archivedBy;
 
+    /**
+     * The time when this entity was archived.
+     */
     @Column(name = "archived_at", nullable = false, updatable = false)
     @NotNull(groups = InsertUpdateSequence.class)
     @JsonIgnore

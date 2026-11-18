@@ -41,9 +41,22 @@ import com.jiovan.plexus.spring.toolkit.annotation.EnableMultipartFilter;
  * @see "https://docs.spring.io/spring-security/site/docs/current/reference/htmlsingle/#csrf-multipartfilter"
  */
 public class MultipartFilterRegistrar implements ImportAware {
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableMultipartFilter.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -52,6 +65,11 @@ public class MultipartFilterRegistrar implements ImportAware {
         }
     }
 
+    /**
+     * Create and configure the multipart filter registration bean.
+     *
+     * @return The configured filter registration bean.
+     */
     @Bean
     @ConditionalOnMissingBean(value = MultipartFilter.class, parameterizedContainer = FilterRegistrationBean.class)
     public FilterRegistrationBean<MultipartFilter> multipartFilterRegistration() {

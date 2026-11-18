@@ -40,10 +40,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @SuppressWarnings("unused")
 public abstract class RestSavedRequestAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
+    /**
+     * Create a RestSavedRequestAuthenticationSuccessHandler.
+     *
+     * @param defaultTargetUrl The default target URL
+     */
     public RestSavedRequestAuthenticationSuccessHandler(@Nullable String defaultTargetUrl) {
         super.setDefaultTargetUrl(StringUtils.defaultString(defaultTargetUrl));
     }
 
+    /**
+     * Handle a successful authentication for either a REST or a URL-based request.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     *
+     * @throws ServletException If the operation fails
+     * @throws IOException If the operation fails
+     */
     @Override
     public void onAuthenticationSuccess(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Authentication authentication) throws ServletException, IOException {
         preAuthentication(request, response, authentication);
@@ -55,13 +70,30 @@ public abstract class RestSavedRequestAuthenticationSuccessHandler extends Saved
         postAuthentication(request, response, authentication);
     }
 
+    /**
+     * The IOException.
+     */
     @SuppressWarnings("RedundantThrows")
     protected abstract void restAuthenticationSuccess(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Authentication authentication) throws ServletException, IOException;
 
+    /**
+     * Hook invoked before authentication; override to add custom behavior.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     */
     @SuppressWarnings("EmptyMethod")
     protected void preAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Authentication authentication) {
     }
 
+    /**
+     * Hook invoked after authentication; override to add custom behavior.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     */
     @SuppressWarnings("EmptyMethod")
     protected void postAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull Authentication authentication) {
     }

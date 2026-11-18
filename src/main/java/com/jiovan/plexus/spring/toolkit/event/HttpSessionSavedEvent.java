@@ -36,15 +36,31 @@ public class HttpSessionSavedEvent extends ApplicationEvent {
     @Getter
     private final Map<String, Object> changedAttributes;
 
+    /**
+     * Create an event for the given HTTP session.
+     *
+     * @param session The saved HTTP session
+     */
     public HttpSessionSavedEvent(@Nonnull HttpSession session) {
         this(session, null);
     }
 
+    /**
+     * Create an event for the given HTTP session and its changed attributes.
+     *
+     * @param session The saved HTTP session
+     * @param changedAttributes The attributes whose values changed, may be {@code null}
+     */
     public HttpSessionSavedEvent(@Nonnull HttpSession session, @Nullable Map<String, Object> changedAttributes) {
         super(session);
         this.changedAttributes = changedAttributes;
     }
 
+    /**
+     * Return the saved HTTP session.
+     *
+     * @return The HTTP session that triggered this event
+     */
     @Nonnull
     public HttpSession getHttpSession() {
         return ObjectUtilsWraps.castAs(super.getSource(), HttpSession.class);

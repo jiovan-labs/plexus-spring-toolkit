@@ -37,6 +37,14 @@ import com.jiovan.plexus.common.toolkit.util.ArrayUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class NumberUtilsWraps {
+    /**
+     * Convert the given number to the expected numeric type.
+     *
+     * @param number The number, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted number, or {@code null}
+     */
     @Nullable
     public static <T extends Number> T convertNumber(@Nullable Number number, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(number, expectType)) {
@@ -49,19 +57,53 @@ public abstract class NumberUtilsWraps {
         return null;
     }
 
+    /**
+     * Return whether the given text is parsable as a number.
+     *
+     * @param value The value, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <T extends Number> boolean isNumberParsable(@Nullable String value, @Nullable Class<T> expectType) {
         return parseNumber(value, expectType, null) != null;
     }
 
+    /**
+     * Return whether the given text is parsable as a number.
+     *
+     * @param value The value, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param format The number format, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <T extends Number> boolean isNumberParsable(@Nullable String value, @Nullable Class<T> expectType, @Nullable NumberFormat format) {
         return parseNumber(value, expectType, format) != null;
     }
 
+    /**
+     * Parse the given text into a number.
+     *
+     * @param value The value, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The parsed number, or {@code null}
+     */
     @Nullable
     public static <T extends Number> T parseNumber(@Nullable String value, @Nullable Class<T> expectType) {
         return parseNumber(value, expectType, null);
     }
 
+    /**
+     * Parse the given text into a number.
+     *
+     * @param value The value, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     * @param format The number format, may be {@code null}
+     *
+     * @return The parsed number, or {@code null}
+     */
     @Nullable
     public static <T extends Number> T parseNumber(@Nullable String value, @Nullable Class<T> expectType, @Nullable NumberFormat format) {
         if (StringUtils.isBlank(value) || expectType == null) {

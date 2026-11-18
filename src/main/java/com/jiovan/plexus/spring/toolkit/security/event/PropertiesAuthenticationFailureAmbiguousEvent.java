@@ -34,10 +34,23 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesAuthenticationFailureAmbiguousEvent extends AbstractPropertiesAuthenticationFailureEvent {
+    /**
+     * Create a PropertiesAuthenticationFailureAmbiguousEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     */
 	public PropertiesAuthenticationFailureAmbiguousEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception) {
 		super(authentication, exception);
 	}
 
+    /**
+     * Create a PropertiesAuthenticationFailureAmbiguousEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param exception The authentication exception
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesAuthenticationFailureAmbiguousEvent(@Nonnull Authentication authentication, @Nonnull AuthenticationException exception, @Nullable Properties properties) {
         super(authentication, exception);
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);

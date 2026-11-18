@@ -19,9 +19,9 @@ package com.jiovan.plexus.spring.toolkit.jackson.deserializer;
 
 import java.util.Date;
 import jakarta.annotation.Nullable;
+import com.jiovan.plexus.common.toolkit.util.SqlDateWraps;
 import tools.jackson.core.JsonParser;
 import tools.jackson.databind.DeserializationContext;
-import com.jiovan.plexus.common.toolkit.util.SqlDateWraps;
 
 
 /**
@@ -39,6 +39,14 @@ import com.jiovan.plexus.common.toolkit.util.SqlDateWraps;
  */
 @SuppressWarnings("unused")
 public class SqlTimestampToSqlDateDeserializer extends SqlTimestampToJdkDateDeserializer {
+    /**
+     * Deserialize a JSON number or string representing epoch milliseconds into a {@link java.sql.Date}.
+     *
+     * @param parser The active parser holding the JSON token
+     * @param context The active deserialization context
+     *
+     * @return The parsed SQL date, or {@code null} if the input is non-positive or blank
+     */
     @Override
     public Date deserialize(@Nullable JsonParser parser, @Nullable DeserializationContext context) {
         return SqlDateWraps.ofJdkDate(super.deserialize(parser, context));

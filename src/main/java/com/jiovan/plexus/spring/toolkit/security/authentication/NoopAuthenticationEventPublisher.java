@@ -32,10 +32,21 @@ import org.springframework.security.core.AuthenticationException;
  */
 @SuppressWarnings("unused")
 public class NoopAuthenticationEventPublisher implements AuthenticationEventPublisher {
+    /**
+     * Publish an event for a successful authentication.
+     *
+     * @param authentication The authentication object
+     */
     @Override
     public void publishAuthenticationSuccess(@Nonnull Authentication authentication) {
     }
 
+    /**
+     * Publish an event for a failed authentication.
+     *
+     * @param exception The authentication exception
+     * @param authentication The authentication object
+     */
     @Override
     public void publishAuthenticationFailure(@Nonnull AuthenticationException exception, @Nonnull Authentication authentication) {
     }

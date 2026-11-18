@@ -30,6 +30,15 @@ import org.springframework.session.Session;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SessionAdapterUtils {
+    /**
+     * Adapt the given Spring Session to a Servlet HTTP session.
+     *
+     * @param <T> The session type
+     * @param session The Spring Session to adapt
+     * @param context The Servlet context to associate with the session
+     *
+     * @return A new {@link HttpSession} backed by the given session
+     */
     @Nonnull
     public static <T extends Session> HttpSession toHttpSession(@Nonnull T session, @Nonnull ServletContext context) {
         return new HttpSessionAdapter<>(session, context);

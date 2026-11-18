@@ -30,10 +30,20 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class HttpSessionLimitedEvent extends ApplicationEvent {
+    /**
+     * Create an event for an HTTP session whose creation is limited.
+     *
+     * @param session The limited HTTP session
+     */
     public HttpSessionLimitedEvent(@Nonnull HttpSession session) {
         super(session);
     }
 
+    /**
+     * Return the limited HTTP session.
+     *
+     * @return The HTTP session that triggered this event
+     */
     @Nonnull
     public HttpSession getHttpSession() {
         return ObjectUtilsWraps.castAs(super.getSource(), HttpSession.class);

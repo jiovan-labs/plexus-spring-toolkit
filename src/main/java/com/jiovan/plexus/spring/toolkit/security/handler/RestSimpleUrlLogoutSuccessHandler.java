@@ -41,10 +41,25 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @SuppressWarnings("unused")
 public abstract class RestSimpleUrlLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+    /**
+     * Create a RestSimpleUrlLogoutSuccessHandler.
+     *
+     * @param defaultTargetUrl The default target URL
+     */
     public RestSimpleUrlLogoutSuccessHandler(@Nullable String defaultTargetUrl) {
         super.setDefaultTargetUrl(StringUtils.defaultString(defaultTargetUrl));
     }
 
+    /**
+     * Handle a successful logout for either a REST or a URL-based request.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     *
+     * @throws ServletException If the operation fails
+     * @throws IOException If the operation fails
+     */
     @Override
     public void onLogoutSuccess(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nullable Authentication authentication) throws ServletException, IOException {
         preLogout(request, response, authentication);
@@ -56,13 +71,30 @@ public abstract class RestSimpleUrlLogoutSuccessHandler extends SimpleUrlLogoutS
         postLogout(request, response, authentication);
     }
 
+    /**
+     * The IOException.
+     */
     @SuppressWarnings("RedundantThrows")
     protected abstract void restLogoutSuccess(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nullable Authentication authentication) throws ServletException, IOException;
 
+    /**
+     * Hook invoked before logout handling; override to add custom behavior.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     */
     @SuppressWarnings("EmptyMethod")
     protected void preLogout(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nullable Authentication authentication) {
     }
 
+    /**
+     * Hook invoked after logout handling; override to add custom behavior.
+     *
+     * @param request The current HTTP request
+     * @param response The current HTTP response
+     * @param authentication The authentication object
+     */
     @SuppressWarnings("EmptyMethod")
     protected void postLogout(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nullable Authentication authentication) {
     }

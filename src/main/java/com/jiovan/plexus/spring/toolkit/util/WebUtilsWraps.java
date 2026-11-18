@@ -140,6 +140,13 @@ public abstract class WebUtilsWraps {
         request.setAttribute(DispatcherServlet.INPUT_FLASH_MAP_ATTRIBUTE, map);
     }
 
+    /**
+     * Add a flash attribute to the output model.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param value The value, may be {@code null}
+     */
     @SuppressWarnings("DataFlowIssue")
     public static void addOutputFlashAttribute(@Nullable HttpServletRequest request, @Nullable String name, @Nullable Object value) {
         if (request == null || StringUtils.isBlank(name)) {
@@ -151,6 +158,13 @@ public abstract class WebUtilsWraps {
         request.setAttribute(DispatcherServlet.OUTPUT_FLASH_MAP_ATTRIBUTE, map);
     }
 
+    /**
+     * Set the content-disposition header with the given filename.
+     *
+     * @param filename The target filename, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String attachDispositionFilename(@Nullable String filename) {
         return attachDispositionFilename(filename, null);
     }
@@ -163,12 +177,24 @@ public abstract class WebUtilsWraps {
         return StringUtils.isBlank(filename) ? null : ContentDisposition.attachment().filename(filename, ObjectUtils.getIfNull(encoding, StandardCharsets.UTF_8)).build().toString();
     }
 
+    /**
+     * Close the given print writer.
+     *
+     * @param response The HTTP response, may be {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static void closePrintWriter(@Nullable HttpServletResponse response) throws IOException {
         if (response != null) {
             response.getWriter().close();
         }
     }
 
+    /**
+     * Close the print writer, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     */
     public static void closePrintWriterQuietly(@Nullable HttpServletResponse response) {
         try {
             closePrintWriter(response);
@@ -176,14 +202,47 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Forward the current request to the given destination.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     *
+     * @throws ServletException If the operation fails
+     * @throws IOException If the operation fails
+     */
     public static void forwardRequest(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path) throws ServletException, IOException {
         forwardRequest(request, response, path, null, null);
     }
 
+    /**
+     * Forward the current request to the given destination.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     * @param attributes The attributes, may be {@code null}
+     *
+     * @throws ServletException If the operation fails
+     * @throws IOException If the operation fails
+     */
     public static void forwardRequest(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path, @Nullable Map<String, Object> attributes) throws ServletException, IOException {
         forwardRequest(request, response, path, attributes, null);
     }
 
+    /**
+     * Forward the current request to the given destination.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     * @param attributes The attributes, may be {@code null}
+     * @param status The given status
+     *
+     * @throws ServletException If the operation fails
+     * @throws IOException If the operation fails
+     */
     @SuppressWarnings("DataFlowIssue")
     public static void forwardRequest(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path, @Nullable Map<String, Object> attributes, @Nullable Integer status) throws ServletException, IOException {
         if (ObjectUtils.anyNull(request, response) || response.isCommitted() || StringUtils.isBlank(path)) {
@@ -197,14 +256,38 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Forward the request, ignoring failures.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     */
     public static void forwardRequestQuietly(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path) {
         forwardRequestQuietly(request, response, path, null, null);
     }
 
+    /**
+     * Forward the request, ignoring failures.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     * @param attributes The attributes, may be {@code null}
+     */
     public static void forwardRequestQuietly(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path, @Nullable Map<String, Object> attributes) {
         forwardRequestQuietly(request, response, path, attributes, null);
     }
 
+    /**
+     * Forward the request, ignoring failures.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param response The HTTP response, may be {@code null}
+     * @param path The path, may be {@code null}
+     * @param attributes The attributes, may be {@code null}
+     * @param status The given status
+     */
     public static void forwardRequestQuietly(@Nullable HttpServletRequest request, @Nullable HttpServletResponse response, @Nullable String path, @Nullable Map<String, Object> attributes, @Nullable Integer status) {
         try {
             forwardRequest(request, response, path, attributes, status);
@@ -212,28 +295,55 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Return the HTTP session bound to the current context.
+     *
+     * @return The current session, or {@code null}
+     */
     @Nullable
     public static HttpSession getContextSession() {
         HttpServletRequest request = getContextServletRequest();
         return (request == null) ? null : request.getSession(false);
     }
 
+    /**
+     * Return the session id from the current context.
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextSessionId() {
         return getContextSessionId(false);
     }
 
+    /**
+     * Return the session id from the current context.
+     *
+     * @param createIfNull The given createIfNull
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getContextSessionId(boolean createIfNull) {
         return getSessionId(getContextServletRequest(), createIfNull);
     }
 
+    /**
+     * Return the servlet request bound to the current context.
+     *
+     * @return The current servlet request, or {@code null}
+     */
     @Nullable
     public static HttpServletRequest getContextServletRequest() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
         return (attributes instanceof ServletRequestAttributes alias) ? alias.getRequest() : null;
     }
 
+    /**
+     * Return the servlet response bound to the current context.
+     *
+     * @return The current servlet response, or {@code null}
+     */
     @Nullable
     public static HttpServletResponse getContextServletResponse() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
@@ -251,6 +361,13 @@ public abstract class WebUtilsWraps {
         return wrapper != null ? wrapper.getContentAsByteArray() : StreamUtils.copyToByteArray(request.getInputStream());
     }
 
+    /**
+     * Return the request body as bytes, or {@code null} on failure.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The request body bytes, or {@code null}
+     */
     @Nullable
     public static byte[] getContentAsBytesQuietly(@Nullable HttpServletRequest request) {
         try {
@@ -278,6 +395,13 @@ public abstract class WebUtilsWraps {
         return ArrayUtils.isEmpty(caches) ? IoUtilsWraps.toString(request.getInputStream(), charset) : IoUtilsWraps.toString(caches, charset);
     }
 
+    /**
+     * Return the request body as a string, or {@code null} on failure.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The request body, or {@code null}
+     */
     @Nullable
     public static String getContentAsStringQuietly(@Nullable HttpServletRequest request) {
         try {
@@ -287,6 +411,16 @@ public abstract class WebUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the request body as a trimmed string.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     *
+     * @return The trimmed request body, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static String getContentAsStringTrimming(@Nullable HttpServletRequest request, boolean emptyAsNull) throws IOException {
         if (request == null) {
             return null;
@@ -295,6 +429,14 @@ public abstract class WebUtilsWraps {
         return emptyAsNull ? StringUtils.trimToNull(result) : StringUtils.trim(result);
     }
 
+    /**
+     * Return the trimmed request body, or {@code null} on failure.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param emptyAsNull The given emptyAsNull
+     *
+     * @return The trimmed request body, or {@code null}
+     */
     @Nullable
     public static String getContentAsStringTrimmingQuietly(@Nullable HttpServletRequest request, boolean emptyAsNull) {
         try {
@@ -311,14 +453,37 @@ public abstract class WebUtilsWraps {
         return (request == null) ? null : (FlashMap) request.getAttribute(DispatcherServlet.INPUT_FLASH_MAP_ATTRIBUTE);
     }
 
+    /**
+     * Return the output flash map of the current request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static FlashMap getOutputFlashMap(@Nullable HttpServletRequest request) {
         return (request == null) ? null : RequestContextUtils.getOutputFlashMap(request);
     }
 
+    /**
+     * Return the locale from cookie.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param cookieName The cookie name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static Locale getLocaleFromCookie(@Nullable HttpServletRequest request, @Nullable String cookieName) {
         return ListPlainWraps.getFirst(getLocalesFromCookie(request, cookieName));
     }
 
+    /**
+     * Return the locale from session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param sessionName The given sessionName
+     *
+     * @return The result of the operation
+     */
     public static Locale getLocaleFromSession(@Nullable HttpServletRequest request, @Nullable String sessionName) {
         if (request == null || StringUtils.isBlank(sessionName)) {
             return null;
@@ -350,6 +515,14 @@ public abstract class WebUtilsWraps {
         return CollectionUtils.isEmpty(locales) ? null : locales.stream().map(locale -> Locale.forLanguageTag(locale.getRange())).collect(Collectors.toList());
     }
 
+    /**
+     * Return the locales from cookie.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static List<Locale> getLocalesFromCookie(@Nullable HttpServletRequest request, @Nullable String name) {
         if (request == null || StringUtils.isBlank(name)) {
             return null;
@@ -358,6 +531,14 @@ public abstract class WebUtilsWraps {
         return (cookie == null) ? null : getLocalesFromAcceptLanguage(cookie.getValue());
     }
 
+    /**
+     * Return the real file-system path for the given virtual path.
+     *
+     * @param context The context, may be {@code null}
+     * @param path The path, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getRealPath(@Nullable ServletContext context, @Nullable String path) {
         if (context == null) {
             return null;
@@ -369,6 +550,13 @@ public abstract class WebUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the forward address recorded on the request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getForwardAddress(@Nullable HttpServletRequest request) {
         if (request == null) {
             return null;
@@ -411,10 +599,27 @@ public abstract class WebUtilsWraps {
         return InetAddressWraps.toLanAddress(result);
     }
 
+    /**
+     * Return the named request attribute.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The attribute value, or {@code null}
+     */
     public static Object getRequestAttribute(@Nullable HttpServletRequest request, @Nullable String name) {
         return (request == null || StringUtils.isBlank(name)) ? null : request.getAttribute(name);
     }
 
+    /**
+     * Return the named request attribute converted to the expected type.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted attribute value, or {@code null}
+     */
     @Nullable
     public static <T> T getRequestAttributeAs(@Nullable HttpServletRequest request, @Nullable String name, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(request, expectType) || StringUtils.isBlank(name)) {
@@ -423,24 +628,61 @@ public abstract class WebUtilsWraps {
         return ObjectUtilsWraps.castAs(request.getAttribute(name), expectType);
     }
 
+    /**
+     * Return the named request attribute as a string.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The attribute value, or {@code null}
+     */
     @Nullable
     public static String getRequestAttributeAsString(@Nullable HttpServletRequest request, @Nullable String name) {
         return getRequestAttributeAs(request, name, String.class);
     }
 
+    /**
+     * Return the named request attribute as an integer.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The attribute value, or {@code null}
+     */
     @Nullable
     public static Integer getRequestAttributeAsInteger(@Nullable HttpServletRequest request, @Nullable String name) {
         return getRequestAttributeAs(request, name, Integer.class);
     }
 
+    /**
+     * Return the names of all request attributes.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static List<String> getRequestAttributeNames(@Nullable HttpServletRequest request) {
         return (request == null) ? null : EnumerationPlainWraps.toElementList(request.getAttributeNames());
     }
 
+    /**
+     * Return the default error object from the request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static Throwable getRequestDefaultError(@Nullable HttpServletRequest request) {
         return getRequestAttributeAs(request, SpringAttributeConst.SERVLET_DEFAULT_ERROR, Throwable.class);
     }
 
+    /**
+     * Return the HTTP session associated with the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The HTTP session, or {@code null}
+     */
     public static HttpSession getSession(@Nullable HttpServletRequest request) {
         return getSession(request, false);
     }
@@ -459,25 +701,64 @@ public abstract class WebUtilsWraps {
         return (request == null) ? null : request.getSession(createIfNull);
     }
 
+    /**
+     * Return the session id of the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getSessionId(@Nullable HttpServletRequest request) {
         return getSessionId(request, false);
     }
 
+    /**
+     * Return the session id of the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param createIfNull The given createIfNull
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getSessionId(@Nullable HttpServletRequest request, boolean createIfNull) {
         HttpSession session = getSession(request, createIfNull);
         return (session == null) ? null : session.getId();
     }
 
+    /**
+     * Return the requested session id from the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getSessionIdRequested(@Nullable HttpServletRequest request) {
         return (request == null) ? null : request.getRequestedSessionId();
     }
 
+    /**
+     * Return the named session attribute.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The session attribute, or {@code null}
+     */
     public static Object getSessionAttribute(@Nullable HttpServletRequest request, @Nullable String name) {
         return (request == null || StringUtils.isBlank(name)) ? null : WebUtils.getSessionAttribute(request, name);
     }
 
+    /**
+     * Return the named session attribute converted to the expected type.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted session attribute, or {@code null}
+     */
     @Nullable
     public static <T> T getSessionAttributeAs(@Nullable HttpServletRequest request, @Nullable String name, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(request, expectType) || StringUtils.isBlank(name)) {
@@ -486,10 +767,27 @@ public abstract class WebUtilsWraps {
         return ObjectUtilsWraps.castAs(WebUtils.getSessionAttribute(request, name), expectType);
     }
 
+    /**
+     * Return the named session attribute.
+     *
+     * @param session The HTTP session, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The session attribute, or {@code null}
+     */
     public static Object getSessionAttribute(@Nullable HttpSession session, @Nullable String name) {
         return (session == null || StringUtils.isBlank(name)) ? null : session.getAttribute(name);
     }
 
+    /**
+     * Return the named session attribute converted to the expected type.
+     *
+     * @param session The HTTP session, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted session attribute, or {@code null}
+     */
     @Nullable
     public static <T> T getSessionAttributeAs(@Nullable HttpSession session, @Nullable String name, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(session, expectType) || StringUtils.isBlank(name)) {
@@ -498,20 +796,51 @@ public abstract class WebUtilsWraps {
         return ObjectUtilsWraps.castAs(getSessionAttribute(session, name), expectType);
     }
 
+    /**
+     * Return the named session attribute as a string.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The session attribute value, or {@code null}
+     */
     @Nullable
     public static String getSessionAttributeAsString(@Nullable HttpServletRequest request, @Nullable String name) {
         return getSessionAttributeAs(request, name, String.class);
     }
 
+    /**
+     * Return the named session attribute as an integer.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     *
+     * @return The session attribute value, or {@code null}
+     */
     @Nullable
     public static Integer getSessionAttributeAsInteger(@Nullable HttpServletRequest request, @Nullable String name) {
         return getSessionAttributeAs(request, name, Integer.class);
     }
 
+    /**
+     * Set a named attribute on the given session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param value The value, may be {@code null}
+     */
     public static void setSessionAttribute(@Nullable HttpServletRequest request, @Nullable String name, @Nullable Object value) {
         setSessionAttribute(request, name, value, true);
     }
 
+    /**
+     * Set a named attribute on the given session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     * @param value The value, may be {@code null}
+     * @param createIfNull The given createIfNull
+     */
     public static void setSessionAttribute(@Nullable HttpServletRequest request, @Nullable String name, @Nullable Object value, boolean createIfNull) {
         if (request == null || StringUtils.isBlank(name)) {
             return;
@@ -522,10 +851,21 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Remove the named attribute from the current session.
+     *
+     * @param name The name, may be {@code null}
+     */
     public static void removeContextSessionAttribute(@Nullable String name) {
         removeSessionAttribute(getContextSession(), name);
     }
 
+    /**
+     * Remove the named attribute from the given session.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param name The name, may be {@code null}
+     */
     public static void removeSessionAttribute(@Nullable HttpServletRequest request, @Nullable String name) {
         if (request == null || StringUtils.isBlank(name)) {
             return;
@@ -536,6 +876,12 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Remove the named attribute from the given session.
+     *
+     * @param session The HTTP session, may be {@code null}
+     * @param name The name, may be {@code null}
+     */
     public static void removeSessionAttribute(@Nullable HttpSession session, @Nullable String name) {
         if (session == null || StringUtils.isBlank(name)) {
             return;
@@ -543,6 +889,11 @@ public abstract class WebUtilsWraps {
         session.removeAttribute(name);
     }
 
+    /**
+     * Return the servlet error attributes from the request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     */
     @Nullable
     public static Map<String, Object> getServletErrorAttributes(@Nullable HttpServletRequest request) {
         ErrorAttributeOptions options = ErrorAttributeOptions.of(ErrorAttributeOptions.Include.BINDING_ERRORS, ErrorAttributeOptions.Include.EXCEPTION, ErrorAttributeOptions.Include.MESSAGE);
@@ -576,6 +927,14 @@ public abstract class WebUtilsWraps {
         return parts.stream().filter(part -> StringUtils.isNotBlank(part.getContentType()) && StringUtilsWraps.equals(part.getName(), partName)).collect(Collectors.toList());
     }
 
+    /**
+     * Return the multipart parts of the request, or {@code null} on failure.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param partName The part name, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Part> getServletPartsQuietly(@Nullable HttpServletRequest request, @Nullable String partName) {
         try {
@@ -616,6 +975,14 @@ public abstract class WebUtilsWraps {
         return (status == null) ? null : HttpStatus.resolve(status);
     }
 
+    /**
+     * Unwrap the given request to its servlet request wrapper.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static <T extends ServletRequestWrapper> T getServletRequestWrapper(@Nullable HttpServletRequest request, @Nullable Class<T> expectType) {
         if (!(request instanceof ServletRequestWrapper alias) || expectType == null) {
             return null;
@@ -630,6 +997,11 @@ public abstract class WebUtilsWraps {
         return null;
     }
 
+    /**
+     * Invalidate the HTTP session of the given request.
+     *
+     * @param request The HTTP request, may be {@code null}
+     */
     public static void invalidateSession(@Nullable HttpServletRequest request) {
         HttpSession session = getSession(request);
         if (session != null) {
@@ -637,10 +1009,24 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Return whether the request is a content-caching wrapper.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentCachingWrapper(@Nullable HttpServletRequest request) {
         return request instanceof ContentCachingRequestWrapper;
     }
 
+    /**
+     * Return whether the request is a content-caching wrapper.
+     *
+     * @param response The HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentCachingWrapper(@Nullable HttpServletResponse response) {
         return response instanceof ContentCachingResponseWrapper;
     }
@@ -713,6 +1099,13 @@ public abstract class WebUtilsWraps {
         return result || HttpHeaderWraps.isAcceptApplicationJson(request) || HttpHeaderWraps.isAcceptApplicationXml(request);
     }
 
+    /**
+     * Return whether the given view name is a canonical model view.
+     *
+     * @param view The given view
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isCanonicalModelView(@Nullable ModelAndView view) {
         return view != null && StringUtils.isNotBlank(view.getViewName()) && !isForwardModelView(view) && !isRedirectModelView(view);
     }
@@ -731,6 +1124,18 @@ public abstract class WebUtilsWraps {
         return view != null && StringUtilsWraps.startsWithIgnoreCase(view.getViewName(), UrlBasedViewResolver.REDIRECT_URL_PREFIX);
     }
 
+    /**
+     * Save the given multipart file to a destination path.
+     *
+     * @param multipart The given multipart
+     * @param output The output target, may be {@code null}
+     * @param append The given append
+     *
+     * @return Whether the condition holds
+     *
+     * @throws IllegalArgumentException If the operation fails
+     * @throws IOException If the operation fails
+     */
     public static boolean saveMultipartFile(@Nullable MultipartFile multipart, @Nullable File output, boolean append) throws IllegalArgumentException, IOException {
         if (ObjectUtils.anyNull(multipart, output)) {
             return false;
@@ -740,6 +1145,15 @@ public abstract class WebUtilsWraps {
         return true;
     }
 
+    /**
+     * Save the multipart file, ignoring failures.
+     *
+     * @param multipart The given multipart
+     * @param output The output target, may be {@code null}
+     * @param append The given append
+     *
+     * @return Whether the condition holds
+     */
     public static boolean saveMultipartFileQuietly(@Nullable MultipartFile multipart, @Nullable File output, boolean append) {
         try {
             return saveMultipartFile(multipart, output, append);
@@ -748,6 +1162,18 @@ public abstract class WebUtilsWraps {
         return false;
     }
 
+    /**
+     * Save the given servlet part to a destination path.
+     *
+     * @param part The given part
+     * @param output The output target, may be {@code null}
+     * @param append The given append
+     *
+     * @return The result of the operation
+     *
+     * @throws IllegalArgumentException If the operation fails
+     * @throws IOException If the operation fails
+     */
     public static long saveServletPart(@Nullable Part part, @Nullable File output, boolean append) throws IllegalArgumentException, IOException {
         if (ObjectUtils.anyNull(part, output)) {
             return 0L;
@@ -756,6 +1182,18 @@ public abstract class WebUtilsWraps {
         return saveServletPart(part, FileUtils.openOutputStream(output, append), IOUtils.DEFAULT_BUFFER_SIZE);
     }
 
+    /**
+     * Save the given servlet part to a destination path.
+     *
+     * @param part The given part
+     * @param output The output target, may be {@code null}
+     * @param bufferSize The given bufferSize
+     *
+     * @return The result of the operation
+     *
+     * @throws IllegalArgumentException If the operation fails
+     * @throws IOException If the operation fails
+     */
     public static long saveServletPart(@Nullable Part part, @Nullable OutputStream output, int bufferSize) throws IllegalArgumentException, IOException {
         if (ObjectUtils.anyNull(part, output) || bufferSize < 0) {
             return 0L;
@@ -765,6 +1203,15 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Save the servlet part, ignoring failures.
+     *
+     * @param part The given part
+     * @param output The output target, may be {@code null}
+     * @param append The given append
+     *
+     * @return The result of the operation
+     */
     public static long saveServletPartQuietly(@Nullable Part part, @Nullable File output, boolean append) {
         try {
             return saveServletPart(part, output, append);
@@ -773,6 +1220,15 @@ public abstract class WebUtilsWraps {
         return 0L;
     }
 
+    /**
+     * Save the servlet part, ignoring failures.
+     *
+     * @param part The given part
+     * @param output The output target, may be {@code null}
+     * @param bufferSize The given bufferSize
+     *
+     * @return The result of the operation
+     */
     public static long saveServletPartQuietly(@Nullable Part part, @Nullable OutputStream output, int bufferSize) {
         try {
             return saveServletPart(part, output, bufferSize);
@@ -781,6 +1237,16 @@ public abstract class WebUtilsWraps {
         return 0L;
     }
 
+    /**
+     * Wrap the servlet request with additional capabilities.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param wrapper The wrapper, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws NoSuchMethodException If the operation fails
+     */
     public static ServletRequest wrapServletRequest(@Nullable ServletRequest request, @Nullable Class<? extends ServletRequestWrapper> wrapper) throws NoSuchMethodException {
         if (ObjectUtils.anyNull(request, wrapper) || ClassUtils.isAssignableValue(wrapper, request)) {
            return request;
@@ -792,6 +1258,16 @@ public abstract class WebUtilsWraps {
         return ConstructorUtilsWraps.newInstance(constructor, request);
     }
 
+    /**
+     * Wrap the servlet response with additional capabilities.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param wrapper The wrapper, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws NoSuchMethodException If the operation fails
+     */
     public static ServletResponse wrapServletResponse(@Nullable ServletResponse response, @Nullable Class<? extends ServletResponseWrapper> wrapper) throws NoSuchMethodException {
         if (ObjectUtils.anyNull(response, wrapper) || ClassUtils.isAssignableValue(wrapper, response)) {
             return response;
@@ -803,6 +1279,16 @@ public abstract class WebUtilsWraps {
         return ConstructorUtilsWraps.newInstance(constructor, response);
     }
 
+    /**
+     * Wrap the HTTP request with additional capabilities.
+     *
+     * @param request The HTTP request, may be {@code null}
+     * @param wrapper The wrapper, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws NoSuchMethodException If the operation fails
+     */
     public static HttpServletRequest wrapHttpServletRequest(@Nullable HttpServletRequest request, @Nullable Class<? extends HttpServletRequestWrapper> wrapper) throws NoSuchMethodException {
         if (ObjectUtils.anyNull(request, wrapper) || ClassUtils.isAssignableValue(wrapper, request)) {
            return request;
@@ -814,6 +1300,16 @@ public abstract class WebUtilsWraps {
         return ConstructorUtilsWraps.newInstance(constructor, request);
     }
 
+    /**
+     * Wrap the HTTP response with additional capabilities.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param wrapper The wrapper, may be {@code null}
+     *
+     * @return The result of the operation
+     *
+     * @throws NoSuchMethodException If the operation fails
+     */
     public static HttpServletResponse wrapHttpServletResponse(@Nullable HttpServletResponse response, @Nullable Class<? extends HttpServletResponseWrapper> wrapper) throws NoSuchMethodException {
         if (ObjectUtils.anyNull(response, wrapper) || ClassUtils.isAssignableValue(wrapper, response)) {
             return response;
@@ -825,14 +1321,33 @@ public abstract class WebUtilsWraps {
         return ConstructorUtilsWraps.newInstance(constructor, response);
     }
 
+    /**
+     * Wrap the request so its body can be read repeatedly.
+     *
+     * @param request The HTTP request, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static HttpServletRequest wrapWithContentCaching(@Nullable HttpServletRequest request) {
         return (request == null || request instanceof ContentCachingRequestWrapper) ? request : new ContentCachingRequestWrapper(request, -1);
     }
 
+    /**
+     * Wrap the request so its body can be read repeatedly.
+     *
+     * @param response The HTTP response, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static HttpServletResponse wrapWithContentCaching(@Nullable HttpServletResponse response) {
         return (response == null || response instanceof ContentCachingResponseWrapper) ? response : new ContentCachingResponseWrapper(response);
     }
 
+    /**
+     * Set the web application root system property.
+     *
+     * @param context The context, may be {@code null}
+     */
     public static void setWebAppRootSystemProperty(@Nullable ServletContext context) {
         if (context == null) {
             return;
@@ -843,6 +1358,11 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Remove the web application root system property.
+     *
+     * @param context The context, may be {@code null}
+     */
     public static void removeWebAppRootSystemProperty(@Nullable ServletContext context) {
         if (context == null) {
             return;
@@ -853,30 +1373,106 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text) throws IOException {
         writeResponse(response, text, (String) null, null, null, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset) throws IOException {
         writeResponse(response, text, contentType, charset, null, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, String contentType, @Nullable String charset) throws IOException {
         writeResponse(response, text, contentType, charset, null, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset, @Nullable HttpStatusCode status) throws IOException {
         writeResponse(response, text, contentType, charset, status, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, @Nullable String contentType, String charset, @Nullable HttpStatusCode status) throws IOException {
         writeResponse(response, text, contentType, charset, status, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     * @param headers The given headers
+     * @param cookies The given cookies
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset, @Nullable HttpStatusCode status, @Nullable Map<String, String> headers, @Nullable List<Cookie> cookies) throws IOException {
         writeResponse(response, text, Objects.toString(contentType, null), Objects.toString(charset, null), status, null, null);
     }
 
+    /**
+     * Write the given content to the HTTP response.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     * @param headers The given headers
+     * @param cookies The given cookies
+     *
+     * @throws IOException If the operation fails
+     */
     public static void writeResponse(@Nullable HttpServletResponse response, @Nullable String text, @Nullable String contentType, @Nullable String charset, @Nullable HttpStatusCode status, @Nullable Map<String, String> headers, @Nullable List<Cookie> cookies) throws IOException {
         if (response == null || response.isCommitted()) {
             return;
@@ -897,26 +1493,77 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text) {
         writeResponseQuietly(response, text, (String) null, null, null, null, null);
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset) {
         writeResponseQuietly(response, text, contentType, charset, null, null, null);
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable String contentType, @Nullable String charset) {
         writeResponseQuietly(response, text, contentType, charset, null, null, null);
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset, @Nullable HttpStatusCode status) {
         writeResponseQuietly(response, text, contentType, charset, status, null, null);
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable String contentType, @Nullable String charset, @Nullable HttpStatusCode status) {
         writeResponseQuietly(response, text, contentType, charset, status, null, null);
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     * @param headers The given headers
+     * @param cookies The given cookies
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable MimeType contentType, @Nullable Charset charset, @Nullable HttpStatusCode status, @Nullable Map<String, String> headers, @Nullable List<Cookie> cookies) {
         try {
             writeResponse(response, text, contentType, charset, status, headers, cookies);
@@ -924,6 +1571,17 @@ public abstract class WebUtilsWraps {
         }
     }
 
+    /**
+     * Write content to the response, ignoring failures.
+     *
+     * @param response The HTTP response, may be {@code null}
+     * @param text The text, may be {@code null}
+     * @param contentType The given contentType
+     * @param charset The charset, may be {@code null}
+     * @param status The given status
+     * @param headers The given headers
+     * @param cookies The given cookies
+     */
     public static void writeResponseQuietly(@Nullable HttpServletResponse response, @Nullable String text, @Nullable String contentType, @Nullable String charset, @Nullable HttpStatusCode status, @Nullable Map<String, String> headers, @Nullable List<Cookie> cookies) {
         try {
             writeResponse(response, text, contentType, charset, status, headers, cookies);

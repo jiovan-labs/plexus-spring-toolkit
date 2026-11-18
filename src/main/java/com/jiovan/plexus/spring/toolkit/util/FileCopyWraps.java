@@ -37,6 +37,14 @@ import org.springframework.util.FileCopyUtils;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class FileCopyWraps {
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     *
+     * @return The number of copied items, or zero on failure
+     */
     public static int copy(@Nullable File input, @Nullable File output) {
         if (ObjectUtils.anyNull(input, output)) {
             return 0;
@@ -48,6 +56,12 @@ public abstract class FileCopyWraps {
         return 0;
     }
 
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     */
     public static void copy(@Nullable byte[] input, @Nullable OutputStream output) {
         if (ObjectUtils.anyNull(input, output)) {
             return;
@@ -58,6 +72,14 @@ public abstract class FileCopyWraps {
         }
     }
 
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     *
+     * @return The number of copied items, or zero on failure
+     */
     public static int copy(@Nullable Reader input, @Nullable Writer output) {
         if (ObjectUtils.anyNull(input, output)) {
             return 0;
@@ -69,6 +91,12 @@ public abstract class FileCopyWraps {
         return 0;
     }
 
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     */
     public static void copy(@Nullable String input, @Nullable Writer output) {
         if (ObjectUtils.anyNull(input, output)) {
             return;
@@ -79,6 +107,12 @@ public abstract class FileCopyWraps {
         }
     }
 
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     */
     public static void copy(@Nullable byte[] input, @Nullable File output) {
         if (ObjectUtils.anyNull(input, output)) {
             return;
@@ -89,6 +123,14 @@ public abstract class FileCopyWraps {
         }
     }
 
+    /**
+     * Copy content from the input to the output, ignoring failures.
+     *
+     * @param input The input source, may be {@code null}
+     * @param output The output target, may be {@code null}
+     *
+     * @return The number of copied items, or zero on failure
+     */
     public static int copy(@Nullable InputStream input, @Nullable OutputStream output) {
         if (ObjectUtils.anyNull(input, output)) {
             return 0;
@@ -100,11 +142,27 @@ public abstract class FileCopyWraps {
         return 0;
     }
 
+    /**
+     * Read the entire reader content into a string.
+     *
+     * @param input The input source, may be {@code null}
+     *
+     * @return The reader content, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static String copyToString(@Nullable Reader input) throws IOException {
         return (input == null) ? null : FileCopyUtils.copyToString(input);
     }
 
+    /**
+     * Read the reader content into a string, returning {@code null} on failure.
+     *
+     * @param input The input source, may be {@code null}
+     *
+     * @return The reader content, or {@code null}
+     */
     @Nullable
     public static String copyToStringQuietly(@Nullable Reader input) {
         try {
@@ -114,11 +172,27 @@ public abstract class FileCopyWraps {
         return null;
     }
 
+    /**
+     * Read the entire input stream into a byte array.
+     *
+     * @param input The input source, may be {@code null}
+     *
+     * @return The stream content, or {@code null}
+     *
+     * @throws IOException If the operation fails
+     */
     @Nullable
     public static byte[] copyToByteArray(@Nullable InputStream input) throws IOException {
         return (input == null) ? null : FileCopyUtils.copyToByteArray(input);
     }
 
+    /**
+     * Read the input into a byte array, returning {@code null} on failure.
+     *
+     * @param input The input source, may be {@code null}
+     *
+     * @return The input content, or {@code null}
+     */
     @Nullable
     public static byte[] copyToByteArrayQuietly(@Nullable InputStream input) {
         try {
@@ -128,6 +202,13 @@ public abstract class FileCopyWraps {
         return null;
     }
 
+    /**
+     * Read the input into a byte array, returning {@code null} on failure.
+     *
+     * @param input The input source, may be {@code null}
+     *
+     * @return The input content, or {@code null}
+     */
     @Nullable
     public static byte[] copyToByteArrayQuietly(@Nullable File input) {
         if (input == null) {

@@ -44,19 +44,53 @@ import com.jiovan.plexus.spring.toolkit.structure.AntTableStruct;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class AntTableWraps {
+    /**
+     * The request parameter name for the current page number.
+     */
     private static final String CURRENT_PAGE_PARAM = "current";    // $NON-NLS-1$
+
+    /**
+     * The request parameter name for the page size.
+     */
     private static final String PAGE_SIZE_PARAM = "pageSize";    // $NON-NLS-1$
 
+    /**
+     * Query the statement with paging and build an Ant Design Pro table result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The table struct, or {@code null} when the statement id is blank
+     */
     @Nullable
     public static AntTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTable(sqlSession, statementId, null, null);
     }
 
+    /**
+     * Query the statement with paging and build an Ant Design Pro table result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The query parameters, may be {@code null}
+     *
+     * @return The table struct, or {@code null} when the statement id is blank
+     */
     @Nullable
     public static AntTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params) {
         return queryForTable(sqlSession, statementId, params, null);
     }
 
+    /**
+     * Query the statement with paging and build an Ant Design Pro table result.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param params The query parameters, may be {@code null}
+     * @param bounds The pagination row bounds, may be {@code null}
+     *
+     * @return The table struct, or {@code null} when the statement id is blank
+     */
     @Nullable
     public static AntTableStruct queryForTable(@Nonnull SqlSession sqlSession, @Nonnull String statementId, @Nullable Map<String, Object> params, @Nullable PageRowBounds bounds) {
         if (StringUtils.isBlank(statementId)) {
@@ -84,37 +118,108 @@ public abstract class AntTableWraps {
         return struct;
     }
 
+    /**
+     * Query for a table using parameters taken from the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The table struct, or {@code null} when no context request exists
+     */
     @Nullable
     public static AntTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithContextParameterized(sqlSession, statementId, false, false, null);
     }
 
+    /**
+     * Query for a table using parameters taken from the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     *
+     * @return The table struct, or {@code null} when no context request exists
+     */
     @Nullable
     public static AntTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray) {
         return queryForTableWithContextParameterized(sqlSession, statementId, includePayload, unwrapSingleArray, null);
     }
 
+    /**
+     * Query for a table using parameters taken from the current context request.
+     *
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     * @param paramsAction An optional transformation applied to the parameter map
+     *
+     * @return The table struct, or {@code null} when no context request exists
+     */
     @Nullable
     public static AntTableStruct queryForTableWithContextParameterized(@Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray, @Nullable UnaryOperator<Map<String, Object>> paramsAction) {
         HttpServletRequest request = WebUtilsWraps.getContextServletRequest();
         return (request == null) ? null : queryForTableWithRequestParameterized(request, sqlSession, statementId, includePayload, unwrapSingleArray, paramsAction);
     }
 
+    /**
+     * Query for a table using parameters taken from the given request.
+     *
+     * @param request The current HTTP request
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     *
+     * @return The table struct, or {@code null} on an invalid statement
+     */
     @Nullable
     public static AntTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, false, false, null);
     }
 
+    /**
+     * Query for a table using parameters taken from the given request.
+     *
+     * @param request The current HTTP request
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     *
+     * @return The table struct, or {@code null} on an invalid statement
+     */
     @Nullable
     public static AntTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, includePayload, false, null);
     }
 
+    /**
+     * Query for a table using parameters taken from the given request.
+     *
+     * @param request The current HTTP request
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     *
+     * @return The table struct, or {@code null} on an invalid statement
+     */
     @Nullable
     public static AntTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray) {
         return queryForTableWithRequestParameterized(request, sqlSession, statementId, includePayload, unwrapSingleArray, null);
     }
 
+    /**
+     * Query for a table using parameters taken from the given request.
+     *
+     * @param request The current HTTP request
+     * @param sqlSession The MyBatis SQL session
+     * @param statementId The mapped statement id
+     * @param includePayload Whether to include the request payload as a parameter
+     * @param unwrapSingleArray Whether to unwrap a single-element array parameter
+     * @param paramsAction An optional transformation applied to the parameter map
+     *
+     * @return The table struct, or {@code null} on an invalid statement
+     */
     @Nullable
     public static AntTableStruct queryForTableWithRequestParameterized(@Nonnull HttpServletRequest request, @Nonnull SqlSession sqlSession, @Nonnull String statementId, boolean includePayload, boolean unwrapSingleArray, @Nullable UnaryOperator<Map<String, Object>> paramsAction) {
         Map<String, Object> params = RequestParamWraps.getParameterObjectMap(request, false, includePayload, unwrapSingleArray);

@@ -109,10 +109,24 @@ public abstract class ApplicationEnvironmentWraps {
         return (environment == null) ? null : environment.getDefaultProfiles();
     }
 
+    /**
+     * Return the environment as a configurable environment when applicable.
+     *
+     * @param environment The Spring environment, may be {@code null}
+     *
+     * @return The configurable environment, or {@code null}
+     */
     public static ConfigurableEnvironment getConfigurableEnvironment(@Nullable Environment environment) {
         return (environment instanceof ConfigurableEnvironment alias) ? alias : null;
     }
 
+    /**
+     * Return the local server port resolved from the environment.
+     *
+     * @param environment The Spring environment, may be {@code null}
+     *
+     * @return The local server port, or {@code null}
+     */
     public static Integer getLocalServerPort(@Nullable Environment environment) {
         return getLocalServerPort(getConfigurableEnvironment(environment));
     }
@@ -140,6 +154,13 @@ public abstract class ApplicationEnvironmentWraps {
         return null;
     }
 
+    /**
+     * Return the property source that holds the server ports.
+     *
+     * @param environment The Spring environment, may be {@code null}
+     *
+     * @return The server ports property source, or {@code null}
+     */
     public static PropertySource<?> getServerPortsPropertySource(@Nullable Environment environment) {
         return getServerPortsPropertySource(getConfigurableEnvironment(environment));
     }

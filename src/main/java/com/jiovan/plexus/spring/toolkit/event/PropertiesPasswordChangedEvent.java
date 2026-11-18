@@ -28,10 +28,20 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings("unused")
 public class PropertiesPasswordChangedEvent extends AbstractPropertiesCapableEvent {
+    /**
+     * Create a password changed event for the given user.
+     *
+     * @param userId The ID of the user whose password changed
+     */
     public PropertiesPasswordChangedEvent(@Nonnull String userId) {
         super(userId);
     }
 
+    /**
+     * Return the ID of the user whose password changed.
+     *
+     * @return The user ID
+     */
     @Nonnull
     public String getUserId() {
         return ObjectUtilsWraps.castAsString(super.getSource());

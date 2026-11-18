@@ -57,11 +57,26 @@ public abstract class Log4jUuidGenerator {
         return getTemporalId(false, true);
     }
 
+    /**
+     * Returns a temporal-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getTemporalId(boolean uppercase) {
         return getTemporalId(uppercase, true);
     }
 
+    /**
+     * Returns a temporal-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     * @param hyphen whether the result should contain hyphens
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getTemporalId(boolean uppercase, boolean hyphen) {
         String result = UuidUtil.getTimeBasedUuid().toString();

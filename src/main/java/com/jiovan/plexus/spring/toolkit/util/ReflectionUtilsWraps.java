@@ -50,6 +50,13 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ReflectionUtilsWraps {
+    /**
+     * Apply the callback to each declared field of the given class.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param callback The callback, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static void doWithDeclaredFields(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldCallback callback, @Nullable ReflectionUtils.FieldFilter filter) {
         if (ObjectUtils.anyNull(clazz, callback)) {
             return;
@@ -69,6 +76,13 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Apply the callback to each declared method of the given class.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param callback The callback, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static void doWithDeclaredMethods(@Nullable Class<?> clazz, @Nullable ReflectionUtils.MethodCallback callback, @Nullable ReflectionUtils.MethodFilter filter) {
         if (ObjectUtils.anyNull(clazz, callback)) {
             return;
@@ -88,22 +102,52 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Return the declared fields.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getDeclaredFields(@Nullable Class<?> clazz) {
         return getDeclaredFields(clazz, null);
     }
 
+    /**
+     * Return the declared fields.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getDeclaredFields(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<Field> fields = getDeclaredFieldsToList(clazz, filter);
         return CollectionUtils.isEmpty(fields) ? null : fields.toArray(ArrayUtils.EMPTY_FIELD_ARRAY);
     }
 
+    /**
+     * Return the declared fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getDeclaredFieldsToList(@Nullable Class<?> clazz) {
         return getDeclaredFieldsToList(clazz, null);
     }
 
+    /**
+     * Return the declared fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getDeclaredFieldsToList(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         if (clazz == null) {
@@ -114,6 +158,12 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the declared fields as a map.
+     *
+     * @param object The object, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     @Nullable
     public static Map<String, ?> getDeclaredFieldsToMap(@Nullable Object object, @Nullable ReflectionUtils.FieldFilter filter) {
         if (object == null || ClassUtils.isPrimitiveOrWrapper(object.getClass())) {
@@ -124,33 +174,78 @@ public abstract class ReflectionUtilsWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return the declared fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<Field> getDeclaredFieldsToSet(@Nullable Class<?> clazz) {
         return getDeclaredFieldsToSet(clazz, null);
     }
 
+    /**
+     * Return the declared fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<Field> getDeclaredFieldsToSet(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<Field> fields = getDeclaredFieldsToList(clazz, filter);
         return CollectionUtils.isEmpty(fields) ? null : new LinkedHashSet<>(fields);
     }
 
+    /**
+     * Return the names of declared fields.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getDeclaredFieldNames(@Nullable Class<?> clazz) {
         return getDeclaredFieldNames(clazz, null);
     }
 
+    /**
+     * Return the names of declared fields.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getDeclaredFieldNames(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<String> names = getDeclaredFieldNamesToList(clazz, filter);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return the names of declared fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getDeclaredFieldNamesToList(@Nullable Class<?> clazz) {
         return getDeclaredFieldNamesToList(clazz, null);
     }
 
+    /**
+     * Return the names of declared fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getDeclaredFieldNamesToList(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<String> result = new ArrayList<>();
@@ -158,33 +253,78 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the names of declared fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getDeclaredFieldNamesToSet(@Nullable Class<?> clazz) {
         return getDeclaredFieldNamesToSet(clazz, null);
     }
 
+    /**
+     * Return the names of declared fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getDeclaredFieldNamesToSet(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<String> names = getDeclaredFieldNamesToList(clazz, filter);
         return CollectionUtils.isEmpty(names) ? null : new LinkedHashSet<>(names);
     }
 
+    /**
+     * Return the nested fields.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getNestedFields(@Nullable Class<?> clazz) {
         return getNestedFields(clazz, null);
     }
 
+    /**
+     * Return the nested fields.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getNestedFields(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<Field> fields = getNestedFieldsToList(clazz, filter);
         return CollectionUtils.isEmpty(fields) ? null : fields.toArray(ArrayUtils.EMPTY_FIELD_ARRAY);
     }
 
+    /**
+     * Return the nested fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getNestedFieldsToList(@Nullable Class<?> clazz) {
         return getNestedFieldsToList(clazz, null);
     }
 
+    /**
+     * Return the nested fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getNestedFieldsToList(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         if (clazz == null) {
@@ -195,6 +335,12 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the nested fields as a map.
+     *
+     * @param object The object, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     @Nullable
     public static Map<String, ?> getNestedFieldsToMap(@Nullable Object object, @Nullable ReflectionUtils.FieldFilter filter) {
         if (object == null || ClassUtils.isPrimitiveOrWrapper(object.getClass())) {
@@ -205,33 +351,78 @@ public abstract class ReflectionUtilsWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return the nested fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<Field> getNestedFieldsToSet(@Nullable Class<?> clazz) {
         return getNestedFieldsToSet(clazz, null);
     }
 
+    /**
+     * Return the nested fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<Field> getNestedFieldsToSet(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<Field> fields = getNestedFieldsToList(clazz, filter);
         return CollectionUtils.isEmpty(fields) ? null : new LinkedHashSet<>(fields);
     }
 
+    /**
+     * Return the names of nested fields.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getNestedFieldNames(@Nullable Class<?> clazz) {
         return getNestedFieldNames(clazz, null);
     }
 
+    /**
+     * Return the names of nested fields.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getNestedFieldNames(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<String> names = getNestedFieldNamesToList(clazz, filter);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return the names of nested fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getNestedFieldNamesToList(@Nullable Class<?> clazz) {
         return getNestedFieldNamesToList(clazz, null);
     }
 
+    /**
+     * Return the names of nested fields as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getNestedFieldNamesToList(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         if (clazz == null) {
@@ -242,11 +433,26 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the names of nested fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getNestedFieldNamesToSet(@Nullable Class<?> clazz) {
         return getNestedFieldNamesToSet(clazz, null);
     }
 
+    /**
+     * Return the names of nested fields as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getNestedFieldNamesToSet(@Nullable Class<?> clazz, @Nullable ReflectionUtils.FieldFilter filter) {
         List<String> names = getNestedFieldNamesToList(clazz, filter);
@@ -383,11 +589,28 @@ public abstract class ReflectionUtilsWraps {
         return method;
     }
 
+    /**
+     * Return the declared field with the given name.
+     *
+     * @param field The field, may be {@code null}
+     * @param target The target object, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static Object getField(@Nullable Field field, @Nullable Object target) {
         return getField(field, false, target);
     }
 
+    /**
+     * Return the declared field with the given name.
+     *
+     * @param field The field, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static Object getField(@Nullable Field field, boolean makeAccessible, @Nullable Object target) {
         if (field == null) {
@@ -403,6 +626,15 @@ public abstract class ReflectionUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the declared field with the given name.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static Object getField(@Nullable Object target, @Nullable String fieldName, boolean makeAccessible) {
         if (target == null || StringUtils.isBlank(fieldName)) {
@@ -412,6 +644,16 @@ public abstract class ReflectionUtilsWraps {
         return getField(field, target);
     }
 
+    /**
+     * Return the declared field with the given name.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param fieldType The given fieldType
+     * @param makeAccessible The given makeAccessible
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static Object getField(@Nullable Object target, @Nullable String fieldName, @Nullable Class<?> fieldType, boolean makeAccessible) {
         if (target == null || StringUtils.isBlank(fieldName)) {
@@ -421,11 +663,30 @@ public abstract class ReflectionUtilsWraps {
         return getField(field, target);
     }
 
+    /**
+     * Return the declared field cast to the expected type.
+     *
+     * @param field The field, may be {@code null}
+     * @param target The target object, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static <T> T getFieldAs(@Nullable Field field, @Nullable Object target, @Nullable Class<T> expectType) {
         return getFieldAs(field, false, target, expectType);
     }
 
+    /**
+     * Return the declared field cast to the expected type.
+     *
+     * @param field The field, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static <T> T getFieldAs(@Nullable Field field, boolean makeAccessible, @Nullable Object target, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(field, expectType)) {
@@ -437,6 +698,16 @@ public abstract class ReflectionUtilsWraps {
         return ObjectUtilsWraps.castAs(getField(field, target), expectType);
     }
 
+    /**
+     * Return the declared field cast to the expected type.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static <T> T getFieldAs(@Nullable Object target, @Nullable String fieldName, boolean makeAccessible, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(target, expectType) || StringUtils.isBlank(fieldName)) {
@@ -445,6 +716,17 @@ public abstract class ReflectionUtilsWraps {
         return ObjectUtilsWraps.castAs(getField(target, fieldName, makeAccessible), expectType);
     }
 
+    /**
+     * Return the declared field cast to the expected type.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param fieldType The given fieldType
+     * @param makeAccessible The given makeAccessible
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The declared field, or {@code null}
+     */
     @Nullable
     public static <T> T getFieldAs(@Nullable Object target, @Nullable String fieldName, @Nullable Class<?> fieldType, boolean makeAccessible, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(target, expectType) || StringUtils.isBlank(fieldName)) {
@@ -453,24 +735,56 @@ public abstract class ReflectionUtilsWraps {
         return ObjectUtilsWraps.castAs(getField(target, fieldName, fieldType, makeAccessible), expectType);
     }
 
+    /**
+     * Return fields with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Field[] getFieldsWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldsWithAllAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return fields with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getFieldsWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Field> fields = getFieldsWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(fields) ? null : fields.toArray(ArrayUtils.EMPTY_FIELD_ARRAY);
     }
 
+    /**
+     * Return fields with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<Field> getFieldsWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldsWithAllAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return fields with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getFieldsWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         if (clazz == null || CollectionUtils.isEmpty(annotations)) {
@@ -481,24 +795,56 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return fields with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Field[] getFieldsWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldsWithAnyAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return fields with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Field[] getFieldsWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Field> fields = getFieldsWithAnyAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(fields) ? null : fields.toArray(ArrayUtils.EMPTY_FIELD_ARRAY);
     }
 
+    /**
+     * Return fields with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<Field> getFieldsWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldsWithAnyAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return fields with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Field> getFieldsWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         if (clazz == null || CollectionUtils.isEmpty(annotations)) {
@@ -509,96 +855,224 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return field names with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getFieldNamesWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAllAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getFieldNamesWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<String> names = getFieldNamesWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return field names with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<String> getFieldNamesWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAllAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getFieldNamesWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Field> fields = getFieldsWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(fields) ? null : fields.stream().map(Field::getName).collect(Collectors.toList());
     }
 
+    /**
+     * Return field names with all of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getFieldNamesWithAllAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAllAnnotationsToSet(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with all of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getFieldNamesWithAllAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<String> names = getFieldNamesWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : new LinkedHashSet<>(names);
     }
 
+    /**
+     * Return field names with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getFieldNamesWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAnyAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getFieldNamesWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> names = getFieldNamesWithAnyAnnotationsToSet(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return field names with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<String> getFieldNamesWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAnyAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<String> getFieldNamesWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Field> fields = getFieldsWithAnyAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(fields) ? null : fields.stream().map(Field::getName).collect(Collectors.toList());
     }
 
+    /**
+     * Return field names with any of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getFieldNamesWithAnyAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getFieldNamesWithAnyAnnotationsToSet(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return field names with any of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getFieldNamesWithAnyAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<String> names = getFieldNamesWithAnyAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : new LinkedHashSet<>(names);
     }
 
+    /**
+     * Return methods with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Method[] getMethodsWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodsWithAllAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return methods with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Method[] getMethodsWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Method> methods = getMethodsWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(methods) ? null : methods.toArray(ArrayUtils.EMPTY_METHOD_ARRAY);
     }
 
+    /**
+     * Return methods with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<Method> getMethodsWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodsWithAllAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return methods with all of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Method> getMethodsWithAllAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         if (clazz == null || CollectionUtils.isEmpty(annotations)) {
@@ -609,24 +1083,56 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return methods with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Method[] getMethodsWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodsWithAnyAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return methods with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Method[] getMethodsWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Method> methods = getMethodsWithAnyAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(methods) ? null : methods.toArray(ArrayUtils.EMPTY_METHOD_ARRAY);
     }
 
+    /**
+     * Return methods with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static List<Method> getMethodsWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodsWithAnyAnnotationsToList(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return methods with any of the given annotations as a list.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static List<Method> getMethodsWithAnyAnnotationsToList(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         if (clazz == null || CollectionUtils.isEmpty(annotations)) {
@@ -637,60 +1143,145 @@ public abstract class ReflectionUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return method names with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getMethodNamesWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodNamesWithAllAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return method names with all of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getMethodNamesWithAllAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> names = getMethodNamesWithAllAnnotationsToSet(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return method names with all of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getMethodNamesWithAllAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodNamesWithAllAnnotationsToSet(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return method names with all of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getMethodNamesWithAllAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Method> methods = getMethodsWithAllAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(methods) ? null : methods.stream().map(Method::getName).collect(Collectors.toSet());
     }
 
+    /**
+     * Return method names with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static String[] getMethodNamesWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodNamesWithAnyAnnotations(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return method names with any of the given annotations.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String[] getMethodNamesWithAnyAnnotations(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         Set<String> names = getMethodNamesWithAnyAnnotationsToSet(clazz, annotations);
         return CollectionUtils.isEmpty(names) ? null : names.toArray(ArrayUtils.EMPTY_STRING_ARRAY);
     }
 
+    /**
+     * Return method names with any of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     @SafeVarargs
     public static Set<String> getMethodNamesWithAnyAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Class<? extends Annotation>... annotations) {
         return getMethodNamesWithAnyAnnotationsToSet(clazz, ArrayUtilsWraps.asList(annotations));
     }
 
+    /**
+     * Return method names with any of the given annotations as a set.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param annotations The annotation types, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static Set<String> getMethodNamesWithAnyAnnotationsToSet(@Nullable Class<?> clazz, @Nullable Collection<Class<? extends Annotation>> annotations) {
         List<Method> methods = getMethodsWithAnyAnnotationsToList(clazz, annotations);
         return CollectionUtils.isEmpty(methods) ? null : methods.stream().map(Method::getName).collect(Collectors.toSet());
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     public static Object invokeMethod(@Nullable Class<?> clazz, @Nullable String methodName, boolean makeAccessible, @Nullable Object target) {
         Method method = makeAccessible ? findMethodAccessible(clazz, methodName) : findMethod(clazz, methodName);
         return invokeMethod(method, target);
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     public static Object invokeMethod(@Nullable Class<?> clazz, @Nullable String methodName, boolean makeAccessible, @Nullable Object target, @Nullable Object... args) {
         Class<?>[] paramTypes = ClassUtilsWraps.getObjectClasses(args);
@@ -698,11 +1289,28 @@ public abstract class ReflectionUtilsWraps {
         return invokeMethod(method, target, args);
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param method The method, may be {@code null}
+     * @param target The target object, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     public static Object invokeMethod(@Nullable Method method, @Nullable Object target) {
         return invokeMethod(method, target, ArrayUtils.EMPTY_OBJECT_ARRAY);
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param method The method, may be {@code null}
+     * @param target The target object, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static Object invokeMethod(@Nullable Method method, @Nullable Object target, @Nullable Object... args) {
@@ -716,11 +1324,30 @@ public abstract class ReflectionUtilsWraps {
         return null;
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param target The target object, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     public static Object invokeMethod(@Nullable Object target, @Nullable String methodName, @Nullable Object... args) {
         return invokeMethod(target, methodName, false, args);
     }
 
+    /**
+     * Invoke the named method on the given target object.
+     *
+     * @param target The target object, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param args The arguments, may be {@code null}
+     *
+     * @return The invocation result, or {@code null}
+     */
     @Nullable
     @SuppressWarnings("DataFlowIssue")
     public static Object invokeMethod(@Nullable Object target, @Nullable String methodName, boolean makeAccessible, @Nullable Object... args) {
@@ -731,11 +1358,34 @@ public abstract class ReflectionUtilsWraps {
         return (method == null) ? null : ReflectionUtils.invokeMethod(method, target, args);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Class<?> clazz, @Nullable String methodName, boolean makeAccessible, @Nullable Object target, @Nullable Class<T> expectType) {
         return invokeMethodAs(clazz, methodName, false, target, ArrayUtils.EMPTY_OBJECT_ARRAY, expectType);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param clazz The class, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param target The target object, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Class<?> clazz, @Nullable String methodName, boolean makeAccessible, @Nullable Object target, @Nullable Object[] args, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(clazz, expectType) || StringUtils.isBlank(methodName)) {
@@ -744,34 +1394,100 @@ public abstract class ReflectionUtilsWraps {
         return ObjectUtilsWraps.castAs(invokeMethod(clazz, methodName, makeAccessible, target, args), expectType);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param method The method, may be {@code null}
+     * @param target The target object, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Method method, @Nullable Object target, @Nullable Class<T> expectType) {
         return invokeMethodAs(method, target, ArrayUtils.EMPTY_OBJECT_ARRAY, expectType);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param method The method, may be {@code null}
+     * @param target The target object, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Method method, @Nullable Object target, @Nullable Object[] args, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(method, expectType) ? null : ObjectUtilsWraps.castAs(invokeMethod(method, target, args), expectType);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param target The target object, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param args The arguments, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Object target, @Nullable String methodName, @Nullable Object[] args, @Nullable Class<T> expectType) {
         return invokeMethodAs(target, methodName, false, args, expectType);
     }
 
+    /**
+     * Invoke the named method and cast the result to the expected type.
+     *
+     * @param target The target object, may be {@code null}
+     * @param methodName The method name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param args The arguments, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted invocation result, or {@code null}
+     */
     @Nullable
     public static <T> T invokeMethodAs(@Nullable Object target, @Nullable String methodName, boolean makeAccessible, @Nullable Object[] args, @Nullable Class<T> expectType) {
         return ObjectUtils.anyNull(target, methodName, expectType) ? null : ObjectUtilsWraps.castAs(invokeMethod(target, methodName, makeAccessible, args), expectType);
     }
 
+    /**
+     * Return whether the class is a user-defined type.
+     *
+     * @param method The method, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isUserDefined(@Nullable Method method) {
         return method != null && !method.isBridge() && !method.isSynthetic() && method.getDeclaringClass() != Object.class;
     }
 
+    /**
+     * Return whether the method overrides a user-defined method.
+     *
+     * @param superclass The given superclass
+     * @param subclass The given subclass
+     * @param methodName The method name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static <A, B extends A> boolean isUserOverride(@Nullable Class<A> superclass, @Nullable Class<B> subclass, @Nullable String methodName) {
         return isUserOverride(superclass, subclass, methodName, ArrayUtils.EMPTY_CLASS_ARRAY);
     }
 
+    /**
+     * Return whether the method overrides a user-defined method.
+     *
+     * @param superclass The given superclass
+     * @param subclass The given subclass
+     * @param methodName The method name, may be {@code null}
+     * @param paramTypes The given paramTypes
+     *
+     * @return Whether the condition holds
+     */
     @SuppressWarnings("DataFlowIssue")
     public static <A, B extends A> boolean isUserOverride(@Nullable Class<A> superclass, @Nullable Class<B> subclass, @Nullable String methodName, @Nullable Class<?>... paramTypes) {
         if (ObjectUtils.anyNull(superclass, subclass) || superclass == subclass || StringUtils.isBlank(methodName)) {
@@ -781,6 +1497,11 @@ public abstract class ReflectionUtilsWraps {
         return superMethod.getDeclaringClass() != subMethod.getDeclaringClass();
     }
 
+    /**
+     * Make the given reflective member accessible.
+     *
+     * @param constructor The given constructor
+     */
     public static void makeAccessible(@Nullable Constructor<?> constructor) {
         if (constructor == null) {
             return;
@@ -791,6 +1512,11 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Make the given reflective member accessible.
+     *
+     * @param field The field, may be {@code null}
+     */
     public static void makeAccessible(@Nullable Field field) {
         if (field == null) {
             return;
@@ -801,6 +1527,11 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Make the given reflective member accessible.
+     *
+     * @param method The method, may be {@code null}
+     */
     public static void makeAccessible(@Nullable Method method) {
         if (method == null) {
             return;
@@ -811,6 +1542,13 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Set the value of the named declared field.
+     *
+     * @param field The field, may be {@code null}
+     * @param target The target object, may be {@code null}
+     * @param value The value, may be {@code null}
+     */
     public static void setField(@Nullable Field field, @Nullable Object target, @Nullable Object value) {
         if (field == null) {
             return;
@@ -821,6 +1559,14 @@ public abstract class ReflectionUtilsWraps {
         }
     }
 
+    /**
+     * Set the value of the named declared field.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param makeAccessible The given makeAccessible
+     * @param value The value, may be {@code null}
+     */
     public static void setField(@Nullable Object target, @Nullable String fieldName, boolean makeAccessible, @Nullable Object value) {
         if (target == null || StringUtils.isBlank(fieldName)) {
             return;
@@ -829,6 +1575,15 @@ public abstract class ReflectionUtilsWraps {
         setField(field, target, value);
     }
 
+    /**
+     * Set the value of the named declared field.
+     *
+     * @param target The target object, may be {@code null}
+     * @param fieldName The field name, may be {@code null}
+     * @param fieldType The given fieldType
+     * @param makeAccessible The given makeAccessible
+     * @param value The value, may be {@code null}
+     */
     public static void setField(@Nullable Object target, @Nullable String fieldName, @Nullable Class<?> fieldType, boolean makeAccessible, @Nullable Object value) {
         if (target == null || StringUtils.isBlank(fieldName)) {
             return;

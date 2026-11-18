@@ -34,6 +34,15 @@ import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
  * @author David Hsing
  */
 public abstract class JacksonJodaTimeCustomizer {
+    /**
+     * Build a Jackson module with custom serializers and deserializers for Joda-Time types.
+     *
+     * @param dateFormat The date pattern, or {@code null} for the default
+     * @param timeFormat The time pattern, or {@code null} for the default
+     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
+     *
+     * @return The configured module, or {@code null} if Joda-Time is not on the classpath
+     */
     @Nullable
     public static SimpleModule mapperModule(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat) {
         if (!ClassUtils.isPresent(JacksonTemporalType.JODA.getValue(), null)) {
@@ -55,6 +64,16 @@ public abstract class JacksonJodaTimeCustomizer {
         return result;
     }
 
+    /**
+     * Build a JSON mapper builder customizer for Joda-Time types and the default time zone.
+     *
+     * @param dateFormat The date pattern, or {@code null} for the default
+     * @param timeFormat The time pattern, or {@code null} for the default
+     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
+     * @param timeZone The time zone to apply, or {@code null} for the JVM default
+     *
+     * @return The configured customizer, or {@code null} if Joda-Time is not on the classpath
+     */
     @Nullable
     public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone) {
         SimpleModule module = mapperModule(dateFormat, timeFormat, dateTimeFormat);

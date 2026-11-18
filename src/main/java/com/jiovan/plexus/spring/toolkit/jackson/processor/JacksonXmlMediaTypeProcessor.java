@@ -41,6 +41,16 @@ import com.jiovan.plexus.common.toolkit.util.CollectionPlainWraps;
  */
 @SuppressWarnings("unused")
 public class JacksonXmlMediaTypeProcessor implements BeanPostProcessor {
+    /**
+     * Enrich supported media types on {@link JacksonJsonHttpMessageConverter} beans with additional XML variants.
+     *
+     * @param bean The Spring bean being initialized
+     * @param beanName The name of the bean
+     *
+     * @return The original bean instance
+     *
+     * @throws BeansException If bean initialization fails
+     */
     @Override
     public Object postProcessAfterInitialization(@Nonnull Object bean, @Nonnull String beanName) throws BeansException {
         if (!(bean instanceof JacksonJsonHttpMessageConverter alias)) {

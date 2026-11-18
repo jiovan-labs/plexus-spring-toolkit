@@ -35,6 +35,11 @@ import lombok.Setter;
 public class WebServerInitializedListener<T extends WebServerInitializedEvent> extends AbstractApplicationEventListener<T> {
     private boolean logMessage = true;
 
+    /**
+     * Log the initialized web server details when message logging is enabled.
+     *
+     * @param event The web server initialized event
+     */
     @Override
     protected void handleApplicationEvent(@Nonnull T event) {
         if (logMessage && log.isInfoEnabled()) {

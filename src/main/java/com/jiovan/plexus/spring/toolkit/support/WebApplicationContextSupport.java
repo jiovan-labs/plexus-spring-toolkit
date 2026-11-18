@@ -34,6 +34,11 @@ import org.springframework.web.context.support.WebApplicationObjectSupport;
  */
 @SuppressWarnings("unused")
 public class WebApplicationContextSupport extends WebApplicationObjectSupport {
+    /**
+     * Returns the web application context, or {@code null} if it is unavailable.
+     *
+     * @return The web application context, or {@code null}
+     */
     @Nullable
     public WebApplicationContext getApplicationContextQuietly() {
         try {
@@ -43,6 +48,11 @@ public class WebApplicationContextSupport extends WebApplicationObjectSupport {
         return null;
     }
 
+    /**
+     * Returns the servlet context, or {@code null} if it is unavailable.
+     *
+     * @return The servlet context, or {@code null}
+     */
     @Nullable
     public ServletContext getServletContextQuietly() {
         try {

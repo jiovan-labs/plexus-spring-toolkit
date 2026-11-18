@@ -28,6 +28,11 @@ import com.jiovan.plexus.spring.toolkit.audit.RdbmsDataAuditProcessor;
  * @author David Hsing
  */
 public class RdbmsDataAuditRegistrar {
+    /**
+     * Create the relational database data audit processor bean.
+     *
+     * @return The audit processor bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public RdbmsDataAuditProcessor rdbmsDataAuditProcessor() {

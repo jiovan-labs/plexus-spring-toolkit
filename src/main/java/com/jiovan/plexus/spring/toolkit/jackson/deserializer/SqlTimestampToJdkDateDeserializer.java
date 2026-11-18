@@ -41,6 +41,14 @@ import tools.jackson.databind.ValueDeserializer;
  */
 @SuppressWarnings("unused")
 public class SqlTimestampToJdkDateDeserializer extends ValueDeserializer<Date> {
+    /**
+     * Deserialize a JSON number or string representing epoch milliseconds into a {@link Date}.
+     *
+     * @param parser The active parser holding the JSON token
+     * @param context The active deserialization context
+     *
+     * @return The parsed date, or {@code null} if the input is non-positive or blank
+     */
     @Override
     public Date deserialize(@Nullable JsonParser parser, @Nullable DeserializationContext context) {
         if (parser == null || StringUtils.isBlank(parser.getString())) {

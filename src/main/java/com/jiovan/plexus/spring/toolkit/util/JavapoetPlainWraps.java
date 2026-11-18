@@ -37,10 +37,23 @@ import com.jiovan.plexus.common.toolkit.enumeration.LineSeparatorType;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class JavapoetPlainWraps {
+    /**
+     * Append one or more line separators to the given code block.
+     *
+     * @param builder The code block builder, may be {@code null}
+     * @param skipEmpty Whether to skip appending when the builder is empty
+     */
     public static void addLineSeparator(@Nullable CodeBlock.Builder builder, boolean skipEmpty) {
         addLineSeparator(builder, skipEmpty, 1);
     }
 
+    /**
+     * Append one or more line separators to the given code block.
+     *
+     * @param builder The code block builder, may be {@code null}
+     * @param skipEmpty Whether to skip appending when the builder is empty
+     * @param count The number of line separators to append
+     */
     public static void addLineSeparator(@Nullable CodeBlock.Builder builder, boolean skipEmpty, int count) {
         if (builder == null || (builder.isEmpty() && skipEmpty)) {
             return;
@@ -50,6 +63,13 @@ public abstract class JavapoetPlainWraps {
         }
     }
 
+    /**
+     * Append a default return statement matching the method return type.
+     *
+     * @param method The method whose return type is inspected, may be {@code null}
+     * @param builder The code block builder, may be {@code null}
+     * @param skipVoid Whether to skip void return types
+     */
     public static void addReturnStatement(@Nullable Method method, @Nullable MethodSpec.Builder builder, boolean skipVoid) {
         if (ObjectUtils.anyNull(method, builder)) {
             return;

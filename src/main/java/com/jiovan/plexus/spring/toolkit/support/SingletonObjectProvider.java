@@ -37,29 +37,66 @@ import org.springframework.beans.factory.ObjectProvider;
  */
 @SuppressWarnings("unused")
 public class SingletonObjectProvider<T> implements ObjectProvider<T> {
+    /**
+     * A shared empty provider instance.
+     */
     private static final SingletonObjectProvider<?> EMPTY = new SingletonObjectProvider<>(null);
+    /**
+     * The value held by this provider.
+     */
     private final T value;
 
+    /**
+     * Create a SingletonObjectProvider holding the given value.
+     *
+     * @param value The value to hold
+     */
     private SingletonObjectProvider(@Nullable T value) {
         this.value = value;
     }
 
+    /**
+     * Returns a shared empty provider instance.
+     *
+     * @return A shared empty provider
+     */
     @Nonnull
     @SuppressWarnings("unchecked")
     public static <T> SingletonObjectProvider<T> empty() {
         return (SingletonObjectProvider<T>) EMPTY;
     }
 
+    /**
+     * Create a provider holding the given non-null values.
+     *
+     * @param value The value to hold
+     *
+     * @return A provider holding the given values
+     */
     @Nonnull
     public static <T> SingletonObjectProvider<T> of(@Nonnull T value) {
         return new SingletonObjectProvider<>(value);
     }
 
+    /**
+     * Create a provider holding the given values, which may include {@code null}.
+     *
+     * @param value The value to hold
+     *
+     * @return A provider holding the given values
+     */
     @Nonnull
     public static <T> SingletonObjectProvider<T> ofNullable(@Nullable T value) {
         return new SingletonObjectProvider<>(value);
     }
 
+    /**
+     * Returns the held object, throwing an exception when none is available.
+     *
+     * @return The held object
+     *
+     * @throws BeansException If the operation fails
+     */
     @Nonnull
     @Override
     public T getObject() throws BeansException {
@@ -69,38 +106,77 @@ public class SingletonObjectProvider<T> implements ObjectProvider<T> {
         return value;
     }
 
+    /**
+     * Returns the held object, throwing an exception when none is available.
+     *
+     * @param args Optional arguments
+     *
+     * @return The held object
+     *
+     * @throws BeansException If the operation fails
+     */
     @Nonnull
     @Override
     public T getObject(@Nullable Object... args) throws BeansException {
         return getObject();
     }
 
+    /**
+     * Returns the held object if one is available.
+     *
+     * @return The held object, or {@code null} when unavailable
+     */
     @Nullable
     @Override
     public T getIfAvailable() {
         return value;
     }
 
+    /**
+     * Returns the held object when it is unique.
+     *
+     * @return The held object, or {@code null} when not unique
+     */
     @Nullable
     @Override
     public T getIfUnique() {
         return value;
     }
 
+    /**
+     * Returns whether a value is present.
+     *
+     * @return Whether a value is present
+     */
     public boolean isPresent() {
         return value != null;
     }
 
+    /**
+     * Returns whether no value is present.
+     *
+     * @return Whether no value is present
+     */
     public boolean isNotPresent() {
         return !isPresent();
     }
 
+    /**
+     * Returns a sequential stream over the held values.
+     *
+     * @return A sequential stream over the held values
+     */
     @Nonnull
     @Override
     public Stream<T> stream() {
         return (value == null) ? Stream.empty() : Stream.of(value);
     }
 
+    /**
+     * Returns a sorted stream over the held values.
+     *
+     * @return A sorted stream over the held values
+     */
     @Nonnull
     @Override
     public Stream<T> orderedStream() {

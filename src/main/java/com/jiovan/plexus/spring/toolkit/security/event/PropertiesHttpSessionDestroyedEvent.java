@@ -36,21 +36,46 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesHttpSessionDestroyedEvent extends HttpSessionDestroyedEvent {
+    /**
+     * Additional properties carried by this event.
+     */
     private final Properties properties = new Properties();
 
+    /**
+     * Create a PropertiesHttpSessionDestroyedEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesHttpSessionDestroyedEvent(@Nonnull HttpSessionDestroyedEvent event) {
         super(event.getSession());
     }
 
+    /**
+     * Create a PropertiesHttpSessionDestroyedEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionDestroyedEvent(@Nonnull HttpSessionDestroyedEvent event, @Nullable Properties properties) {
         super(event.getSession());
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesHttpSessionDestroyedEvent.
+     *
+     * @param session The HTTP session
+     */
     public PropertiesHttpSessionDestroyedEvent(@Nonnull HttpSession session) {
         super(session);
     }
 
+    /**
+     * Create a PropertiesHttpSessionDestroyedEvent with the given values and additional properties.
+     *
+     * @param session The HTTP session
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionDestroyedEvent(@Nonnull HttpSession session, @Nullable Properties properties) {
         super(session);
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);

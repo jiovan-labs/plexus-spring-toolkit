@@ -50,8 +50,19 @@ import lombok.Setter;
 @Setter
 @SuppressWarnings("unused")
 public class StringTrimmerDeserializer extends ValueDeserializer<String> {
+    /**
+     * Whether a trimmed blank string should be returned as {@code null} instead of an empty string.
+     */
     private boolean emptyAsNull = false;
 
+    /**
+     * Trim leading and trailing whitespace from a JSON string value, optionally converting blanks to null.
+     *
+     * @param parser The active parser holding the JSON string token
+     * @param context The active deserialization context
+     *
+     * @return The trimmed string, or {@code null} if the parser is null or when {@link #emptyAsNull} is true and the result is blank
+     */
     @Override
     public String deserialize(@Nullable JsonParser parser, @Nullable DeserializationContext context) {
         if (parser == null) {

@@ -38,9 +38,22 @@ import com.jiovan.plexus.spring.toolkit.interceptor.MdcTraceInterceptor;
  * @see org.slf4j.MDC
  */
 public class MdcTraceInterceptorRegistrar implements ImportAware, WebMvcConfigurer {
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableMdcTraceInterceptor.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -49,12 +62,22 @@ public class MdcTraceInterceptorRegistrar implements ImportAware, WebMvcConfigur
         }
     }
 
+    /**
+     * Create the MDC trace interceptor bean.
+     *
+     * @return The interceptor bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public MdcTraceInterceptor mdcTraceInterceptor() {
         return new MdcTraceInterceptor();
     }
 
+    /**
+     * Register the MDC trace interceptor for the configured URL patterns.
+     *
+     * @param registry The interceptor registry
+     */
     @Override
     public void addInterceptors(@Nonnull InterceptorRegistry registry) {
         registry.addInterceptor(mdcTraceInterceptor()).addPathPatterns(attributes.getStringArray("urlPatterns"));    // $NON-NLS-1$

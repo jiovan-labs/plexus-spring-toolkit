@@ -60,11 +60,26 @@ public abstract class SimpleUuidGenerator {
         return getIncreaseId(false, true);
     }
 
+    /**
+     * Returns an increase-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getIncreaseId(boolean uppercase) {
         return getIncreaseId(uppercase, true);
     }
 
+    /**
+     * Returns an increase-format uuid string with the given casing option and hyphen presence.
+     *
+     * @param uppercase whether the result should be uppercased
+     * @param hyphen whether the result should contain hyphens
+     *
+     * @return the formatted uuid string
+     */
     @Nonnull
     public static String getIncreaseId(boolean uppercase, boolean hyphen) {
         String result = idGenerator.generateId().toString();

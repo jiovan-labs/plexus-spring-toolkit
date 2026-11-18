@@ -32,26 +32,59 @@ import org.springframework.core.ResolvableType;
  */
 @SuppressWarnings("unused")
 public class NoSuchBeanException extends BeansException {
+    /**
+     * Create an exception for a missing bean with the given name.
+     *
+     * @param beanName The name of the missing bean
+     */
     public NoSuchBeanException(@Nonnull String beanName) {
         super(String.format("No bean named '%s' available", beanName));    // $NON-NLS-1$
     }
 
+    /**
+     * Create an exception for a missing bean with the given name and detail message.
+     *
+     * @param beanName The name of the missing bean
+     * @param message Additional detail, may be {@code null}
+     */
     public NoSuchBeanException(@Nonnull String beanName, @Nullable String message) {
         super(String.format("No bean named '%s' available: %s", beanName, message));    // $NON-NLS-1$
     }
 
+    /**
+     * Create an exception for a missing bean of the given type.
+     *
+     * @param type The type of the missing bean
+     */
     public NoSuchBeanException(@Nonnull Class<?> type) {
         this(ResolvableType.forClass(type));
     }
 
+    /**
+     * Create an exception for a missing bean of the given type and detail message.
+     *
+     * @param type The type of the missing bean
+     * @param message Additional detail, may be {@code null}
+     */
     public NoSuchBeanException(@Nonnull Class<?> type, @Nullable String message) {
         this(ResolvableType.forClass(type), message);
     }
 
+    /**
+     * Create an exception for a missing bean of the given resolvable type.
+     *
+     * @param type The resolvable type of the missing bean
+     */
     public NoSuchBeanException(@Nonnull ResolvableType type) {
         super(String.format("No qualifying bean of type '%s' available", type));    // $NON-NLS-1$
     }
 
+    /**
+     * Create an exception for a missing bean of the given resolvable type and detail message.
+     *
+     * @param type The resolvable type of the missing bean
+     * @param message Additional detail, may be {@code null}
+     */
     public NoSuchBeanException(@Nonnull ResolvableType type, @Nullable String message) {
         super(String.format("No qualifying bean of type '%s' available: %s", type, message));    // $NON-NLS-1$
     }

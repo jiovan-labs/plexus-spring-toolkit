@@ -34,10 +34,26 @@ import com.jiovan.plexus.spring.toolkit.cache.PlainParamKeyGenerator;
  * @author David Hsing
  */
 public class PlainParamKeyGeneratorRegistrar implements ImportAware {
+    /**
+     * The bean name of the plain parameter key generator.
+     */
     public static final String KEY_GENERATOR = "plainParamKeyGenerator";    // $NON-NLS-1$
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnablePlainParamKeyGenerator.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -46,6 +62,11 @@ public class PlainParamKeyGeneratorRegistrar implements ImportAware {
         }
     }
 
+    /**
+     * Create the plain parameter cache key generator from the annotation attributes.
+     *
+     * @return The configured key generator bean.
+     */
     @Bean(name = KEY_GENERATOR)
     @ConditionalOnMissingBean(name = KEY_GENERATOR)
     @SuppressWarnings("DuplicatedCode")

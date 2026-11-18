@@ -24,9 +24,9 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.util.ClassUtils;
-import tools.jackson.databind.module.SimpleModule;
 import com.jiovan.plexus.common.toolkit.constant.TemporalFormatConst;
 import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
+import tools.jackson.databind.module.SimpleModule;
 
 
 /**
@@ -35,6 +35,15 @@ import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
  * @author David Hsing
  */
 public abstract class JacksonJsr310Customizer {
+    /**
+     * Build a Jackson module with custom serializers and deserializers for {@code java.time} types.
+     *
+     * @param dateFormat The date pattern, or {@code null} for the default
+     * @param timeFormat The time pattern, or {@code null} for the default
+     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
+     *
+     * @return The configured module, or {@code null} if {@code java.time} support is not available
+     */
     @Nullable
     public static SimpleModule mapperModule(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat) {
         if (!ClassUtils.isPresent(JacksonTemporalType.JSR310.getValue(), null)) {
@@ -56,6 +65,16 @@ public abstract class JacksonJsr310Customizer {
         return result;
     }
 
+    /**
+     * Build a JSON mapper builder customizer for {@code java.time} types and the default time zone.
+     *
+     * @param dateFormat The date pattern, or {@code null} for the default
+     * @param timeFormat The time pattern, or {@code null} for the default
+     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
+     * @param timeZone The time zone to apply, or {@code null} for the JVM default
+     *
+     * @return The configured customizer, or {@code null} if {@code java.time} support is not available
+     */
     @Nullable
     public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone) {
         SimpleModule module = mapperModule(dateFormat, timeFormat, dateTimeFormat);

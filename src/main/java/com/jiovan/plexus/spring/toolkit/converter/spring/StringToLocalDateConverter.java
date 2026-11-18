@@ -42,6 +42,13 @@ public class StringToLocalDateConverter implements Converter<String, LocalDate> 
     private String[] formats = TemporalFormatCombo.DATE_FORMATS;
     private String[] spares = TemporalFormatCombo.DATETIME_FORMATS;
 
+    /**
+     * Convert a string value to a {@link LocalDate} using the configured date and datetime formats.
+     *
+     * @param value The source string, may be {@code null}
+     *
+     * @return The parsed date, or {@code null} if the value cannot be parsed
+     */
     @Override
     public LocalDate convert(@Nullable String value) {
         if (StringUtils.isBlank(value)) {

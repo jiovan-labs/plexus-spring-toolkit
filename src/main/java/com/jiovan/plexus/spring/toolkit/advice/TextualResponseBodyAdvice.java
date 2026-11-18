@@ -43,9 +43,24 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @SuppressWarnings("unused")
 public class TextualResponseBodyAdvice implements ResponseBodyAdvice<String> {
+    /**
+     * Callback invoked before a {@link String} response body is written.
+     *
+     * <p>Applies the content type declared by {@link TextualResponseBody} to the response
+     * when a non-empty body is produced for an annotated handler.
+     *
+     * @param body The response body, may be {@code null}
+     * @param parameter The method parameter that produced the body
+     * @param mediaType The selected media type
+     * @param converter The message converter used to write the body
+     * @param request The current request
+     * @param response The current response
+     *
+     * @return The response body to write
+     */
     @Override
     public String beforeBodyWrite(@Nullable String body, @Nonnull MethodParameter parameter, @Nonnull MediaType mediaType, @Nonnull Class<? extends HttpMessageConverter<?>> converter, @Nonnull ServerHttpRequest request, @Nonnull ServerHttpResponse response) {
-        if (StringUtils.isEmpty(body) || supports(parameter, converter)) {
+        if (StringUtils.isEmpty(body) || !supports(parameter, converter)) {
             return body;
         }
         TextualResponseBody annotation = parameter.getMethodAnnotation(TextualResponseBody.class);
@@ -63,6 +78,15 @@ public class TextualResponseBodyAdvice implements ResponseBodyAdvice<String> {
         return body;
     }
 
+    /**
+     * Return whether the given method or its declaring class is annotated with
+     * {@link TextualResponseBody}.
+     *
+     * @param parameter The method parameter to inspect
+     * @param clazz The message converter type
+     *
+     * @return {@code true} if the annotation is present, {@code false} otherwise
+     */
     @Override
     public boolean supports(@Nonnull MethodParameter parameter, @Nonnull Class<? extends HttpMessageConverter<?>> clazz) {
         return parameter.hasMethodAnnotation(TextualResponseBody.class) || AnnotatedElementUtils.hasAnnotation(parameter.getDeclaringClass(), TextualResponseBody.class);

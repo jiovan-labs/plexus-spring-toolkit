@@ -31,5 +31,10 @@ import org.springframework.context.support.MessageSourceAccessor;
  * @see com.jiovan.plexus.spring.toolkit.processor.MessageSourceAccessorProcessor
  */
 public interface MessageSourceAccessorAware extends Aware {
+    /**
+     * Set the {@link MessageSourceAccessor} for the implementing bean.
+     *
+     * @param accessor The message source accessor to inject
+     */
     void setMessageSourceAccessor(@Nonnull MessageSourceAccessor accessor);
 }

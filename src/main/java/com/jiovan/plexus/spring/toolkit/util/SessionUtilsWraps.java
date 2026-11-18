@@ -38,6 +38,13 @@ import org.springframework.web.server.session.WebSessionIdResolver;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class SessionUtilsWraps {
+    /**
+     * Return the session id of the given request.
+     *
+     * @param resolver The given resolver
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getSessionId(@Nullable WebSessionIdResolver resolver) {
         if (resolver instanceof CookieWebSessionIdResolver) {
@@ -48,21 +55,43 @@ public abstract class SessionUtilsWraps {
         return null;
     }
 
+    /**
+     * Return the configured session cookie name.
+     *
+     * @param resolver The given resolver
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getCookieName(@Nullable WebSessionIdResolver resolver) {
         return (resolver instanceof CookieWebSessionIdResolver alias) ? alias.getCookieName() : null;
     }
 
+    /**
+     * Return the configured session header name.
+     *
+     * @param resolver The given resolver
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static String getHeaderName(@Nullable WebSessionIdResolver resolver) {
         return (resolver instanceof HeaderWebSessionIdResolver alias) ? alias.getHeaderName() : null;
     }
 
+    /**
+     * Return the session repository from the given context.
+     *
+     * @param request The HTTP request, may be {@code null}
+     */
     @SuppressWarnings("unchecked")
     public static SessionRepository<? extends Session> getSessionRepository(@Nullable HttpServletRequest request) {
         return WebUtilsWraps.getSessionAttributeAs(request, SessionRepositoryFilter.SESSION_REPOSITORY_ATTR, SessionRepository.class);
     }
 
+    /**
+     * Return the session repository bound to the current request context.
+     */
     public static SessionRepository<? extends Session> getContextSessionRepository() {
         return getSessionRepository(WebUtilsWraps.getContextServletRequest());
     }

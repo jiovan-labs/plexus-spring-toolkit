@@ -35,9 +35,22 @@ import com.jiovan.plexus.spring.toolkit.annotation.EnableWebappRootListener;
  * @author David Hsing
  */
 public class WebappRootListenerRegistrar implements ImportAware {
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableWebappRootListener.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -46,6 +59,11 @@ public class WebappRootListenerRegistrar implements ImportAware {
         }
     }
 
+    /**
+     * Create the web application root listener registration bean.
+     *
+     * @return The configured listener registration bean.
+     */
     @Bean
     @ConditionalOnMissingBean(value = WebAppRootListener.class, parameterizedContainer = ServletListenerRegistrationBean.class)
     public ServletListenerRegistrationBean<WebAppRootListener> webappRootListenerRegistration() {

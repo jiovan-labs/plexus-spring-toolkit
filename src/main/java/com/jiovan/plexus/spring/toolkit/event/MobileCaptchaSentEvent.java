@@ -32,10 +32,20 @@ import com.jiovan.plexus.spring.toolkit.structure.MobileCaptchaStruct;
  */
 @SuppressWarnings("unused")
 public class MobileCaptchaSentEvent extends ApplicationEvent {
+    /**
+     * Create an event for sent mobile captcha.
+     *
+     * @param struct The mobile captcha structure that was sent
+     */
     public MobileCaptchaSentEvent(@Nonnull MobileCaptchaStruct struct) {
         super(struct);
     }
 
+    /**
+     * Return the mobile captcha structure that was sent.
+     *
+     * @return The captcha structure
+     */
     @Nonnull
     public MobileCaptchaStruct getCaptchaStruct() {
         return ObjectUtilsWraps.castAs(super.getSource(), MobileCaptchaStruct.class);

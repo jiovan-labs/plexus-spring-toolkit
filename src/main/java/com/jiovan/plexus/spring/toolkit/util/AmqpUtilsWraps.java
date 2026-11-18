@@ -54,31 +54,82 @@ import com.jiovan.plexus.spring.toolkit.identity.AlternativeUuidGenerator;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class AmqpUtilsWraps {
+    /**
+     * Build a message post processor that applies basic message properties.
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildBasicProcessor() {
         return buildBasicProcessor(null, null, null, null);
     }
 
+    /**
+     * Build a message post processor that applies basic message properties.
+     *
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildBasicProcessor(@Nullable Map<String, Object> headers) {
         return buildBasicProcessor(headers, null, null, null);
     }
 
+    /**
+     * Build a message post processor that applies basic message properties.
+     *
+     * @param headers The message headers to apply, may be {@code null}
+     * @param contentType The content type to apply, may be {@code null}
+     * @param charset The charset to apply, may be {@code null}
+     * @param mode The delivery mode to apply, may be {@code null}
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildBasicProcessor(@Nullable Map<String, Object> headers, @Nullable String contentType, @Nullable Charset charset, @Nullable MessageDeliveryMode mode) {
         return buildDelayProcessor(Duration.ZERO, null, headers, contentType, charset, mode);
     }
 
+    /**
+     * Build a message post processor that applies delayed message properties.
+     *
+     * @param delay The non-positive delay to apply, may be {@code null}
+     * @param delayedTimes The delayed-times count to apply, may be {@code null}
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildDelayProcessor(@Nullable Duration delay, @Nullable Integer delayedTimes) {
         return buildDelayProcessor(delay, delayedTimes, null, null, null, null);
     }
 
+    /**
+     * Build a message post processor that applies delayed message properties.
+     *
+     * @param delay The non-positive delay to apply, may be {@code null}
+     * @param delayedTimes The delayed-times count to apply, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildDelayProcessor(@Nullable Duration delay, @Nullable Integer delayedTimes, @Nullable Map<String, Object> headers) {
         return buildDelayProcessor(delay, delayedTimes, headers, null, null, null);
     }
 
+    /**
+     * Build a message post processor that applies delayed message properties.
+     *
+     * @param delay The non-positive delay to apply, may be {@code null}
+     * @param delayedTimes The delayed-times count to apply, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     * @param contentType The content type to apply, may be {@code null}
+     * @param charset The charset to apply, may be {@code null}
+     * @param mode The delivery mode to apply, may be {@code null}
+     *
+     * @return The configured message post processor
+     */
     @Nonnull
     public static MessagePostProcessor buildDelayProcessor(@Nullable Duration delay, @Nullable Integer delayedTimes, @Nullable Map<String, Object> headers, @Nullable String contentType, @Nullable Charset charset, @Nullable MessageDeliveryMode mode) {
         return message -> {
@@ -95,6 +146,13 @@ public abstract class AmqpUtilsWraps {
         };
     }
 
+    /**
+     * Return the message body rendered as a string.
+     *
+     * @param message The AMQP message, may be {@code null}
+     *
+     * @return The message body as a string, or {@code null} when empty
+     */
     public static String getContentAsString(@Nullable Message message) {
         return getContentAsString(message, null);
     }
@@ -115,14 +173,38 @@ public abstract class AmqpUtilsWraps {
         return IOUtils.toString(message.getBody(), StringUtils.defaultIfBlank(properties.getContentEncoding(), charset));
     }
 
+    /**
+     * Return the delayed-times header value of the message.
+     *
+     * @param message The AMQP message, may be {@code null}
+     *
+     * @return The delayed-times value, or {@code null}
+     */
     public static Integer getDelayedTimes(@Nullable Message message) {
         return getHeaderAs(message, AmqpHeaderConst.X_DELAYED_TIMES, Integer.class);
     }
 
+    /**
+     * Return the value of the named message header.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param header The header name, may be {@code null}
+     *
+     * @return The header value, or {@code null}
+     */
     public static Object getHeader(@Nullable Message message, @Nullable String header) {
         return (message == null || StringUtils.isBlank(header)) ? null : MapPlainWraps.getObject(getHeaders(message), header);
     }
 
+    /**
+     * Return the named message header converted to the expected type.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param header The header name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted header value, or {@code null}
+     */
     @Nullable
     public static <T> T getHeaderAs(@Nullable Message message, @Nullable String header, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(message, expectType) || StringUtils.isBlank(header)) {
@@ -131,15 +213,38 @@ public abstract class AmqpUtilsWraps {
         return MapPlainWraps.getObjectAs(getHeaders(message), header, expectType);
     }
 
+    /**
+     * Return all headers of the message.
+     *
+     * @param message The AMQP message, may be {@code null}
+     *
+     * @return The message headers, or {@code null}
+     */
     public static Map<String, Object> getHeaders(@Nullable Message message) {
         return (message == null) ? null : message.getMessageProperties().getHeaders();
     }
 
+    /**
+     * Return the message headers excluding the named ones.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     @Nullable
     public static Map<String, Object> getHeadersExcluding(@Nullable Message message, @Nullable String... headers) {
         return getHeadersExcluding(message, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return the message headers excluding the named ones.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     @Nullable
     public static Map<String, Object> getHeadersExcluding(@Nullable Message message, @Nullable Collection<String> headers) {
         Map<String, Object> result = getHeaders(message);
@@ -147,16 +252,39 @@ public abstract class AmqpUtilsWraps {
         return CollectionUtils.isEmpty(result) ? null : result;
     }
 
+    /**
+     * Return the message headers excluding delay-related ones.
+     *
+     * @param message The AMQP message, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     @Nullable
     public static Map<String, Object> getHeadersExcludingDelay(@Nullable Message message) {
         return getHeadersExcluding(message, MessageProperties.X_DELAY, AmqpHeaderConst.X_DELAYED_TIMES);
     }
 
+    /**
+     * Return only the named message headers.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     @Nullable
     public static Map<String, Object> getHeadersIncluding(@Nullable Message message, @Nullable String... headers) {
         return getHeadersIncluding(message, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return only the named message headers.
+     *
+     * @param message The AMQP message, may be {@code null}
+     * @param headers The message headers to apply, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     @Nullable
     public static Map<String, Object> getHeadersIncluding(@Nullable Message message, @Nullable Collection<String> headers) {
         Map<String, Object> result = getHeaders(message);

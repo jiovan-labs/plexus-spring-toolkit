@@ -35,11 +35,26 @@ import com.jiovan.plexus.common.toolkit.util.IteratorPlainWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ObjectProviderWraps {
+    /**
+     * Return the object if one is available.
+     *
+     * @param provider The given provider
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <E> E getIfAvailable(@Nullable ObjectProvider<E> provider) {
         return getIfAvailable(provider, null);
     }
 
+    /**
+     * Return the object if one is available.
+     *
+     * @param provider The given provider
+     * @param supplier The value supplier, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <E> E getIfAvailable(@Nullable ObjectProvider<E> provider, @Nullable Supplier<E> supplier) {
         if (provider == null) {
@@ -52,11 +67,26 @@ public abstract class ObjectProviderWraps {
         return null;
     }
 
+    /**
+     * Return the object if it is unique.
+     *
+     * @param provider The given provider
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <E> E getIfUnique(@Nullable ObjectProvider<E> provider) {
         return getIfUnique(provider, null);
     }
 
+    /**
+     * Return the object if it is unique.
+     *
+     * @param provider The given provider
+     * @param supplier The value supplier, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     @Nullable
     public static <E> E getIfUnique(@Nullable ObjectProvider<E> provider, @Nullable Supplier<E> supplier) {
         if (provider == null) {
@@ -69,6 +99,13 @@ public abstract class ObjectProviderWraps {
         return null;
     }
 
+    /**
+     * Return an iterator over the available objects.
+     *
+     * @param provider The given provider
+     *
+     * @return An iterator over the available objects, or {@code null}
+     */
     @Nullable
     public static <E> Iterator<E> getIterator(@Nullable ObjectProvider<E> provider) {
         try {
@@ -78,10 +115,23 @@ public abstract class ObjectProviderWraps {
         return null;
     }
 
+    /**
+     * Run the action when an object is available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifAvailable(@Nullable T provider, @Nullable Consumer<E> action) {
         ifAvailable(provider, action, null);
     }
 
+    /**
+     * Run the action when an object is available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifAvailable(@Nullable T provider, @Nullable Consumer<E> action, @Nullable Predicate<E> filter) {
         if (provider == null || action == null) {
             return;
@@ -92,6 +142,12 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the action when an object is available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <T extends ObjectProvider<?>> void ifAvailable(@Nullable T provider, @Nullable Runnable action) {
         if (isAvailable(provider) && action != null) {
             action.run();
@@ -117,6 +173,13 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the present or absent action based on availability.
+     *
+     * @param provider The given provider
+     * @param presentAction The given presentAction
+     * @param absentAction The given absentAction
+     */
     public static <T extends ObjectProvider<?>> void ifAvailableOrElse(@Nullable T provider, @Nullable Runnable presentAction, @Nullable Runnable absentAction) {
         if (isAvailable(provider)) {
              if (presentAction != null) {
@@ -129,20 +192,45 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the action when no object is available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <T extends ObjectProvider<?>> void ifNotAvailable(@Nullable T provider, @Nullable Runnable action) {
         if (!isAvailable(provider) && action != null) {
             action.run();
         }
     }
 
+    /**
+     * Run the action when multiple objects are available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifMultitude(@Nullable T provider, @Nullable Consumer<Iterator<E>> action) {
         ifMultitudeOrElse(provider, action, null);
     }
 
+    /**
+     * Run the action when multiple objects are available.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifMultitude(@Nullable T provider, @Nullable Runnable action) {
         ifMultitudeOrElse(provider, action, null);
     }
 
+    /**
+     * Run the present or absent action based on multiplicity.
+     *
+     * @param provider The given provider
+     * @param presentAction The given presentAction
+     * @param absentAction The given absentAction
+     */
     public static <E, T extends ObjectProvider<E>> void ifMultitudeOrElse(@Nullable T provider, @Nullable Consumer<Iterator<E>> presentAction, @Nullable Consumer<E> absentAction) {
         if (provider == null) {
             return;
@@ -158,6 +246,13 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the present or absent action based on multiplicity.
+     *
+     * @param provider The given provider
+     * @param presentAction The given presentAction
+     * @param absentAction The given absentAction
+     */
     public static <E, T extends ObjectProvider<E>> void ifMultitudeOrElse(@Nullable T provider, @Nullable Runnable presentAction, @Nullable Runnable absentAction) {
         if (provider == null) {
             return;
@@ -173,10 +268,23 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the action when the object is unique.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifUnique(@Nullable T provider, @Nullable Consumer<E> action) {
         ifUnique(provider, action, null);
     }
 
+    /**
+     * Run the action when the object is unique.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifUnique(@Nullable T provider, @Nullable Consumer<E> action, @Nullable Predicate<E> filter) {
         if (provider == null || action == null) {
             return;
@@ -187,6 +295,12 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the action when the object is unique.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <T extends ObjectProvider<?>> void ifUnique(@Nullable T provider, @Nullable Runnable action) {
         if (isUnique(provider) && action != null) {
             action.run();
@@ -212,6 +326,13 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the present or absent action based on uniqueness.
+     *
+     * @param provider The given provider
+     * @param presentAction The given presentAction
+     * @param absentAction The given absentAction
+     */
     public static <T extends ObjectProvider<?>> void ifUniqueOrElse(@Nullable T provider, @Nullable Runnable presentAction, @Nullable Runnable absentAction) {
         if (isUnique(provider)) {
              if (presentAction != null) {
@@ -224,18 +345,37 @@ public abstract class ObjectProviderWraps {
         }
     }
 
+    /**
+     * Run the action when the object is not unique.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <E, T extends ObjectProvider<E>> void ifNotUnique(@Nullable T provider, @Nullable Consumer<T> action) {
         if (!isUnique(provider) && action != null) {
             action.accept(provider);
         }
     }
 
+    /**
+     * Run the action when the object is not unique.
+     *
+     * @param provider The given provider
+     * @param action The action, may be {@code null}
+     */
     public static <T extends ObjectProvider<?>> void ifNotUnique(@Nullable T provider, @Nullable Runnable action) {
         if (!isUnique(provider) && action != null) {
             action.run();
         }
     }
 
+    /**
+     * Return whether an object is available.
+     *
+     * @param provider The given provider
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAvailable(@Nullable ObjectProvider<?> provider) {
         if (provider == null) {
             return false;
@@ -247,6 +387,13 @@ public abstract class ObjectProviderWraps {
         return false;
     }
 
+    /**
+     * Return whether the provider is empty.
+     *
+     * @param provider The given provider
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isEmpty(@Nullable ObjectProvider<?> provider) {
         try {
             return provider == null || IteratorPlainWraps.isEmpty(provider.iterator());
@@ -255,10 +402,24 @@ public abstract class ObjectProviderWraps {
         return false;
     }
 
+    /**
+     * Return whether the provider is not empty.
+     *
+     * @param provider The given provider
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isNotEmpty(@Nullable ObjectProvider<?> provider) {
         return !isEmpty(provider);
     }
 
+    /**
+     * Return whether the provider holds multiple objects.
+     *
+     * @param provider The given provider
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isMultitude(@Nullable ObjectProvider<?> provider) {
         if (provider == null) {
             return false;
@@ -270,6 +431,13 @@ public abstract class ObjectProviderWraps {
         return false;
     }
 
+    /**
+     * Return whether the object is unique.
+     *
+     * @param provider The given provider
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isUnique(@Nullable ObjectProvider<?> provider) {
         if (provider == null) {
             return false;

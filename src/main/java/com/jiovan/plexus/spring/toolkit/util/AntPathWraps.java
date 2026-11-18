@@ -38,34 +38,106 @@ import com.jiovan.plexus.common.toolkit.util.ArrayUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class AntPathWraps {
+    /**
+     * Return whether the path possibly contains ant-style wildcard characters.
+     *
+     * @param path The target path, may be {@code null}
+     *
+     * @return Whether the path possibly contains wildcards
+     */
     public static boolean maybeAntPattern(@Nullable String path) {
         return StringUtils.containsAny(path, CharVariantConst.QUESTION, CharVariantConst.STAR);
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(@Nullable String pattern, String... paths) {
         return matchAnyPaths(null, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(@Nullable String separator, @Nullable String pattern, String... paths) {
         return matchAnyPaths(separator, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(@Nullable String pattern, Collection<String> paths) {
         return matchAnyPaths(null, pattern, paths);
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(@Nullable String separator, @Nullable String pattern, Collection<String> paths) {
         return matchAnyPaths(separator, true, false, pattern, paths);
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable String... paths) {
         return matchAnyPaths(null, caseSensitive, trimTokens, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(@Nullable String separator, boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable String... paths) {
         return matchAnyPaths(separator, caseSensitive, trimTokens, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches any of the paths.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches any path
+     */
     public static <T> boolean matchAnyPaths(boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable Collection<String> paths) {
         return matchAnyPaths(null, caseSensitive, trimTokens, pattern, paths);
     }
@@ -87,30 +159,95 @@ public abstract class AntPathWraps {
         return paths.stream().anyMatch(path -> matcher.match(pattern, path));
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(@Nullable String pattern, @Nullable String... paths) {
         return matchAnyPathStarts(null, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(@Nullable String separator, @Nullable String pattern, @Nullable String... paths) {
         return matchAnyPathStarts(separator, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(@Nullable String pattern, @Nullable Collection<String> paths) {
         return matchAnyPathStarts(null, pattern, paths);
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(@Nullable String separator, @Nullable String pattern, @Nullable Collection<String> paths) {
         return matchAnyPathStarts(separator, true, false, pattern, paths);
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable String... paths) {
         return matchAnyPathStarts(null, caseSensitive, trimTokens, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(@Nullable String separator, boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable String... paths) {
         return matchAnyPathStarts(separator, caseSensitive, trimTokens, pattern, ArrayUtilsWraps.asList(paths));
     }
 
+    /**
+     * Return whether the given pattern matches the start of any of the paths.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param pattern The ant path pattern, may be {@code null}
+     * @param paths The paths to test, may be {@code null}
+     *
+     * @return Whether the pattern matches the start of any path
+     */
     public static <T> boolean matchAnyPathStarts(boolean caseSensitive, boolean trimTokens, @Nullable String pattern, @Nullable Collection<String> paths) {
         return matchAnyPathStarts(null, caseSensitive, trimTokens, pattern, paths);
     }
@@ -132,30 +269,95 @@ public abstract class AntPathWraps {
         return paths.stream().anyMatch(path -> matcher.matchStart(pattern, path));
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(@Nullable String path, @Nullable String... patterns) {
         return matchAnyPatterns(null, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(@Nullable String separator, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatterns(separator, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(@Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatterns(null, path, patterns);
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(@Nullable String separator, @Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatterns(separator, true, false, path, patterns);
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatterns(null, caseSensitive, trimTokens, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(@Nullable String separator, boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatterns(separator, caseSensitive, trimTokens, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the given path.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the path
+     */
     public static <T> boolean matchAnyPatterns(boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatterns(null, caseSensitive, trimTokens, path, patterns);
     }
@@ -177,30 +379,95 @@ public abstract class AntPathWraps {
         return patterns.stream().anyMatch(pattern -> matcher.match(pattern, path));
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(@Nullable String path, @Nullable String... patterns) {
         return matchAnyPatternStarts(null, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(@Nullable String separator, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatternStarts(separator, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(@Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatternStarts(null, path, patterns);
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(@Nullable String separator, @Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatternStarts(separator, true, false, path, patterns);
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatternStarts(null, caseSensitive, trimTokens, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(@Nullable String separator, boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable String... patterns) {
         return matchAnyPatternStarts(separator, caseSensitive, trimTokens, path, ArrayUtilsWraps.asList(patterns));
     }
 
+    /**
+     * Return whether any of the patterns matches the start of the given path.
+     *
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     * @param path The target path, may be {@code null}
+     * @param patterns The ant path patterns to test, may be {@code null}
+     *
+     * @return Whether any pattern matches the start of the path
+     */
     public static <T> boolean matchAnyPatternStarts(boolean caseSensitive, boolean trimTokens, @Nullable String path, @Nullable Collection<String> patterns) {
         return matchAnyPatternStarts(null, caseSensitive, trimTokens, path, patterns);
     }
@@ -222,11 +489,29 @@ public abstract class AntPathWraps {
         return patterns.stream().anyMatch(pattern -> matcher.matchStart(pattern, path));
     }
 
+    /**
+     * Build a configured AntPathMatcher.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     *
+     * @return The configured AntPathMatcher
+     */
     @Nonnull
     public static AntPathMatcher ofPathMatcher(char separator, boolean caseSensitive, boolean trimTokens) {
         return ofPathMatcher(CharUtils.toString(separator), caseSensitive, trimTokens);
     }
 
+    /**
+     * Build a configured AntPathMatcher.
+     *
+     * @param separator The path separator, defaulting to {@code /} when blank
+     * @param caseSensitive Whether matching is case-sensitive
+     * @param trimTokens Whether path tokens are trimmed
+     *
+     * @return The configured AntPathMatcher
+     */
     @Nonnull
     public static AntPathMatcher ofPathMatcher(@Nullable String separator, boolean caseSensitive, boolean trimTokens) {
         AntPathMatcher matcher = new AntPathMatcher(StringUtils.defaultIfBlank(separator, AntPathMatcher.DEFAULT_PATH_SEPARATOR));

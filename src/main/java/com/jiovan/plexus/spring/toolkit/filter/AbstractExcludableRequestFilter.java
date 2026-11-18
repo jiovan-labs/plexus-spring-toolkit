@@ -45,9 +45,15 @@ import lombok.Setter;
 @Getter
 @SuppressWarnings("unused")
 public abstract class AbstractExcludableRequestFilter extends OncePerRequestFilter implements OrderedFilter {
+    /**
+     * The filter order used by Spring Boot.
+     */
     @Setter
     private int order = 0;
 
+    /**
+     * The Ant path patterns excluded from this filter.
+     */
     private final List<String> excludedPaths = new ArrayList<>();
 
     /**
@@ -84,6 +90,15 @@ public abstract class AbstractExcludableRequestFilter extends OncePerRequestFilt
         excludedPaths.clear();
     }
 
+    /**
+     * Return whether the request path matches any excluded Ant pattern.
+     *
+     * @param request The current request
+     *
+     * @return {@code true} if the request should be excluded, {@code false} otherwise
+     *
+     * @throws ServletException If the check fails
+     */
     @Override
     protected boolean shouldNotFilter(@Nonnull HttpServletRequest request) throws ServletException {
         if (!CollectionUtils.isEmpty(excludedPaths)) {

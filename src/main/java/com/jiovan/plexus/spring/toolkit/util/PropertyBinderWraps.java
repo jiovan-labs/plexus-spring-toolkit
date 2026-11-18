@@ -78,10 +78,26 @@ public abstract class PropertyBinderWraps {
         return false;
     }
 
+    /**
+     * Contains all.
+     *
+     * @param environment The given environment
+     * @param properties The properties, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAll(@Nullable Environment environment, @Nullable String... properties) {
         return containsAll(environment, ArrayUtilsWraps.asList(properties));
     }
 
+    /**
+     * Contains all.
+     *
+     * @param environment The given environment
+     * @param properties The properties, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAll(@Nullable Environment environment, @Nullable Collection<String> properties) {
         if (!(environment instanceof ConfigurableEnvironment) || CollectionUtils.isEmpty(properties)) {
             return false;
@@ -89,10 +105,26 @@ public abstract class PropertyBinderWraps {
         return properties.stream().allMatch(item -> contains(environment, item));
     }
 
+    /**
+     * Contains any.
+     *
+     * @param environment The given environment
+     * @param properties The properties, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAny(@Nullable Environment environment, @Nullable String... properties) {
         return containsAny(environment, ArrayUtilsWraps.asList(properties));
     }
 
+    /**
+     * Contains any.
+     *
+     * @param environment The given environment
+     * @param properties The properties, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean containsAny(@Nullable Environment environment, @Nullable Collection<String> properties) {
         if (!(environment instanceof ConfigurableEnvironment) || CollectionUtils.isEmpty(properties)) {
             return false;

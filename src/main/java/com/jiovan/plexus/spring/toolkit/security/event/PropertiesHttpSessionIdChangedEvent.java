@@ -38,21 +38,48 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesHttpSessionIdChangedEvent extends HttpSessionIdChangedEvent {
+    /**
+     * Additional properties carried by this event.
+     */
     private final Properties properties = new Properties();
 
+    /**
+     * Create a PropertiesHttpSessionIdChangedEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesHttpSessionIdChangedEvent(@Nonnull HttpSessionIdChangedEvent event) {
         super(ObjectUtilsWraps.castAs(event.getSource(), HttpSession.class), event.getOldSessionId());
     }
 
+    /**
+     * Create a PropertiesHttpSessionIdChangedEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionIdChangedEvent(@Nonnull HttpSessionIdChangedEvent event, @Nullable Properties properties) {
         super(ObjectUtilsWraps.castAs(event.getSource(), HttpSession.class), event.getOldSessionId());
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesHttpSessionIdChangedEvent.
+     *
+     * @param session The HTTP session
+     * @param previousId The previous session id, may be {@code null}
+     */
     public PropertiesHttpSessionIdChangedEvent(@Nonnull HttpSession session, @Nullable String previousId) {
         super(session, StringUtils.defaultString(previousId));
     }
 
+    /**
+     * Create a PropertiesHttpSessionIdChangedEvent with the given values and additional properties.
+     *
+     * @param session The HTTP session
+     * @param previousId The previous session id, may be {@code null}
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesHttpSessionIdChangedEvent(@Nonnull HttpSession session, @Nullable String previousId, @Nullable Properties properties) {
         super(session, StringUtils.defaultString(previousId));
         MapPlainWraps.ifNotEmpty(properties, this.properties::putAll);

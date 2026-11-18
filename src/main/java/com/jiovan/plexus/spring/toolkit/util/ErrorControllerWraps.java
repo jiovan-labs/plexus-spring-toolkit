@@ -46,6 +46,16 @@ import com.jiovan.plexus.common.toolkit.util.ObjectUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ErrorControllerWraps {
+    /**
+     * Return the named error attribute for the given request.
+     *
+     * @param controller The error controller, may be {@code null}
+     * @param request The current HTTP request, may be {@code null}
+     * @param options The error attribute options, may be {@code null}
+     * @param attribute The attribute name, may be {@code null}
+     *
+     * @return The attribute value, or {@code null}
+     */
     @Nullable
     public static <C extends AbstractErrorController> Object getErrorAttribute(@Nullable C controller, @Nullable HttpServletRequest request, @Nullable ErrorAttributeOptions options, @Nullable String attribute) {
         if (ObjectUtils.anyNull(controller, request, options) || StringUtils.isBlank(attribute)) {
@@ -55,6 +65,17 @@ public abstract class ErrorControllerWraps {
         return MapPlainWraps.getObject(attributes, attribute);
     }
 
+    /**
+     * Return the named error attribute converted to the expected type.
+     *
+     * @param controller The error controller, may be {@code null}
+     * @param request The current HTTP request, may be {@code null}
+     * @param options The error attribute options, may be {@code null}
+     * @param attribute The attribute name, may be {@code null}
+     * @param expectType The expected type, may be {@code null}
+     *
+     * @return The converted attribute value, or {@code null}
+     */
     @Nullable
     public static <C extends AbstractErrorController, T> T getErrorAttributeAs(@Nullable C controller, @Nullable HttpServletRequest request, @Nullable ErrorAttributeOptions options, @Nullable String attribute, @Nullable Class<T> expectType) {
         if (ObjectUtils.anyNull(controller, request, options, expectType) || StringUtils.isBlank(attribute)) {
@@ -64,11 +85,25 @@ public abstract class ErrorControllerWraps {
         return MapPlainWraps.getObjectAs(attributes, attribute, expectType);
     }
 
+    /**
+     * Return the error attributes of the controller or of the given request.
+     *
+     * @param controller The error controller, may be {@code null}
+     *
+     * @return The error attributes, or {@code null}
+     */
     @Nullable
     public static <C extends AbstractErrorController> ErrorAttributes getErrorAttributes(@Nullable C controller) {
         return (controller == null) ? null : ReflectionUtilsWraps.getFieldAs(controller, "errorAttributes", true, ErrorAttributes.class);    // $NON-NLS-1$
     }
 
+    /**
+     * Return the error attributes of the controller or of the given request.
+     *
+     * @param controller The error controller, may be {@code null}
+     * @param request The current HTTP request, may be {@code null}
+     * @param options The error attribute options, may be {@code null}
+     */
     @Nullable
     public static <C extends AbstractErrorController> Map<String, Object> getErrorAttributes(@Nullable C controller, @Nullable HttpServletRequest request, @Nullable ErrorAttributeOptions options) {
         if (ObjectUtils.anyNull(controller, request, options)) {
@@ -78,6 +113,15 @@ public abstract class ErrorControllerWraps {
         return (attributes == null) ? null : attributes.getErrorAttributes(new ServletWebRequest(request), options);
     }
 
+    /**
+     * Return the error attribute options selected for the given request and media type.
+     *
+     * @param controller The error controller, may be {@code null}
+     * @param request The current HTTP request, may be {@code null}
+     * @param type The requested media type, may be {@code null}
+     *
+     * @return The resolved options, or {@code null}
+     */
     @Nullable
     public static <C extends BasicErrorController> ErrorAttributeOptions getErrorAttributeOptions(@Nullable C controller, @Nullable HttpServletRequest request, @Nullable MediaType type) {
         if (ObjectUtils.anyNull(controller, request, type)) {
@@ -86,6 +130,14 @@ public abstract class ErrorControllerWraps {
         return ReflectionUtilsWraps.invokeMethodAs(BasicErrorController.class, "getErrorAttributeOptions", true, controller, ArrayUtilsWraps.toArray(request, type), ErrorAttributeOptions.class);    // $NON-NLS-1$
     }
 
+    /**
+     * Return the exception that caused the error for the given request.
+     *
+     * @param controller The error controller, may be {@code null}
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The causing exception, or {@code null}
+     */
     @Nullable
     public static <C extends AbstractErrorController> Throwable getErrorCause(@Nullable C controller, @Nullable HttpServletRequest request) {
         if (ObjectUtils.anyNull(controller, request)) {
@@ -99,6 +151,13 @@ public abstract class ErrorControllerWraps {
         return (attributes == null) ? null : attributes.getError(new ServletWebRequest(request));
     }
 
+    /**
+     * Return the error status code carried by the given request.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The error status, or {@code null}
+     */
     @Nullable
     public static HttpStatusCode getErrorStatus(@Nullable HttpServletRequest request) {
         if (request == null) {

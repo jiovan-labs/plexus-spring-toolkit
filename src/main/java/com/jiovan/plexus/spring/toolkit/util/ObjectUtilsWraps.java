@@ -33,6 +33,13 @@ import org.springframework.util.ObjectUtils;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class ObjectUtilsWraps {
+    /**
+     * Return the display string of the given value.
+     *
+     * @param source The source object, may be {@code null}
+     *
+     * @return The result of the operation
+     */
     public static String getDisplayString(@Nullable Object source) {
         return getDisplayString(source, null);
     }
@@ -64,14 +71,33 @@ public abstract class ObjectUtilsWraps {
         return (source == null) ? null : ObjectUtils.getIdentityHexString(source);
     }
 
+    /**
+     * Run the action when the value is empty.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifEmpty(@Nullable T source, @Nullable Consumer<? super T> action) {
         ifEmptyOrElse(source, action, null);
     }
 
+    /**
+     * Run the action when the value is empty.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifEmpty(@Nullable T source, @Nullable Runnable action) {
         ifEmptyOrElse(source, action, null);
     }
 
+    /**
+     * Run the present or absent action based on emptiness.
+     *
+     * @param source The source object, may be {@code null}
+     * @param absentAction The given absentAction
+     * @param presentAction The given presentAction
+     */
     public static <T> void ifEmptyOrElse(@Nullable T source, @Nullable Consumer<? super T> absentAction, @Nullable Consumer<? super T> presentAction) {
         if (ObjectUtils.isEmpty(source)) {
             if (absentAction != null) {
@@ -84,6 +110,13 @@ public abstract class ObjectUtilsWraps {
         }
     }
 
+    /**
+     * Run the present or absent action based on emptiness.
+     *
+     * @param source The source object, may be {@code null}
+     * @param absentAction The given absentAction
+     * @param presentAction The given presentAction
+     */
     public static <T> void ifEmptyOrElse(@Nullable T source, @Nullable Runnable absentAction, @Nullable Runnable presentAction) {
         if (ObjectUtils.isEmpty(source)) {
             if (absentAction != null) {
@@ -96,12 +129,25 @@ public abstract class ObjectUtilsWraps {
         }
     }
 
+    /**
+     * Run the action when the value is null.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static void ifNull(@Nullable Object source, @Nullable Runnable action) {
         if (source == null && action != null) {
             action.run();
         }
     }
 
+    /**
+     * Run the present or absent action based on nullability.
+     *
+     * @param source The source object, may be {@code null}
+     * @param absentAction The given absentAction
+     * @param presentAction The given presentAction
+     */
     public static <T> void ifNullOrElse(@Nullable T source, @Nullable Runnable absentAction, @Nullable Consumer<? super T> presentAction) {
         if (source == null) {
             if (absentAction != null) {
@@ -114,6 +160,13 @@ public abstract class ObjectUtilsWraps {
         }
     }
 
+    /**
+     * Run the present or absent action based on nullability.
+     *
+     * @param source The source object, may be {@code null}
+     * @param absentAction The given absentAction
+     * @param presentAction The given presentAction
+     */
     public static <T> void ifNullOrElse(@Nullable T source, @Nullable Runnable absentAction, @Nullable Runnable presentAction) {
         if (source == null) {
             if (absentAction != null) {
@@ -126,32 +179,70 @@ public abstract class ObjectUtilsWraps {
         }
     }
 
+    /**
+     * Run the action when the value is not empty.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifNotEmpty(@Nullable T source, @Nullable Consumer<? super T> action) {
         ifNotEmpty(source, action, null);
     }
 
+    /**
+     * Run the action when the value is not empty.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static <T> void ifNotEmpty(@Nullable T source, @Nullable Consumer<? super T> action, @Nullable Predicate<? super T> filter) {
         if (!ObjectUtils.isEmpty(source) && action != null && (filter == null || filter.test(source))) {
             action.accept(source);
         }
     }
 
+    /**
+     * Run the action when the value is not empty.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifNotEmpty(@Nullable T source, @Nullable Runnable action) {
         if (!ObjectUtils.isEmpty(source) && action != null) {
             action.run();
         }
     }
 
+    /**
+     * Run the action when the value is not null.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifNotNull(@Nullable T source, @Nullable Consumer<? super T> action) {
         ifNotNull(source, action, null);
     }
 
+    /**
+     * Run the action when the value is not null.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     * @param filter The filter predicate, may be {@code null}
+     */
     public static <T> void ifNotNull(@Nullable T source, @Nullable Consumer<? super T> action, @Nullable Predicate<? super T> filter) {
         if (source != null && action != null && (filter == null || filter.test(source))) {
             action.accept(source);
         }
     }
 
+    /**
+     * Run the action when the value is not null.
+     *
+     * @param source The source object, may be {@code null}
+     * @param action The action, may be {@code null}
+     */
     public static <T> void ifNotNull(@Nullable T source, @Nullable Runnable action) {
         if (source != null && action != null) {
             action.run();

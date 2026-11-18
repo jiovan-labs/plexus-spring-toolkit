@@ -33,6 +33,11 @@ import lombok.Getter;
 public abstract class AbstractPropertiesCapableEvent extends ApplicationEvent implements PropertiesCapableEvent {
     protected final Properties properties = new Properties();
 
+    /**
+     * Create an event with the given source and an empty property set.
+     *
+     * @param source The event source
+     */
     public AbstractPropertiesCapableEvent(@Nonnull Object source) {
         super(source);
     }

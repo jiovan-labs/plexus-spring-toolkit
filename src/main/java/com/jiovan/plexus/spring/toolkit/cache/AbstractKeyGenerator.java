@@ -56,6 +56,15 @@ public abstract class AbstractKeyGenerator implements KeyGenerator {
     private boolean methodName = true;
     private boolean methodHash = false;
 
+    /**
+     * Generate a cache key for the given method invocation.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     *
+     * @return The generated cache key
+     */
     @Nonnull
     @Override
     public Object generate(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
@@ -82,12 +91,35 @@ public abstract class AbstractKeyGenerator implements KeyGenerator {
         return afterGenerate(builder.toString());
     }
 
+    /**
+     * Hook invoked before the cache key is generated.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     */
     @SuppressWarnings("unused")
     protected void beforeGenerate(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params) {
     }
 
+    /**
+     * Resolve the method parameters into the parameter part of the cache key.
+     *
+     * @param target The target object
+     * @param method The method being invoked
+     * @param params The method parameters
+     *
+     * @return The resolved parameter part of the cache key
+     */
     protected abstract String resolveParams(@Nonnull Object target, @Nonnull Method method, @Nullable Object... params);
 
+    /**
+     * Hook invoked after the cache key has been assembled.
+     *
+     * @param generated The assembled cache key
+     *
+     * @return The final cache key
+     */
     protected String afterGenerate(@Nullable String generated) {
         return generated;
     }

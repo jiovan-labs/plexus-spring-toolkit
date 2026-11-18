@@ -36,24 +36,51 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public class PropertiesInteractiveAuthenticationSuccessEvent extends AbstractPropertiesAuthenticationEvent {
+    /**
+     * The class that generated the authentication event.
+     */
     private final Class<?> generatedBy;
 
+    /**
+     * Create a PropertiesInteractiveAuthenticationSuccessEvent from the given source event.
+     *
+     * @param event The source event
+     */
     public PropertiesInteractiveAuthenticationSuccessEvent(@Nonnull InteractiveAuthenticationSuccessEvent event) {
         super(event.getAuthentication());
         this.generatedBy = event.getGeneratedBy();
     }
 
+    /**
+     * Create a PropertiesInteractiveAuthenticationSuccessEvent from the given source event with additional properties.
+     *
+     * @param event The source event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesInteractiveAuthenticationSuccessEvent(@Nonnull InteractiveAuthenticationSuccessEvent event, @Nullable Properties properties) {
         super(event.getAuthentication());
         this.generatedBy = event.getGeneratedBy();
         MapPlainWraps.ifNotEmpty(properties, super.properties::putAll);
     }
 
+    /**
+     * Create a PropertiesInteractiveAuthenticationSuccessEvent for the given authentication.
+     *
+     * @param authentication The authentication object
+     * @param generatedBy The class that generated the event
+     */
     public PropertiesInteractiveAuthenticationSuccessEvent(@Nonnull Authentication authentication, @Nonnull Class<?> generatedBy) {
         super(authentication);
         this.generatedBy = generatedBy;
     }
 
+    /**
+     * Create a PropertiesInteractiveAuthenticationSuccessEvent with the given values and additional properties.
+     *
+     * @param authentication The authentication object
+     * @param generatedBy The class that generated the event
+     * @param properties Additional properties to attach, may be {@code null}
+     */
     public PropertiesInteractiveAuthenticationSuccessEvent(@Nonnull Authentication authentication, @Nonnull Class<?> generatedBy, @Nullable Properties properties) {
         super(authentication);
         this.generatedBy = generatedBy;

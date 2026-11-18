@@ -36,10 +36,29 @@ import lombok.Getter;
 @Getter
 @SuppressWarnings("unused")
 public enum XFrameOptionType implements ValueEnum<String> {
+    /**
+     * Deny rendering in a frame.
+     */
     DENY("deny"),    // $NON-NLS-1$
+
+    /**
+     * Allow rendering only from the same origin.
+     */
     SAME_ORIGIN("sameorigin"),    // $NON-NLS-1$
+
+    /**
+     * Allow rendering from a specified origin.
+     */
     ALLOW_FROM("allow-from"),    // $NON-NLS-1$
+
+    /**
+     * Allow rendering from any origin.
+     */
     ALLOW_ALL("allowall"),    // $NON-NLS-1$
+
+    /**
+     * Invalid or unrecognized option.
+     */
     INVALID("invalid");    // $NON-NLS-1$
 
     private final String value;

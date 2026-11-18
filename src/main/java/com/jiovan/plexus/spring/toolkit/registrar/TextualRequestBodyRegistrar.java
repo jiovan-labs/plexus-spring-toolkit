@@ -32,12 +32,22 @@ import com.jiovan.plexus.spring.toolkit.resolver.TextualRequestBodyResolver;
  * @author David Hsing
  */
 public class TextualRequestBodyRegistrar implements WebMvcConfigurer {
+    /**
+     * Create the textual request body argument resolver bean.
+     *
+     * @return The resolver bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public TextualRequestBodyResolver textualRequestBodyResolver() {
         return new TextualRequestBodyResolver();
     }
 
+    /**
+     * Register the textual request body argument resolver.
+     *
+     * @param resolvers The list of argument resolvers
+     */
     @Override
     public void addArgumentResolvers(@Nonnull List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(textualRequestBodyResolver());

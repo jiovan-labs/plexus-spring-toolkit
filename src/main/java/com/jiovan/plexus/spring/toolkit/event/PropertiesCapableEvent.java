@@ -28,6 +28,11 @@ import jakarta.annotation.Nonnull;
  */
 @SuppressWarnings("unused")
 public interface PropertiesCapableEvent {
+    /**
+     * Return the properties attached to the event.
+     *
+     * @return The event properties
+     */
     @Nonnull
     Properties getProperties();
 }

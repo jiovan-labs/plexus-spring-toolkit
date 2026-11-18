@@ -46,82 +46,243 @@ import com.jiovan.plexus.common.toolkit.util.StringUtilsWraps;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class HttpHeaderWraps {
+    /**
+     * Return whether the named header is present.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param name The header name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeader(@Nullable HttpServletRequest request, @Nullable String name) {
         return request != null && StringUtils.isNotBlank(name) && request.getHeader(name) != null;
     }
 
+    /**
+     * Return whether the named header equals the given value.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param value The header value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeaderValue(@Nullable HttpServletRequest request, @Nullable String name, @Nullable String value) {
         return request != null && StringUtils.isNotBlank(name) && StringUtilsWraps.equals(request.getHeader(name), value);
     }
 
+    /**
+     * Return whether the named header equals the given value ignoring case.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param value The header value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeaderValueIgnoreCase(@Nullable HttpServletRequest request, @Nullable String name, @Nullable String value) {
         return request != null && StringUtils.isNotBlank(name) && StringUtilsWraps.equalsIgnoreCase(request.getHeader(name), value);
     }
 
+    /**
+     * Return whether the named header is present.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param name The header name, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeader(@Nullable HttpServletResponse response, @Nullable String name) {
         return response != null && StringUtils.isNotBlank(name) && response.getHeader(name) != null;
     }
 
+    /**
+     * Return whether the named header equals the given value.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param value The header value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeaderValue(@Nullable HttpServletResponse response, @Nullable String name, @Nullable String value) {
         return response != null && StringUtils.isNotBlank(name) && StringUtilsWraps.equals(response.getHeader(name), value);
     }
 
+    /**
+     * Return whether the named header equals the given value ignoring case.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param value The header value, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean existsHeaderValueIgnoreCase(@Nullable HttpServletResponse response, @Nullable String name, @Nullable String value) {
         return response != null && StringUtils.isNotBlank(name) && StringUtilsWraps.equalsIgnoreCase(response.getHeader(name), value);
     }
 
+    /**
+     * Return the Accept-Language header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getAcceptLanguage(@Nullable HttpServletRequest request) {
         return getAcceptLanguage(request, null);
     }
 
+    /**
+     * Return the Accept-Language header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param defaultValue The fallback value, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getAcceptLanguage(@Nullable HttpServletRequest request, @Nullable String defaultValue) {
         return getHeader(request, HttpHeaders.ACCEPT_LANGUAGE, defaultValue);
     }
 
+    /**
+     * Return the Referer header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getReferer(@Nullable HttpServletRequest request) {
         return getReferer(request, null);
     }
 
+    /**
+     * Return the Referer header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param defaultValue The fallback value, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getReferer(@Nullable HttpServletRequest request, @Nullable String defaultValue) {
         return getHeader(request, HttpHeaders.REFERER, defaultValue);
     }
 
+    /**
+     * Return the User-Agent header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getUserAgent(@Nullable HttpServletRequest request) {
         return getUserAgent(request, null);
     }
 
+    /**
+     * Return the User-Agent header.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param defaultValue The fallback value, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getUserAgent(@Nullable HttpServletRequest request, @Nullable String defaultValue) {
         return getHeader(request, HttpHeaders.USER_AGENT, defaultValue);
     }
 
+    /**
+     * Return the named header, falling back to the default value.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param name The header name, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getHeader(@Nullable HttpServletRequest request, @Nullable String name) {
         return getHeader(request, name, null);
     }
 
+    /**
+     * Return the named header, falling back to the default value.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param defaultValue The fallback value, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getHeader(@Nullable HttpServletRequest request, @Nullable String name, @Nullable String defaultValue) {
         return (request == null || StringUtils.isBlank(name)) ? defaultValue : StringUtils.defaultIfBlank(request.getHeader(name), defaultValue);
     }
 
+    /**
+     * Return the named header, falling back to the default value.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param name The header name, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getHeader(@Nullable HttpServletResponse response, @Nullable String name) {
         return getHeader(response, name, null);
     }
 
+    /**
+     * Return the named header, falling back to the default value.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param name The header name, may be {@code null}
+     * @param defaultValue The fallback value, may be {@code null}
+     *
+     * @return The header value, or the default value
+     */
     public static String getHeader(@Nullable HttpServletResponse response, @Nullable String name, @Nullable String defaultValue) {
         return (response == null || StringUtils.isBlank(name)) ? defaultValue : StringUtils.defaultIfBlank(response.getHeader(name), defaultValue);
     }
 
+    /**
+     * Return all headers.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return The collected headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeaders(@Nullable HttpServletRequest request) {
         return getHeadersExcluding(request, (Collection<String>) null);
     }
 
+    /**
+     * Return all headers.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return The collected headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeaders(@Nullable HttpServletResponse response) {
         return getHeadersExcluding(response, (Collection<String>) null);
     }
 
+    /**
+     * Return only the named headers.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncluding(@Nullable HttpServletRequest request, @Nullable String... headers) {
         return getHeadersIncluding(request, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return only the named headers.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncluding(@Nullable HttpServletRequest request, @Nullable Collection<String> headers) {
         if (request == null || CollectionUtils.isEmpty(headers)) {
             return null;
@@ -131,10 +292,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return only the named headers.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncluding(@Nullable HttpServletResponse response, @Nullable String... headers) {
         return getHeadersIncluding(response, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return only the named headers.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncluding(@Nullable HttpServletResponse response, @Nullable Collection<String> headers) {
         if (response == null || CollectionUtils.isEmpty(headers)) {
             return null;
@@ -144,10 +321,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return only the named headers, ignoring case.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncludingIgnoreCase(@Nullable HttpServletRequest request, @Nullable String... headers) {
         return getHeadersIncludingIgnoreCase(request, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return only the named headers, ignoring case.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncludingIgnoreCase(@Nullable HttpServletRequest request, @Nullable Collection<String> headers) {
         if (request == null || CollectionUtils.isEmpty(headers)) {
             return null;
@@ -157,10 +350,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return only the named headers, ignoring case.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncludingIgnoreCase(@Nullable HttpServletResponse response, @Nullable String... headers) {
         return getHeadersIncludingIgnoreCase(response, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return only the named headers, ignoring case.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersIncludingIgnoreCase(@Nullable HttpServletResponse response, @Nullable Collection<String> headers) {
         if (response == null || CollectionUtils.isEmpty(headers)) {
             return null;
@@ -170,10 +379,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return all headers except the named ones.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcluding(@Nullable HttpServletRequest request, @Nullable String... headers) {
         return getHeadersExcluding(request, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return all headers except the named ones.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcluding(@Nullable HttpServletRequest request, @Nullable Collection<String> headers) {
         if (request == null) {
             return null;
@@ -183,10 +408,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return all headers except the named ones.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcluding(@Nullable HttpServletResponse response, @Nullable String... headers) {
         return getHeadersExcluding(response, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return all headers except the named ones.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcluding(@Nullable HttpServletResponse response, @Nullable Collection<String> headers) {
         if (response == null) {
             return null;
@@ -196,10 +437,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return all headers except the named ones, ignoring case.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcludingIgnoreCase(@Nullable HttpServletRequest request, @Nullable String... headers) {
         return getHeadersExcludingIgnoreCase(request, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return all headers except the named ones, ignoring case.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcludingIgnoreCase(@Nullable HttpServletRequest request, @Nullable Collection<String> headers) {
         if (request == null) {
             return null;
@@ -209,10 +466,26 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return all headers except the named ones, ignoring case.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcludingIgnoreCase(@Nullable HttpServletResponse response, @Nullable String... headers) {
         return getHeadersExcludingIgnoreCase(response, ArrayUtilsWraps.asList(headers));
     }
 
+    /**
+     * Return all headers except the named ones, ignoring case.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param headers The header names, may be {@code null}
+     *
+     * @return The filtered headers, or {@code null} when empty
+     */
     public static HttpHeaders getHeadersExcludingIgnoreCase(@Nullable HttpServletResponse response, @Nullable Collection<String> headers) {
         if (response == null) {
             return null;
@@ -222,110 +495,306 @@ public abstract class HttpHeaderWraps {
         return result.isEmpty() ? null : result;
     }
 
+    /**
+     * Return whether the Accept header contains the given token.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param accept The Accept token, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAccept(@Nullable HttpServletRequest request, @Nullable String accept) {
         return request != null && StringUtils.isNotBlank(accept) && StringUtilsWraps.containsIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), accept);
     }
 
+    /**
+     * Return whether the Accept header allows any media type.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAcceptAll(@Nullable HttpServletRequest request) {
         return request != null && StringUtilsWraps.contains(request.getHeader(HttpHeaders.ACCEPT), MediaType.ALL_VALUE);
     }
 
+    /**
+     * Return whether the Accept header allows application/json.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAcceptApplicationJson(@Nullable HttpServletRequest request) {
         return request != null && RegexUtilsWraps.findIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), RegexVariantConst.APPLICATION_JSON);
     }
 
+    /**
+     * Return whether the Accept header allows application/xml.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAcceptApplicationXml(@Nullable HttpServletRequest request) {
         return request != null && RegexUtilsWraps.findIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), RegexVariantConst.APPLICATION_XML);
     }
 
+    /**
+     * Return whether the Accept header allows text/html.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAcceptTextHtml(@Nullable HttpServletRequest request) {
         return request != null && StringUtilsWraps.containsIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), MediaType.TEXT_HTML_VALUE);
     }
 
+    /**
+     * Return whether the Accept header allows text/plain.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isAcceptTextPlain(@Nullable HttpServletRequest request) {
         return request != null && StringUtilsWraps.containsIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), MediaType.TEXT_PLAIN_VALUE);
     }
 
+    /**
+     * Return whether the content type contains the given token.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param mediaType The media type token, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentType(@Nullable HttpServletRequest request, @Nullable String mediaType) {
         return request != null && StringUtils.isNotBlank(mediaType) && StringUtilsWraps.containsIgnoreCase(request.getContentType(), mediaType);
     }
 
+    /**
+     * Return whether the content type contains the given token.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param mediaType The media type token, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentType(@Nullable HttpServletResponse response, @Nullable String mediaType) {
         return response != null && StringUtils.isNotBlank(mediaType) && StringUtilsWraps.containsIgnoreCase(response.getContentType(), mediaType);
     }
 
+    /**
+     * Return whether the content type is application/json.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeApplicationJson(@Nullable HttpServletRequest request) {
         return request != null && RegexUtilsWraps.findIgnoreCase(request.getContentType(), RegexVariantConst.APPLICATION_JSON);
     }
 
+    /**
+     * Return whether the content type is application/json.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeApplicationJson(@Nullable HttpServletResponse response) {
         return response != null && RegexUtilsWraps.findIgnoreCase(response.getContentType(), RegexVariantConst.APPLICATION_JSON);
     }
 
+    /**
+     * Return whether the content type is application/xml.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeApplicationXml(@Nullable HttpServletRequest request) {
         return request != null && RegexUtilsWraps.findIgnoreCase(request.getContentType(), RegexVariantConst.APPLICATION_XML);
     }
 
+    /**
+     * Return whether the content type is application/xml.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeApplicationXml(@Nullable HttpServletResponse response) {
         return response != null && RegexUtilsWraps.findIgnoreCase(response.getContentType(), RegexVariantConst.APPLICATION_XML);
     }
 
+    /**
+     * Return whether the content type is application/x-www-form-urlencoded.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeFormUrlencoded(@Nullable HttpServletRequest request) {
         return isContentType(request, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
     }
 
+    /**
+     * Return whether the content type is application/x-www-form-urlencoded.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeFormUrlencoded(@Nullable HttpServletResponse response) {
         return isContentType(response, MediaType.APPLICATION_FORM_URLENCODED_VALUE);
     }
 
+    /**
+     * Return whether the content type is one of the multipart types.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeMultipart(@Nullable HttpServletRequest request) {
         return matchAnyContentTypes(request, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_RELATED_VALUE);
     }
 
+    /**
+     * Return whether the content type is one of the multipart types.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeMultipart(@Nullable HttpServletResponse response) {
         return matchAnyContentTypes(response, MediaType.MULTIPART_FORM_DATA_VALUE, MediaType.MULTIPART_MIXED_VALUE, MediaType.MULTIPART_RELATED_VALUE);
     }
 
+    /**
+     * Return whether the content type is text/html.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeTextHtml(@Nullable HttpServletRequest request) {
         return isContentType(request, MediaType.TEXT_HTML_VALUE);
     }
 
+    /**
+     * Return whether the content type is text/html.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeTextHtml(@Nullable HttpServletResponse response) {
         return isContentType(response, MediaType.TEXT_HTML_VALUE);
     }
 
+    /**
+     * Return whether the content type is text/plain.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeTextPlain(@Nullable HttpServletRequest request) {
         return isContentType(request, MediaType.TEXT_PLAIN_VALUE);
     }
 
+    /**
+     * Return whether the content type is text/plain.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean isContentTypeTextPlain(@Nullable HttpServletResponse response) {
         return isContentType(response, MediaType.TEXT_PLAIN_VALUE);
     }
 
+    /**
+     * Return whether the Accept header contains any of the given tokens.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param accepts The Accept tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyAccepts(@Nullable HttpServletRequest request, @Nullable String... accepts) {
         return matchAnyAccepts(request, ArrayUtilsWraps.asList(accepts));
     }
 
+    /**
+     * Return whether the Accept header contains any of the given tokens.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param accepts The Accept tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyAccepts(@Nullable HttpServletRequest request, @Nullable Collection<String> accepts) {
         return request != null && StringUtilsWraps.containsAnyIgnoreCase(request.getHeader(HttpHeaders.ACCEPT), accepts);
     }
 
+    /**
+     * Return whether the content type contains any of the given tokens.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param mediaTypes The media type tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyContentTypes(@Nullable HttpServletRequest request, @Nullable String... mediaTypes) {
         return matchAnyContentTypes(request, ArrayUtilsWraps.asList(mediaTypes));
     }
 
+    /**
+     * Return whether the content type contains any of the given tokens.
+     *
+     * @param request The current HTTP request, may be {@code null}
+     * @param mediaTypes The media type tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyContentTypes(@Nullable HttpServletRequest request, @Nullable Collection<String> mediaTypes) {
         return request != null && StringUtilsWraps.containsAnyIgnoreCase(request.getContentType(), mediaTypes);
     }
 
+    /**
+     * Return whether the content type contains any of the given tokens.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param mediaTypes The media type tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyContentTypes(@Nullable HttpServletResponse response, @Nullable String... mediaTypes) {
         return matchAnyContentTypes(response, ArrayUtilsWraps.asList(mediaTypes));
     }
 
+    /**
+     * Return whether the content type contains any of the given tokens.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     * @param mediaTypes The media type tokens, may be {@code null}
+     *
+     * @return Whether the condition holds
+     */
     public static boolean matchAnyContentTypes(@Nullable HttpServletResponse response, @Nullable Collection<String> mediaTypes) {
         return response != null && StringUtilsWraps.containsAnyIgnoreCase(response.getContentType(), mediaTypes);
     }
 
+    /**
+     * Set response headers that disable client-side caching.
+     *
+     * @param response The current HTTP response, may be {@code null}
+     */
     public static void disableCache(@Nullable HttpServletResponse response) {
         if (response == null || response.isCommitted()) {
             return;

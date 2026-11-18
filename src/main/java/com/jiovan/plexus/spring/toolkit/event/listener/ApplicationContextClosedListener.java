@@ -36,6 +36,11 @@ import lombok.Setter;
 public class ApplicationContextClosedListener extends AbstractApplicationEventListener<ContextClosedEvent> {
     private boolean logMessage = true;
 
+    /**
+     * Log the application context shutdown details when message logging is enabled.
+     *
+     * @param event The context closed event
+     */
     @Override
     protected void handleApplicationEvent(@Nonnull ContextClosedEvent event) {
         if (logMessage && log.isInfoEnabled()) {

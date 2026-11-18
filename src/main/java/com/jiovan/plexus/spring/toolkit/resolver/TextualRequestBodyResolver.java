@@ -46,11 +46,28 @@ import com.jiovan.plexus.spring.toolkit.util.WebUtilsWraps;
 public class TextualRequestBodyResolver implements HandlerMethodArgumentResolver {
     public static final String REQUEST_ATTRIBUTE = "TEXTUAL_REQUEST_BODY";    // $NON-NLS-1$
 
+    /**
+     * Check whether this resolver supports the given method parameter annotated with {@link TextualRequestBody}.
+     *
+     * @param parameter The method parameter to check
+     *
+     * @return {@code true} if the parameter has the {@link TextualRequestBody} annotation
+     */
     @Override
     public boolean supportsParameter(@Nonnull MethodParameter parameter) {
         return parameter.hasParameterAnnotation(TextualRequestBody.class);
     }
 
+    /**
+     * Extract the raw body content from the HTTP request and cache it for subsequent retrievals.
+     *
+     * @param parameter The method parameter being resolved
+     * @param container The current model and view container (unused)
+     * @param request The native web request providing access to the servlet request
+     * @param factory The data binder factory used for type conversion, may be {@code null}
+     *
+     * @return The raw request body as a string, or {@code null} if multipart content is detected or no annotation present
+     */
     @Override
     public Object resolveArgument(@Nonnull MethodParameter parameter, ModelAndViewContainer container, @Nonnull NativeWebRequest request, @Nullable WebDataBinderFactory factory) {
         Object attribute = request.getAttribute(REQUEST_ATTRIBUTE, NativeWebRequest.SCOPE_REQUEST);

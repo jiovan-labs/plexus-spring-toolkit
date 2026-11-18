@@ -41,6 +41,16 @@ import com.jiovan.plexus.spring.toolkit.enumeration.JwtAlgorithmType;
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
 public abstract class JwtAuthWraps {
+    /**
+     * Create and sign a JWT token.
+     *
+     * @param jwtId The token id, may be {@code null}
+     * @param callback An optional callback for customizing the token builder
+     * @param algorithm The signing algorithm, defaulting to HS256
+     * @param secret The signing secret, required for HMAC algorithms
+     *
+     * @return The signed JWT token
+     */
     @Nonnull
     @SuppressWarnings("DuplicatedCode")
     public static String encodeToken(@Nullable String jwtId, @Nullable Consumer<JWTCreator.Builder> callback, @Nullable JwtAlgorithmType algorithm, @Nullable String secret) {
@@ -61,6 +71,20 @@ public abstract class JwtAuthWraps {
         };
     }
 
+    /**
+     * Create and sign a JWT token.
+     *
+     * @param jwtId The token id, may be {@code null}
+     * @param audience The token audience, may be {@code null}
+     * @param issuer The token issuer, may be {@code null}
+     * @param subject The token subject, may be {@code null}
+     * @param timestamp The issue time, defaulting to the current time
+     * @param timeout The validity duration, may be {@code null}
+     * @param algorithm The signing algorithm, defaulting to HS256
+     * @param secret The signing secret, required for HMAC algorithms
+     *
+     * @return The signed JWT token
+     */
     @Nonnull
     @SuppressWarnings("DuplicatedCode")
     public static String encodeToken(@Nullable String jwtId, @Nullable String audience, @Nullable String issuer, @Nullable String subject, @Nullable Date timestamp, @Nullable Duration timeout, @Nullable JwtAlgorithmType algorithm, @Nullable String secret) {
@@ -92,6 +116,13 @@ public abstract class JwtAuthWraps {
         };
     }
 
+    /**
+     * Decode the given JWT token without verifying its signature.
+     *
+     * @param token The JWT token, may be {@code null}
+     *
+     * @return The decoded JWT, or {@code null} on failure
+     */
     @Nullable
     public static DecodedJWT decodeToken(@Nullable String token) {
         if (StringUtils.isBlank(token)) {

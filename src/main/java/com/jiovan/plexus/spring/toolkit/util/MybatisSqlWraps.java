@@ -47,11 +47,31 @@ import com.jiovan.plexus.spring.toolkit.constant.MybatisSqlConst;
  */
 @SuppressWarnings({"unused", "UnusedReturnValue"})
 public abstract class MybatisSqlWraps {
+    /**
+     * Build row bounds from the paging parameters in the given map.
+     *
+     * @param params The parameters, may be {@code null}
+     * @param offsetParam The given offsetParam
+     * @param limitParam The given limitParam
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static RowBounds getRowBounds(@Nullable Map<String, Object> params, @Nullable String offsetParam, @Nullable String limitParam) {
         return getRowBounds(params, offsetParam, limitParam, null, null);
     }
 
+    /**
+     * Build row bounds from the paging parameters in the given map.
+     *
+     * @param params The parameters, may be {@code null}
+     * @param offsetParam The given offsetParam
+     * @param limitParam The given limitParam
+     * @param defaultOffset The given defaultOffset
+     * @param defaultLimit The given defaultLimit
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static RowBounds getRowBounds(@Nullable Map<String, Object> params, @Nullable String offsetParam, @Nullable String limitParam, @Nullable Integer defaultOffset, @Nullable Integer defaultLimit) {
         if (CollectionUtils.isEmpty(params)) {
@@ -62,11 +82,33 @@ public abstract class MybatisSqlWraps {
         return new RowBounds(offset, limit);
     }
 
+    /**
+     * Build row bounds from the paging parameters in the given map.
+     *
+     * @param params The parameters, may be {@code null}
+     * @param offsetParam The given offsetParam
+     * @param limitParam The given limitParam
+     * @param count The given count
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static PageRowBounds getRowBounds(@Nullable Map<String, Object> params, @Nullable String offsetParam, @Nullable String limitParam, boolean count) {
         return getRowBounds(params, offsetParam, limitParam, null, null, count);
     }
 
+    /**
+     * Build row bounds from the paging parameters in the given map.
+     *
+     * @param params The parameters, may be {@code null}
+     * @param offsetParam The given offsetParam
+     * @param limitParam The given limitParam
+     * @param defaultOffset The given defaultOffset
+     * @param defaultLimit The given defaultLimit
+     * @param count The given count
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static PageRowBounds getRowBounds(@Nullable Map<String, Object> params, @Nullable String offsetParam, @Nullable String limitParam, @Nullable Integer defaultOffset, @Nullable Integer defaultLimit, boolean count) {
         RowBounds bounds = getRowBounds(params, offsetParam, limitParam, defaultOffset, defaultLimit);
@@ -75,16 +117,37 @@ public abstract class MybatisSqlWraps {
         return result;
     }
 
+    /**
+     * Build row bounds with the given offset and limit.
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static PageRowBounds ofRowBounds() {
         return ofRowBounds(RowBounds.NO_ROW_OFFSET, 10, true);
     }
 
+    /**
+     * Build row bounds with the given offset and limit.
+     *
+     * @param count The given count
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static PageRowBounds ofRowBounds(boolean count) {
         return ofRowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT, count);
     }
 
+    /**
+     * Build row bounds with the given offset and limit.
+     *
+     * @param offset The offset
+     * @param limit The limit
+     * @param count The given count
+     *
+     * @return The constructed row bounds, or {@code null}
+     */
     @Nonnull
     public static PageRowBounds ofRowBounds(int offset, int limit, boolean count) {
         PageRowBounds result = new PageRowBounds(Math.max(0, offset), Math.max(0, limit));
@@ -92,10 +155,21 @@ public abstract class MybatisSqlWraps {
         return result;
     }
 
+    /**
+     * Disable pagination by removing the paging parameters from the map.
+     *
+     * @param params The parameters, may be {@code null}
+     */
     public static Map<String, Object> disablePagination(@Nullable Map<String, Object> params) {
         return disablePagination(params, true);
     }
 
+    /**
+     * Disable pagination by removing the paging parameters from the map.
+     *
+     * @param params The parameters, may be {@code null}
+     * @param newIfNull The given newIfNull
+     */
     public static Map<String, Object> disablePagination(@Nullable Map<String, Object> params, boolean newIfNull) {
         if (params == null) {
             return !newIfNull ? null : MapPlainWraps.newHashMapWithin(MybatisSqlConst.PAGE_SIZE_ZERO, true);
@@ -108,6 +182,15 @@ public abstract class MybatisSqlWraps {
         }
     }
 
+    /**
+     * Extract the SQL statement with the given id from the mapped statements.
+     *
+     * @param factory The factory, may be {@code null}
+     * @param statementId The mapped statement id
+     * @param parameter The given parameter
+     *
+     * @return The SQL text, or {@code null}
+     */
     @Nullable
     public static String extractSqlById(@Nullable SqlSessionFactory factory, @Nullable String statementId, @Nullable Object parameter) {
         if (factory == null || StringUtils.isBlank(statementId)) {
@@ -122,6 +205,16 @@ public abstract class MybatisSqlWraps {
         return (boundSql == null) ? null : boundSql.getSql();
     }
 
+    /**
+     * Extract the SQL statement with the given name from the mapped statements.
+     *
+     * @param factory The factory, may be {@code null}
+     * @param mapper The given mapper
+     * @param method The method, may be {@code null}
+     * @param parameter The given parameter
+     *
+     * @return The SQL text, or {@code null}
+     */
     @Nullable
     public static String extractSqlByName(@Nullable SqlSessionFactory factory, @Nullable Class<?> mapper, String method, @Nullable Object parameter) {
         if (ObjectUtils.anyNull(factory, mapper)) {

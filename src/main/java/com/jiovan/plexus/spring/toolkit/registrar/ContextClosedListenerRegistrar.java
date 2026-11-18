@@ -34,9 +34,22 @@ import com.jiovan.plexus.spring.toolkit.event.listener.ApplicationContextClosedL
  * @author David Hsing
  */
 public class ContextClosedListenerRegistrar implements ImportAware {
+    /**
+     * The annotation type that enables this registrar.
+     */
     private final Class<? extends Annotation> annotation = EnableContextClosedListener.class;
+    /**
+     * The resolved attributes of the enabling annotation.
+     */
     private AnnotationAttributes attributes;
 
+    /**
+     * Read the enabling annotation attributes from the importing class metadata.
+     *
+     * @param metadata The annotation metadata of the importing class
+     *
+     * @throws IllegalArgumentException If the enabling annotation is not present on the importing class
+     */
     @Override
     public void setImportMetadata(@Nonnull AnnotationMetadata metadata) {
         attributes = AnnotationAttributes.fromMap(metadata.getAnnotationAttributes(annotation.getName()));
@@ -45,6 +58,11 @@ public class ContextClosedListenerRegistrar implements ImportAware {
         }
     }
 
+    /**
+     * Create the application context closed event listener with the configured log setting.
+     *
+     * @return The configured listener bean.
+     */
     @Bean
     @ConditionalOnMissingBean
     public ApplicationContextClosedListener applicationContextClosedListener() {
