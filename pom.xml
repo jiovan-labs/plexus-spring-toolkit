@@ -50,7 +50,7 @@
         <spring-boot.version>4.1.0</spring-boot.version>
 
         <commons-beanutils2.version>2.0.0-M2</commons-beanutils2.version>
-        <commons-fileupload2.version>2.0.0-M1</commons-fileupload2.version>
+        <commons-fileupload2.version>2.0.0-M5</commons-fileupload2.version>
         <javapoet.version>0.20.0</javapoet.version>
         <java-jwt.version>4.6.1</java-jwt.version>
         <joda-time.version>2.14.4</joda-time.version>
@@ -114,7 +114,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
-            <artifactId>commons-fileupload2-jakarta</artifactId>
+            <artifactId>commons-fileupload2-jakarta-servlet6</artifactId>
             <version>${commons-fileupload2.version}</version>
             <optional>true</optional>
             <exclusions>
