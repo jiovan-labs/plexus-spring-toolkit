@@ -45,6 +45,7 @@ public class MultipartFilterRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableMultipartFilter.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

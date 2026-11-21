@@ -41,6 +41,7 @@ public class RequestContextListenerRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableRequestContextListener.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

@@ -14,15 +14,12 @@
  * limitations under the License.
  */
 
-package com.jiovan.plexus.spring.toolkit.registrar.assistant;
+package com.jiovan.plexus.spring.toolkit.jackson.module;
 
 
 import java.time.format.DateTimeFormatter;
-import java.util.TimeZone;
 import jakarta.annotation.Nullable;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.util.ClassUtils;
 import com.jiovan.plexus.common.toolkit.constant.TemporalFormatConst;
 import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
@@ -30,11 +27,13 @@ import tools.jackson.databind.module.SimpleModule;
 
 
 /**
- * Customizer of jsr-310 date for {@link tools.jackson.databind.ObjectMapper}
+ * Jackson module that registers serializers and deserializers for {@code java.time} types.
  *
  * @author David Hsing
+ *
+ * @see tools.jackson.databind.module.SimpleModule
  */
-public abstract class JacksonJsr310Customizer {
+public abstract class Jsr310Module {
     /**
      * Build a Jackson module with custom serializers and deserializers for {@code java.time} types.
      *
@@ -63,24 +62,5 @@ public abstract class JacksonJsr310Customizer {
         result.addDeserializer(java.time.LocalTime.class, new tools.jackson.databind.ext.javatime.deser.LocalTimeDeserializer(timeFormatter));
         result.addDeserializer(java.time.LocalDateTime.class, new tools.jackson.databind.ext.javatime.deser.LocalDateTimeDeserializer(dateTimeFormatter));
         return result;
-    }
-
-    /**
-     * Build a JSON mapper builder customizer for {@code java.time} types and the default time zone.
-     *
-     * @param dateFormat The date pattern, or {@code null} for the default
-     * @param timeFormat The time pattern, or {@code null} for the default
-     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
-     * @param timeZone The time zone to apply, or {@code null} for the JVM default
-     *
-     * @return The configured customizer, or {@code null} if {@code java.time} support is not available
-     */
-    @Nullable
-    public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone) {
-        SimpleModule module = mapperModule(dateFormat, timeFormat, dateTimeFormat);
-        return (module == null) ? null : builder -> {
-            builder.addModules(module);
-            builder.defaultTimeZone(ObjectUtils.getIfNull(timeZone, TimeZone.getDefault()));
-        };
     }
 }

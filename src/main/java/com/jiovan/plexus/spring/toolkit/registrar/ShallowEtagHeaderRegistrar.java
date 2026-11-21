@@ -44,6 +44,7 @@ public class ShallowEtagHeaderRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableShallowEtagHeader.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

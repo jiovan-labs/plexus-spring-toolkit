@@ -14,26 +14,25 @@
  * limitations under the License.
  */
 
-package com.jiovan.plexus.spring.toolkit.registrar.assistant;
+package com.jiovan.plexus.spring.toolkit.jackson.module;
 
 
-import java.util.TimeZone;
 import jakarta.annotation.Nullable;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
 import org.springframework.util.ClassUtils;
-import tools.jackson.databind.module.SimpleModule;
 import com.jiovan.plexus.common.toolkit.constant.TemporalFormatConst;
 import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
+import tools.jackson.databind.module.SimpleModule;
 
 
 /**
- * Customizer of joda-time for {@link tools.jackson.databind.ObjectMapper}
+ * Jackson module that registers serializers and deserializers for Joda-Time types.
  *
  * @author David Hsing
+ *
+ * @see tools.jackson.databind.module.SimpleModule
  */
-public abstract class JacksonJodaTimeCustomizer {
+public abstract class JodaTimeModule {
     /**
      * Build a Jackson module with custom serializers and deserializers for Joda-Time types.
      *
@@ -62,24 +61,5 @@ public abstract class JacksonJodaTimeCustomizer {
         result.addDeserializer(org.joda.time.LocalTime.class, new tools.jackson.datatype.joda.deser.LocalTimeDeserializer(timeFormatter));
         result.addDeserializer(org.joda.time.LocalDateTime.class, new tools.jackson.datatype.joda.deser.LocalDateTimeDeserializer(dateTimeFormatter));
         return result;
-    }
-
-    /**
-     * Build a JSON mapper builder customizer for Joda-Time types and the default time zone.
-     *
-     * @param dateFormat The date pattern, or {@code null} for the default
-     * @param timeFormat The time pattern, or {@code null} for the default
-     * @param dateTimeFormat The date-time pattern, or {@code null} for the default
-     * @param timeZone The time zone to apply, or {@code null} for the JVM default
-     *
-     * @return The configured customizer, or {@code null} if Joda-Time is not on the classpath
-     */
-    @Nullable
-    public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat, @Nullable TimeZone timeZone) {
-        SimpleModule module = mapperModule(dateFormat, timeFormat, dateTimeFormat);
-        return (module == null) ? null : builder -> {
-            builder.addModules(module);
-            builder.defaultTimeZone(ObjectUtils.getIfNull(timeZone, TimeZone.getDefault()));
-        };
     }
 }

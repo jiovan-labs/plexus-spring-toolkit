@@ -42,6 +42,7 @@ public class MdcTraceInterceptorRegistrar implements ImportAware, WebMvcConfigur
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableMdcTraceInterceptor.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

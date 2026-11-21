@@ -39,6 +39,7 @@ public class WebappRootListenerRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableWebappRootListener.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

@@ -32,9 +32,9 @@ import org.springframework.util.ClassUtils;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jiovan.plexus.spring.toolkit.enumeration.JacksonTemporalType;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJdkDateCustomizer;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJodaTimeCustomizer;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJsr310Customizer;
+import com.jiovan.plexus.spring.toolkit.jackson.module.JdkDateModule;
+import com.jiovan.plexus.spring.toolkit.jackson.module.JodaTimeModule;
+import com.jiovan.plexus.spring.toolkit.jackson.module.Jsr310Module;
 import tools.jackson.databind.DeserializationConfig;
 import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JacksonModule;
@@ -284,13 +284,13 @@ public abstract class JacksonConfigWraps {
     @Nonnull
     private static JacksonModule[] temporalModules(@Nullable String dateFormat, @Nullable String timeFormat, @Nullable String dateTimeFormat) {
         List<JacksonModule> modules = new ArrayList<>();
-        modules.add(JacksonJdkDateCustomizer.mapperModule(dateFormat));
+        modules.add(JdkDateModule.mapperModule(dateFormat));
         if (ClassUtils.isPresent(JacksonTemporalType.JODA.getValue(), null)) {
             modules.add(new JodaModule());
-            modules.add(JacksonJodaTimeCustomizer.mapperModule(dateFormat, timeFormat, dateTimeFormat));
+            modules.add(JodaTimeModule.mapperModule(dateFormat, timeFormat, dateTimeFormat));
         }
         if (ClassUtils.isPresent(JacksonTemporalType.JSR310.getValue(), null)) {
-            modules.add(JacksonJsr310Customizer.mapperModule(dateFormat, timeFormat, dateTimeFormat));
+            modules.add(Jsr310Module.mapperModule(dateFormat, timeFormat, dateTimeFormat));
         }
         return modules.stream().filter(Objects::nonNull).toArray(JacksonModule[]::new);
     }

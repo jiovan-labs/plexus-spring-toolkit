@@ -30,9 +30,9 @@ import com.jiovan.plexus.common.toolkit.util.CollectionPlainWraps;
 
 
 /**
- * {@link org.springframework.beans.factory.config.BeanPostProcessor} for support of extra json media types
+ * {@link org.springframework.beans.factory.config.BeanPostProcessor} for support extra XML media types
  * <p>
- * Supports "application/json", "application/problem+json", "application/x-ndjson", "application/soap+json", "application/*+json"
+ * Supports "application/xml", "application/atom+xml", "application/problem+xml", "application/rss+xml", "application/xhtml+xml", "application/soap+xml", "application/*+xml"
  *
  * @author David Hsing
  *
@@ -40,9 +40,9 @@ import com.jiovan.plexus.common.toolkit.util.CollectionPlainWraps;
  * @see "https://stackoverflow.com/questions/34172163/spring-boot-how-to-custom-httpmessageconverter"
  */
 @SuppressWarnings("unused")
-public class JacksonJsonMediaTypeProcessor implements BeanPostProcessor {
+public class XmlMediaTypeProcessor implements BeanPostProcessor {
     /**
-     * Enrich supported media types on {@link JacksonJsonHttpMessageConverter} beans with additional JSON variants.
+     * Enrich supported media types on {@link JacksonJsonHttpMessageConverter} beans with additional XML variants.
      *
      * @param bean The Spring bean being initialized
      * @param beanName The name of the bean
@@ -56,9 +56,9 @@ public class JacksonJsonMediaTypeProcessor implements BeanPostProcessor {
         if (!(bean instanceof JacksonJsonHttpMessageConverter alias)) {
             return bean;
         }
-        MediaType soapJson = new MediaType(HttpMimeConst.APPLICATION, HttpMimeConst.SOAP_JSON);
-        MediaType starJson = new MediaType(HttpMimeConst.APPLICATION, HttpMimeConst.STAR_JSON);
-        List<MediaType> addTypes = Arrays.asList(MediaType.APPLICATION_JSON, MediaType.APPLICATION_PROBLEM_JSON, MediaType.APPLICATION_NDJSON, soapJson, starJson);
+        MediaType soapXml = new MediaType(HttpMimeConst.APPLICATION, HttpMimeConst.SOAP_XML);
+        MediaType starXml = new MediaType(HttpMimeConst.APPLICATION, HttpMimeConst.STAR_XML);
+        List<MediaType> addTypes = Arrays.asList(MediaType.APPLICATION_XML, MediaType.APPLICATION_ATOM_XML, MediaType.APPLICATION_PROBLEM_XML, MediaType.APPLICATION_RSS_XML, MediaType.APPLICATION_XHTML_XML, soapXml, starXml);
         List<MediaType> allTypes = new ArrayList<>();
         CollectionPlainWraps.addAllIfNotContains(allTypes, alias.getSupportedMediaTypes(), addTypes);
         alias.setSupportedMediaTypes(allTypes);

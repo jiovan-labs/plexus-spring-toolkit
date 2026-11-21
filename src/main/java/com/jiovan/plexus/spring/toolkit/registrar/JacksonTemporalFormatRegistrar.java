@@ -33,9 +33,9 @@ import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.util.Assert;
 import com.jiovan.plexus.common.toolkit.constant.AssertMessageConst;
 import com.jiovan.plexus.spring.toolkit.annotation.EnableJacksonTemporalFormat;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJodaTimeCustomizer;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJsr310Customizer;
-import com.jiovan.plexus.spring.toolkit.registrar.assistant.JacksonJdkDateCustomizer;
+import com.jiovan.plexus.spring.toolkit.jackson.customizer.JodaTimeCustomizer;
+import com.jiovan.plexus.spring.toolkit.jackson.customizer.Jsr310Customizer;
+import com.jiovan.plexus.spring.toolkit.jackson.customizer.JdkDateCustomizer;
 
 
 /**
@@ -51,6 +51,7 @@ public class JacksonTemporalFormatRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableJacksonTemporalFormat.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */
@@ -82,7 +83,7 @@ public class JacksonTemporalFormatRegistrar implements ImportAware {
         Assert.notNull(attributes, AssertMessageConst.NOT_NULL);
         String dateFormat = StringUtils.defaultIfBlank(attributes.getString("dateFormat"), properties.getDateFormat());    // $NON-NLS-1$
         TimeZone timeZone = ObjectUtils.getIfNull(properties.getTimeZone(), TimeZone.getDefault());
-        return JacksonJdkDateCustomizer.mapperCustomizer(dateFormat, timeZone);
+        return JdkDateCustomizer.mapperCustomizer(dateFormat, timeZone);
     }
 
     /**
@@ -104,7 +105,7 @@ public class JacksonTemporalFormatRegistrar implements ImportAware {
         String timeFormat = attributes.getString("timeFormat");    // $NON-NLS-1$
         String dateTimeFormat = attributes.getString("dateTimeFormat");    // $NON-NLS-1$
         TimeZone timeZone = ObjectUtils.getIfNull(properties.getTimeZone(), TimeZone.getDefault());
-        return JacksonJsr310Customizer.mapperCustomizer(dateFormat, timeFormat, dateTimeFormat, timeZone);
+        return Jsr310Customizer.mapperCustomizer(dateFormat, timeFormat, dateTimeFormat, timeZone);
     }
 
     /**
@@ -122,6 +123,6 @@ public class JacksonTemporalFormatRegistrar implements ImportAware {
         String timeFormat = attributes.getString("timeFormat");    // $NON-NLS-1$
         String dateTimeFormat = attributes.getString("dateTimeFormat");    // $NON-NLS-1$
         TimeZone timeZone = ObjectUtils.getIfNull(properties.getTimeZone(), TimeZone.getDefault());
-        return JacksonJodaTimeCustomizer.mapperCustomizer(dateFormat, timeFormat, dateTimeFormat, timeZone);
+        return JodaTimeCustomizer.mapperCustomizer(dateFormat, timeFormat, dateTimeFormat, timeZone);
     }
 }

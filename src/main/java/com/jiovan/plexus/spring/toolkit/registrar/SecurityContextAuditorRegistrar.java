@@ -38,10 +38,12 @@ public class SecurityContextAuditorRegistrar implements ImportAware {
      * The bean name of the security context auditor aware instance.
      */
     public static final String AUDITOR_AWARE = "securityContextAuditorAware";    // $NON-NLS-1$
+
     /**
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableSecurityContextAuditor.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

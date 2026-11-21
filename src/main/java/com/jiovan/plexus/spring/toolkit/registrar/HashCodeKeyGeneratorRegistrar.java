@@ -38,10 +38,12 @@ public class HashCodeKeyGeneratorRegistrar implements ImportAware {
      * The bean name of the hash-code based key generator.
      */
     public static final String KEY_GENERATOR = "hashCodeKeyGenerator";    // $NON-NLS-1$
+
     /**
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableHashCodeKeyGenerator.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */

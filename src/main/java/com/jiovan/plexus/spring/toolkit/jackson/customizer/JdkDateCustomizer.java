@@ -14,21 +14,15 @@
  * limitations under the License.
  */
 
-package com.jiovan.plexus.spring.toolkit.registrar.assistant;
+package com.jiovan.plexus.spring.toolkit.jackson.customizer;
 
 
-import java.text.SimpleDateFormat;
 import java.util.TimeZone;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import org.apache.commons.lang3.ObjectUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.jackson.autoconfigure.JsonMapperBuilderCustomizer;
-import com.jiovan.plexus.spring.toolkit.jackson.deserializer.SqlDateDeserializer;
-import tools.jackson.databind.module.SimpleModule;
-import com.jiovan.plexus.common.toolkit.constant.TemporalFormatConst;
-import com.jiovan.plexus.spring.toolkit.jackson.deserializer.JdkDateDeserializer;
-import com.jiovan.plexus.spring.toolkit.jackson.serializer.SqlDateSerializer;
+import com.jiovan.plexus.spring.toolkit.jackson.module.JdkDateModule;
 
 
 /**
@@ -36,25 +30,7 @@ import com.jiovan.plexus.spring.toolkit.jackson.serializer.SqlDateSerializer;
  *
  * @author David Hsing
  */
-public abstract class JacksonJdkDateCustomizer {
-    /**
-     * Build a Jackson module with custom serializers and deserializers for util-date types.
-     *
-     * @param dateFormat The date pattern to use, or {@code null} for the ISO date pattern
-     *
-     * @return The configured Jackson module
-     */
-    @Nonnull
-    public static SimpleModule mapperModule(@Nullable String dateFormat) {
-        dateFormat = StringUtils.defaultIfBlank(dateFormat, TemporalFormatConst.ISO_YYYYMMDD);
-        SimpleModule result = new SimpleModule();
-        result.addSerializer(java.util.Date.class, new tools.jackson.databind.ser.jdk.JavaUtilDateSerializer(false, new SimpleDateFormat(dateFormat)));
-        result.addSerializer(java.sql.Date.class, new SqlDateSerializer(false, new SimpleDateFormat(dateFormat)));
-        result.addDeserializer(java.util.Date.class, new JdkDateDeserializer());
-        result.addDeserializer(java.sql.Date.class, new SqlDateDeserializer());
-        return result;
-    }
-
+public abstract class JdkDateCustomizer {
     /**
      * Build a JSON mapper builder customizer that registers date handling and sets the default time zone.
      *
@@ -66,7 +42,7 @@ public abstract class JacksonJdkDateCustomizer {
     @Nonnull
     public static JsonMapperBuilderCustomizer mapperCustomizer(@Nullable String dateFormat, @Nullable TimeZone timeZone) {
         return builder -> {
-            builder.addModules(mapperModule(dateFormat));
+            builder.addModules(JdkDateModule.mapperModule(dateFormat));
             builder.defaultTimeZone(ObjectUtils.getIfNull(timeZone, TimeZone.getDefault()));
         };
     }

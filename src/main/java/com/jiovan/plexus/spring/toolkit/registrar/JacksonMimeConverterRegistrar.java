@@ -25,8 +25,8 @@ import org.springframework.context.annotation.ImportAware;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.type.AnnotationMetadata;
 import com.jiovan.plexus.spring.toolkit.annotation.EnableJacksonMimeConverter;
-import com.jiovan.plexus.spring.toolkit.jackson.processor.JacksonJsonMediaTypeProcessor;
-import com.jiovan.plexus.spring.toolkit.jackson.processor.JacksonXmlMediaTypeProcessor;
+import com.jiovan.plexus.spring.toolkit.jackson.processor.JsonMediaTypeProcessor;
+import com.jiovan.plexus.spring.toolkit.jackson.processor.XmlMediaTypeProcessor;
 
 
 /**
@@ -47,6 +47,7 @@ public class JacksonMimeConverterRegistrar implements ImportAware {
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnableJacksonMimeConverter.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */
@@ -74,8 +75,8 @@ public class JacksonMimeConverterRegistrar implements ImportAware {
      */
     @Bean
     @ConditionalOnMissingBean
-    public JacksonJsonMediaTypeProcessor jacksonJsonMediaTypeProcessor() {
-        return !attributes.getBoolean("json") ? null : new JacksonJsonMediaTypeProcessor();    // $NON-NLS-1$
+    public JsonMediaTypeProcessor jacksonJsonMediaTypeProcessor() {
+        return !attributes.getBoolean("json") ? null : new JsonMediaTypeProcessor();    // $NON-NLS-1$
     }
 
     /**
@@ -85,7 +86,7 @@ public class JacksonMimeConverterRegistrar implements ImportAware {
      */
     @Bean
     @ConditionalOnMissingBean
-    public JacksonXmlMediaTypeProcessor jacksonXmlMediaTypeProcessor() {
-        return !attributes.getBoolean("xml") ? null : new JacksonXmlMediaTypeProcessor();    // $NON-NLS-1$
+    public XmlMediaTypeProcessor jacksonXmlMediaTypeProcessor() {
+        return !attributes.getBoolean("xml") ? null : new XmlMediaTypeProcessor();    // $NON-NLS-1$
     }
 }

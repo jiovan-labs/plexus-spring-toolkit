@@ -38,10 +38,12 @@ public class PlainParamKeyGeneratorRegistrar implements ImportAware {
      * The bean name of the plain parameter key generator.
      */
     public static final String KEY_GENERATOR = "plainParamKeyGenerator";    // $NON-NLS-1$
+
     /**
      * The annotation type that enables this registrar.
      */
     private final Class<? extends Annotation> annotation = EnablePlainParamKeyGenerator.class;
+
     /**
      * The resolved attributes of the enabling annotation.
      */
