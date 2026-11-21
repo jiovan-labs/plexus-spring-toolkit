@@ -32,7 +32,7 @@ public abstract class ResponseBodyConst {
     public static final int CODE_REFUSAL = HttpStatus.FORBIDDEN.value();
     public static final int CODE_ILLEGAL = HttpStatus.BAD_REQUEST.value();
     public static final int CODE_SUCCESS = HttpStatus.OK.value();
-    public static final int CODE_FAILURE = 420;    // HttpStatus.METHOD_FAILURE (removed in Spring Framework 7)
+    public static final int CODE_FAILURE = HttpStatus.EXPECTATION_FAILED.value();    // HttpStatus.METHOD_FAILURE = 420 (removed in Spring Framework 7)
     public static final int CODE_TIMEOUT = HttpStatus.REQUEST_TIMEOUT.value();
 
     public static final String HTML_STATUS = "errorStatus";    // $NON-NLS-1$
@@ -48,8 +48,5 @@ public abstract class ResponseBodyConst {
     public static final String REST_DATA = "data";    // $NON-NLS-1$
     public static final String REST_MESSAGE = "message";    // $NON-NLS-1$
     public static final String REST_ADDITIVE = "additive";    // $NON-NLS-1$
-    public static final String REST_DURATION = "duration";    // $NON-NLS-1$
-    public static final String REST_REMINDER = "reminder";    // $NON-NLS-1$
-    public static final String REST_URL = "url";    // $NON-NLS-1$
     public static final String REST_TIMESTAMP = "timestamp";    // $NON-NLS-1$
 }
