@@ -162,6 +162,7 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
      * @return the actual authentication through the given request
      *
      * @throws org.springframework.security.core.AuthenticationException if authentication fails
+     *
      * @see org.springframework.security.authentication.ProviderManager
      */
     @Override

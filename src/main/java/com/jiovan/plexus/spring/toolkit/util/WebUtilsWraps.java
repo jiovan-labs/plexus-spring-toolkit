@@ -1073,6 +1073,7 @@ public abstract class WebUtilsWraps {
      * or Content-Type is {@code "application/json"}, or Content-Type is {@code "application/xml"}
      *
      * @param request The HTTP servlet request
+     *
      * @return whether the {@code request} is rest capable
      */
     public static boolean isRestRequest(@Nullable HttpServletRequest request) {
@@ -1089,6 +1090,7 @@ public abstract class WebUtilsWraps {
      *
      * @param request The HTTP servlet request
      * @param includeAccept Whether to include Accept header checks
+     *
      * @return whether the {@code request} is rest capable
      */
     public static boolean isRestRequest(@Nullable HttpServletRequest request, boolean includeAccept) {

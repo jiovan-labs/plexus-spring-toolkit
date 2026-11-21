@@ -448,6 +448,7 @@ public abstract class QuietMethodWraps {
      * Structure for building quiet methods
      *
      * @author David Hsing
+     *
      * @see "https://stackoverflow.com/questions/578363/javadoc-version-and-since"
      */
     @Accessors(chain = true)

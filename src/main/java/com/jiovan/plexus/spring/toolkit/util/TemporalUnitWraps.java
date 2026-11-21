@@ -64,6 +64,7 @@ public abstract class TemporalUnitWraps {
      * e.g., "1 Year 2 Months 3 Days 4 Hours 5 Minutes 6 Seconds"
      *
      * @param totalSeconds total seconds
+     *
      * @return human-readable duration string
      */
     public static String toHumanReadable(long totalSeconds) {
@@ -76,6 +77,7 @@ public abstract class TemporalUnitWraps {
      *
      * @param totalSeconds total seconds
      * @param locale the locale for formatting
+     *
      * @return human-readable duration string
      */
     public static String toHumanReadable(long totalSeconds, Locale locale) {

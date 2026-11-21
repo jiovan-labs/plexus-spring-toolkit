@@ -118,6 +118,7 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      * @return the actual authentication through the given request
      *
      * @throws org.springframework.security.core.AuthenticationException if authentication fails
+     *
      * @see org.springframework.security.authentication.ProviderManager
      */
     @Override

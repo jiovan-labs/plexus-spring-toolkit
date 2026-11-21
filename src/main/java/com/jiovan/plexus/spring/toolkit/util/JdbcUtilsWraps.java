@@ -55,6 +55,7 @@ public abstract class JdbcUtilsWraps {
      * @return the object returned by the specified DatabaseMetaData method
      *
      * @throws org.springframework.jdbc.support.MetaDataAccessException if this couldn't access the DatabaseMetaData or failed to invoke the specified method
+     *
      * @see java.sql.DatabaseMetaData
      */
     @Nullable
