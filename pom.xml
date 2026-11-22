@@ -51,9 +51,9 @@
 
         <commons-beanutils2.version>2.0.0-M2</commons-beanutils2.version>
         <commons-fileupload2.version>2.0.0-M5</commons-fileupload2.version>
-        <javapoet.version>0.20.0</javapoet.version>
-        <java-jwt.version>4.6.1</java-jwt.version>
-        <joda-time.version>2.14.4</joda-time.version>
+        <javapoet.version>0.23.0</javapoet.version>
+        <java-jwt.version>4.6.2</java-jwt.version>
+        <joda-time.version>2.15.1</joda-time.version>
         <lombok.version>1.18.46</lombok.version>
         <minio.version>9.0.4</minio.version>
         <mybatis.version>3.6.0</mybatis.version>
@@ -106,12 +106,6 @@
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -130,22 +124,6 @@
             <artifactId>gson</artifactId>
             <optional>true</optional>
             <exclusions>
-                <exclusion>
-                    <groupId>org.checkerframework</groupId>
-                    <artifactId>checker-qual</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-codec</groupId>
-                    <artifactId>commons-codec</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>commons-io</groupId>
-                    <artifactId>commons-io</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.apache.commons</groupId>
-                    <artifactId>commons-compress</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>com.google.errorprone</groupId>
                     <artifactId>error_prone_annotations</artifactId>
@@ -208,11 +186,6 @@
             <artifactId>jakarta.validation-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.jspecify</groupId>
-            <artifactId>jspecify</artifactId>
-            <optional>true</optional>
-        </dependency>
-        <dependency>
             <groupId>com.palantir.javapoet</groupId>
             <artifactId>javapoet</artifactId>
             <version>${javapoet.version}</version>
@@ -225,7 +198,7 @@
             <optional>true</optional>
             <exclusions>
                 <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <groupId>tools.jackson.core</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
@@ -265,15 +238,11 @@
                     <artifactId>commons-lang3</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.google.code.gson</groupId>
-                    <artifactId>gson</artifactId>
-                </exclusion>
-                <exclusion>
                     <groupId>com.google.guava</groupId>
                     <artifactId>guava</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <groupId>tools.jackson.core</groupId>
                     <artifactId>*</artifactId>
                 </exclusion>
             </exclusions>
@@ -314,12 +283,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-autoconfigure</artifactId>
             <optional>true</optional>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -360,10 +323,6 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-messaging</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.retry</groupId>
-                    <artifactId>spring-retry</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -433,10 +392,6 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-jdbc</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-logging</artifactId>
                 </exclusion>
             </exclusions>
@@ -489,10 +444,6 @@
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter</artifactId>
                 </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-jdbc</artifactId>
-                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -538,10 +489,6 @@
                 <exclusion>
                     <groupId>jakarta.transaction</groupId>
                     <artifactId>jakarta.transaction-api</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.hibernate</groupId>
-                    <artifactId>hibernate-core</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>ch.qos.logback</groupId>
@@ -593,10 +540,6 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-aspectj</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter-jdbc</artifactId>
                 </exclusion>
             </exclusions>
@@ -617,10 +560,6 @@
                 <exclusion>
                     <groupId>org.springframework</groupId>
                     <artifactId>spring-context</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework</groupId>
-                    <artifactId>spring-context-support</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework</groupId>
@@ -688,10 +627,6 @@
             <artifactId>spring-boot-starter-mail</artifactId>
             <optional>true</optional>
             <exclusions>
-                <exclusion>
-                    <groupId>com.sun.activation</groupId>
-                    <artifactId>jakarta.activation</artifactId>
-                </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter</artifactId>
@@ -776,10 +711,6 @@
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
                     <artifactId>spring-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-json</artifactId>
                 </exclusion>
                 <exclusion>
                     <groupId>org.springframework.boot</groupId>
@@ -981,8 +912,8 @@
                         <link>https://fasterxml.github.io/jackson-core/javadoc/2.13</link>
                         <link>https://fasterxml.github.io/jackson-databind/javadoc/2.13</link>
                         <link>https://fasterxml.github.io/jackson-datatype-jsr310/javadoc/2.8</link>
-                        <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-core/latest</link>
-                        <link>https://javadoc.io/doc/com.fasterxml.jackson.core/jackson-databind/latest</link>
+                        <link>https://javadoc.io/doc/tools.jackson.core/jackson-core/latest</link>
+                        <link>https://javadoc.io/doc/tools.jackson.core/jackson-databind/latest</link>
                         -->
                     </links>
                 </configuration>

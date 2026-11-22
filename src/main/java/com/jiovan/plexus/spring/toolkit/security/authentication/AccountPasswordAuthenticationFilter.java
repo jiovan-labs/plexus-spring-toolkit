@@ -19,6 +19,7 @@ package com.jiovan.plexus.spring.toolkit.security.authentication;
 
 import java.io.IOException;
 import java.util.function.UnaryOperator;
+import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -29,7 +30,6 @@ import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.jspecify.annotations.NullMarked;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.http.HttpMethod;
@@ -65,7 +65,6 @@ import lombok.Setter;
  * @see org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
  * @see org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter
  */
-@NullMarked
 @NoArgsConstructor
 @Setter
 @SuppressWarnings("unused")
@@ -121,8 +120,9 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      *
      * @see org.springframework.security.authentication.ProviderManager
      */
+    @Nonnull
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response) throws AuthenticationException {
         if (isPostOnly() && !HttpMethod.POST.matches(request.getMethod())) {
             throw new AuthenticationServiceException(super.messages.getMessage("MiscMessage.unsupportedHttpMethod", new Object[]{request.getMethod()}, "Unsupported method"));    // $NON-NLS-1$ // $NON-NLS-2$
         }
@@ -157,7 +157,7 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      * @return The result of the operation
      */
     @Nullable
-    protected String obtainUsername(HttpServletRequest request) {
+    protected String obtainUsername(@Nonnull HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, super.getUsernameParameter());
         if (StringUtils.isEmpty(result) && restCompatible) {
             String content = WebUtilsWraps.getContentAsStringTrimmingQuietly(request, true);
@@ -176,7 +176,7 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      * @return The result of the operation
      */
     @Nullable
-    protected String obtainPassword(HttpServletRequest request) {
+    protected String obtainPassword(@Nonnull HttpServletRequest request) {
         String result = RequestParamWraps.getStringParameterTrimming(request, super.getPasswordParameter());
         if (StringUtils.isEmpty(result) && restCompatible) {
             String content = WebUtilsWraps.getContentAsStringTrimmingQuietly(request, true);
@@ -203,7 +203,7 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      */
     @Override
     @SuppressWarnings("DuplicatedCode")
-    protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authentication) throws IOException, ServletException {
+    protected void successfulAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain, @Nonnull Authentication authentication) throws IOException, ServletException {
         SecurityContext context = SecurityContextHolder.createEmptyContext();
         context.setAuthentication(authentication);
         SecurityContextHolder.setContext(context);
