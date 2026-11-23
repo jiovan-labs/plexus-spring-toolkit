@@ -36,7 +36,7 @@ import com.google.gson.stream.JsonWriter;
  * @see com.google.gson.Gson
  */
 @SuppressWarnings({"unused", "BooleanMethodIsAlwaysInverted", "UnusedReturnValue"})
-public abstract class GsonJsonWraps {
+public abstract class GsonDelegateWraps {
     /**
      * Deserialize the given JSON content into an instance of the expected type.
      *

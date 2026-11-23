@@ -417,10 +417,10 @@ public abstract class JsonParserWraps {
         }
         if (type == JsonParserType.JACKSON) {
             tools.jackson.databind.ObjectMapper mapper = new tools.jackson.databind.ObjectMapper();
-            return JacksonJsonWraps.readValue(mapper, content, new tools.jackson.core.type.TypeReference<>(){});
+            return JacksonDelegateWraps.readValue(mapper, content, new tools.jackson.core.type.TypeReference<>(){});
         } else if (type == JsonParserType.GSON) {
             com.google.gson.Gson gson = new com.google.gson.Gson();
-            return GsonJsonWraps.fromJson(gson, content, new com.google.gson.reflect.TypeToken<Map<String, Object>>(){}.getType());
+            return GsonDelegateWraps.fromJson(gson, content, new com.google.gson.reflect.TypeToken<Map<String, Object>>(){}.getType());
         } else if (type == JsonParserType.JAKARTA) {
             try (jakarta.json.bind.Jsonb jsonb = jakarta.json.bind.JsonbBuilder.create()) {
                 return jsonb.fromJson(content, Map.class);
@@ -460,10 +460,10 @@ public abstract class JsonParserWraps {
         }
         if (type == JsonParserType.JACKSON) {
             tools.jackson.databind.ObjectMapper mapper = BeanFactoryWraps.firstBeanOfType(factory, tools.jackson.databind.ObjectMapper.class);
-            return JacksonJsonWraps.writeValueAsString(mapper, value);
+            return JacksonDelegateWraps.writeValueAsString(mapper, value);
         } else if (type == JsonParserType.GSON) {
             com.google.gson.Gson gson = BeanFactoryWraps.firstBeanOfType(factory, com.google.gson.Gson.class);
-            return GsonJsonWraps.toJson(gson, value);
+            return GsonDelegateWraps.toJson(gson, value);
         } else if (type == JsonParserType.JAKARTA) {
             jakarta.json.bind.JsonbConfig config = BeanFactoryWraps.firstBeanOfType(factory, jakarta.json.bind.JsonbConfig.class);
             try (jakarta.json.bind.Jsonb jsonb = jakarta.json.bind.JsonbBuilder.create(config)) {
@@ -501,10 +501,10 @@ public abstract class JsonParserWraps {
         }
         if (type == JsonParserType.JACKSON) {
             tools.jackson.databind.ObjectMapper mapper = new tools.jackson.databind.ObjectMapper();
-            return JacksonJsonWraps.writeValueAsString(mapper, value);
+            return JacksonDelegateWraps.writeValueAsString(mapper, value);
         } else if (type == JsonParserType.GSON) {
             com.google.gson.Gson gson = new com.google.gson.Gson();
-            return GsonJsonWraps.toJson(gson, value);
+            return GsonDelegateWraps.toJson(gson, value);
         } else if (type == JsonParserType.JAKARTA) {
             try (jakarta.json.bind.Jsonb jsonb = jakarta.json.bind.JsonbBuilder.create()) {
                 return jsonb.toJson(value);
@@ -610,10 +610,10 @@ public abstract class JsonParserWraps {
         }
         if (ClassUtilsWraps.isAssignableValue(JsonParserType.JACKSON.getValue(), parser)) {
             tools.jackson.databind.ObjectMapper mapper = ObjectUtilsWraps.castAs(parser, tools.jackson.databind.ObjectMapper.class);
-            return JacksonJsonWraps.readTree(mapper, content);
+            return JacksonDelegateWraps.readTree(mapper, content);
         } else if (ClassUtilsWraps.isAssignableValue(JsonParserType.GSON.getValue(), parser)) {
             com.google.gson.Gson gson = ObjectUtilsWraps.castAs(parser, com.google.gson.Gson.class);
-            return GsonJsonWraps.toJsonTree(gson, content);
+            return GsonDelegateWraps.toJsonTree(gson, content);
         } else if (ClassUtilsWraps.isAssignableValue(JsonParserType.JAKARTA.getValue(), parser)) {
             try (jakarta.json.JsonReader jsonReader = jakarta.json.Json.createReader(new StringReader(content))) {
                 return jsonReader.read();

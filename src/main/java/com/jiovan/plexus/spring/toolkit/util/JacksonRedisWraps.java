@@ -58,7 +58,7 @@ public abstract class JacksonRedisWraps {
      */
     @Nonnull
     public static JacksonJsonRedisSerializer<Object> jsonObjectSerializer(@Nullable JacksonProperties properties) {
-        ObjectMapper mapper = ((JsonMapper) JacksonConfigWraps.jsonObjectMapper(properties)).rebuild()
+        ObjectMapper mapper = ((JsonMapper) JacksonJsonWraps.jsonObjectMapper(properties)).rebuild()
                 .changeDefaultVisibility(visibility -> visibility.withVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY))
                 .activateDefaultTyping(BasicPolymorphicTypeValidator.builder().allowIfBaseType(Object.class).build(), DefaultTyping.NON_FINAL)
                 .build();
