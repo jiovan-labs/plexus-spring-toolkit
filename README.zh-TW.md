@@ -18,31 +18,31 @@
 
 - 其中包含許多有用的包，可能對你大有幫助，可按需使用。
 
-| 包 | 描述 |
-|-------------|--------------------------------------------------------------------------------------|
-| annotation | 標註在元素上以啟用某些能力 |
-| audit | 針對 Spring Data 的審計，如關係型資料庫與 Mongo |
-| cache | 對 Spring Cache 的增強 |
-| cglib | 對 cglib 的增強元件，如 Bean 複製器 |
-| constant | 各類常量 |
-| context | 對 Spring 上下文的支援 |
-| enumeration | 實用列舉 |
-| event | 自定義事件與監聽器 |
-| exception | 用於滿足自定義需求的擴充套件異常 |
-| filter | Spring 的附加過濾器 |
-| general | 通用實體與 BSON 文件 |
-| identity | 幫助生成識別符號，通常為 UUID |
-| interceptor | Web 攔截器類 |
-| jackson | Jackson 的額外元件，包括序列化器、反序列化器、策略、處理器 |
-| message | 對訊息源的支援 |
-| processor | 處理器的實現類 |
-| registrar | 對註冊器的支援 |
-| resolver | 對解析器的支援 |
-| security | 對 Spring Security 的擴充套件類 |
-| servlet | 對 Servlet 的支援 |
-| structure | 用於表示資料組合的多種結構 |
-| support | 繼承 Spring 元件以實現特定用途的元件 |
-| util | 可加速開發的強大工具類 |
+| 包          | 描述                                                       |
+|-------------|------------------------------------------------------------|
+| annotation  | 標註在元素上以啟用某些能力                                 |
+| audit       | 針對 Spring Data 的審計，如關係型資料庫與 Mongo            |
+| cache       | 對 Spring Cache 的增強                                     |
+| cglib       | 對 cglib 的增強元件，如 Bean 複製器                        |
+| constant    | 各類常量                                                   |
+| context     | 對 Spring 上下文的支援                                     |
+| enumeration | 實用列舉                                                   |
+| event       | 自定義事件與監聽器                                         |
+| exception   | 用於滿足自定義需求的擴充套件異常                           |
+| filter      | Spring 的附加過濾器                                        |
+| general     | 通用實體與 BSON 文件                                       |
+| identity    | 幫助生成識別符號，通常為 UUID                              |
+| interceptor | Web 攔截器類                                               |
+| jackson     | Jackson 的額外元件，包括序列化器、反序列化器、策略、處理器 |
+| message     | 對訊息源的支援                                             |
+| processor   | 處理器的實現類                                             |
+| registrar   | 對註冊器的支援                                             |
+| resolver    | 對解析器的支援                                             |
+| security    | 對 Spring Security 的擴充套件類                            |
+| servlet     | 對 Servlet 的支援                                          |
+| structure   | 用於表示資料組合的多種結構                                 |
+| support     | 繼承 Spring 元件以實現特定用途的元件                       |
+| util        | 可加速開發的強大工具類                                     |
 
 ## 文件
 
