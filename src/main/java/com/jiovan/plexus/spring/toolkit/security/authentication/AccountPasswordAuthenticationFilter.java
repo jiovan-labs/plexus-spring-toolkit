@@ -17,17 +17,12 @@
 package com.jiovan.plexus.spring.toolkit.security.authentication;
 
 
-import java.io.IOException;
-import java.util.function.UnaryOperator;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
@@ -36,15 +31,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
-import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextRepository;
 import com.jiovan.plexus.common.toolkit.constant.CharVariantConst;
 import com.jiovan.plexus.common.toolkit.constant.RegexVariantConst;
 import com.jiovan.plexus.common.toolkit.util.FieldUtilsWraps;
@@ -74,18 +63,6 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      */
     @Getter
     private boolean restCompatible = false;
-
-    /**
-     * Whether remember-me services are enabled.
-     */
-    @Getter
-    private boolean rememberMe = false;
-
-    /**
-     * Optional transition transforming the success authentication event.
-     */
-    @Getter
-    private UnaryOperator<AbstractAuthenticationEvent> successEventTransition;
 
     /**
      * The bean factory used for resolving beans.
@@ -194,31 +171,5 @@ public class AccountPasswordAuthenticationFilter extends UsernamePasswordAuthent
      */
     @SuppressWarnings("EmptyMethod")
     protected void preAuthentication(HttpServletRequest request, String username, String password) throws AuthenticationException {
-    }
-
-    /**
-     * Behavior for successful authentication
-     * <p>
-     * With {@code authenticationSuccessTransition}, this can publish a different authentication event, not only {@link org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent}
-     */
-    @Override
-    @SuppressWarnings("DuplicatedCode")
-    protected void successfulAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain, @Nonnull Authentication authentication) throws IOException, ServletException {
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
-        SecurityContextRepository repository = FieldUtilsWraps.readDeclaredFieldAs(this, "securityContextRepository", true, SecurityContextRepository.class);    // $NON-NLS-1$
-        if (repository != null) {
-            repository.saveContext(context, request, response);
-        }
-        if (rememberMe) {
-            super.getRememberMeServices().loginSuccess(request, response, authentication);
-        }
-        AbstractAuthenticationEvent source = rememberMe ? new InteractiveAuthenticationSuccessEvent(authentication, this.getClass()) : new AuthenticationSuccessEvent(authentication);
-        AbstractAuthenticationEvent event = successEventTransition.apply(source);
-        if (ObjectUtils.allNotNull(event, super.eventPublisher)) {
-            super.eventPublisher.publishEvent(event);
-        }
-        super.getSuccessHandler().onAuthenticationSuccess(request, response, authentication);
     }
 }

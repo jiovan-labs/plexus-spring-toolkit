@@ -17,16 +17,11 @@
 package com.jiovan.plexus.spring.toolkit.security.authentication;
 
 
-import java.io.IOException;
-import java.util.function.Function;
 import jakarta.annotation.Nonnull;
 import jakarta.annotation.Nullable;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.CharUtils;
-import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RegExUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.BeanFactory;
@@ -34,19 +29,12 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
-import org.springframework.security.authentication.event.AbstractAuthenticationEvent;
-import org.springframework.security.authentication.event.AuthenticationSuccessEvent;
-import org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.servlet.util.matcher.PathPatternRequestMatcher;
 import com.jiovan.plexus.common.toolkit.constant.CharVariantConst;
 import com.jiovan.plexus.common.toolkit.constant.RegexVariantConst;
-import com.jiovan.plexus.common.toolkit.util.FieldUtilsWraps;
 import com.jiovan.plexus.spring.toolkit.security.exception.IllegalAuthenticationException;
 import com.jiovan.plexus.spring.toolkit.util.JsonParserWraps;
 import com.jiovan.plexus.spring.toolkit.util.RequestParamWraps;
@@ -69,37 +57,40 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
     /**
      * The default request parameter name for the captcha.
      */
-    public static final String SPRING_SECURITY_FORM_CAPTCHA_KEY = "captcha";    // $NON-NLS-1$
+    public static final String CAPTCHA_KEY = "captcha";    // $NON-NLS-1$
+
     /**
      * The default request parameter name for the mobile number.
      */
-    public static final String SPRING_SECURITY_FORM_MOBILE_KEY = "mobile";    // $NON-NLS-1$
+    public static final String MOBILE_KEY = "mobile";    // $NON-NLS-1$
+
     /**
      * The default request parameter name for the dial code.
      */
-    public static final String SPRING_SECURITY_FORM_DIAL_KEY = "dial";    // $NON-NLS-1$
+    public static final String DIAL_KEY = "dial";    // $NON-NLS-1$
+
     /**
      * The request matcher for the login endpoint.
      */
-    private static final PathPatternRequestMatcher PATH_PATTERN_REQUEST_MATCHER = PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/login");    // $NON-NLS-1$
+    private static final PathPatternRequestMatcher REQUEST_MATCHER = PathPatternRequestMatcher.withDefaults().matcher(HttpMethod.POST, "/login");    // $NON-NLS-1$
 
     /**
      * The request parameter name for the captcha.
      */
     @Getter
-    private String captchaParameter = SPRING_SECURITY_FORM_CAPTCHA_KEY;
+    private String captchaParameter = CAPTCHA_KEY;
 
     /**
      * The request parameter name for the mobile number.
      */
     @Getter
-    private String mobileParameter = SPRING_SECURITY_FORM_MOBILE_KEY;
+    private String mobileParameter = MOBILE_KEY;
 
     /**
      * The request parameter name for the dial code.
      */
     @Getter
-    private String dialParameter = SPRING_SECURITY_FORM_DIAL_KEY;
+    private String dialParameter = DIAL_KEY;
 
     /**
      * Whether only POST requests are accepted.
@@ -114,18 +105,6 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
     private boolean restCompatible = false;
 
     /**
-     * Whether remember-me services are enabled.
-     */
-    @Getter
-    private boolean rememberMe = false;
-
-    /**
-     * Optional transition transforming the success authentication event.
-     */
-    @Getter
-    private Function<AbstractAuthenticationEvent, AbstractAuthenticationEvent> authenticationSuccessTransition;
-
-    /**
      * The bean factory used for resolving beans.
      */
     protected BeanFactory beanFactory;
@@ -134,7 +113,7 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
      * Create a MobileCaptchaAuthenticationFilter.
      */
     public MobileCaptchaAuthenticationFilter() {
-        super(PATH_PATTERN_REQUEST_MATCHER);
+        super(REQUEST_MATCHER);
     }
 
     /**
@@ -143,7 +122,7 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
      * @param manager The authentication manager
      */
     public MobileCaptchaAuthenticationFilter(@Nonnull AuthenticationManager manager) {
-        super(PATH_PATTERN_REQUEST_MATCHER, manager);
+        super(REQUEST_MATCHER, manager);
     }
 
     /**
@@ -256,35 +235,5 @@ public class MobileCaptchaAuthenticationFilter extends AbstractAuthenticationPro
      */
     protected void setDetails(@Nonnull HttpServletRequest request, @Nonnull MobileCaptchaAuthenticationToken token) {
         token.setDetails(super.authenticationDetailsSource.buildDetails(request));
-    }
-
-    /**
-     * Behaviour for successful authentication
-     * <p>
-     * With {@code authenticationSuccessTransition}, this can publish a different authentication event, not only {@link org.springframework.security.authentication.event.InteractiveAuthenticationSuccessEvent}
-     */
-    @Override
-    @SuppressWarnings("DuplicatedCode")
-    protected void successfulAuthentication(@Nonnull HttpServletRequest request, @Nonnull HttpServletResponse response, @Nonnull FilterChain chain, @Nonnull Authentication authentication) throws IOException, ServletException {
-        if (authenticationSuccessTransition == null) {
-            super.successfulAuthentication(request, response, chain, authentication);
-            return;
-        }
-        SecurityContext context = SecurityContextHolder.createEmptyContext();
-        context.setAuthentication(authentication);
-        SecurityContextHolder.setContext(context);
-        SecurityContextRepository repository = FieldUtilsWraps.readDeclaredFieldAs(this, "securityContextRepository", true, SecurityContextRepository.class);    // $NON-NLS-1$
-        if (repository != null) {
-            repository.saveContext(context, request, response);
-        }
-        if (rememberMe) {
-            super.getRememberMeServices().loginSuccess(request, response, authentication);
-        }
-        AbstractAuthenticationEvent source = rememberMe ? new InteractiveAuthenticationSuccessEvent(authentication, this.getClass()) : new AuthenticationSuccessEvent(authentication);
-        AbstractAuthenticationEvent event = authenticationSuccessTransition.apply(source);
-        if (ObjectUtils.allNotNull(event, super.eventPublisher)) {
-            super.eventPublisher.publishEvent(event);
-        }
-        super.getSuccessHandler().onAuthenticationSuccess(request, response, authentication);
     }
 }
