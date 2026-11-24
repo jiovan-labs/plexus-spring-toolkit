@@ -1077,7 +1077,7 @@ public abstract class WebUtilsWraps {
      * @return whether the {@code request} is rest capable
      */
     public static boolean isRestRequest(@Nullable HttpServletRequest request) {
-        return isRestRequest(request, false);
+        return isRestRequest(request, true);
     }
 
     /**
